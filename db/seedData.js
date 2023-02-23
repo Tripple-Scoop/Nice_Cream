@@ -26,21 +26,26 @@ async function createTables() {
     CREATE TABLE users (
       id SERIAL PRIMARY KEY, 
       username VARCHAR(225) UNIQUE NOT NULL,
-      PASSWORD VARCHAR(255) NOT NULL
+      password VARCHAR(255) NOT NULL,
+      address VARCHAR(255),
+
     );
+
     CREATE TABLE flavors (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      price 
+      price , 
       description TEXT NOT NULL
     );
-    CREATE TABLE routines (
+
+    CREATE TABLE cart (
       id SERIAL PRIMARY KEY,
       "creatorId" INTEGER REFERENCES users(id),
       "isPublic" BOOLEAN DEFAULT false, 
       name VARCHAR(255) UNIQUE NOT NULL,
       goal TEXT NOT NULL
     );
+
     CREATE TABLE routine_activities (
       id SERIAL PRIMARY KEY,
       "routineId" INTEGER REFERENCES routines(id),
