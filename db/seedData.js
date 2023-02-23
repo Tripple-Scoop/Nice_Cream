@@ -5,8 +5,9 @@ async function dropTables() {
     console.log("Dropping All Tables...");
     // drop all tables, in the correct order
     await client.query(`
-    DROP TABLE IF EXISTS cart;
-    DROP TABLE IF EXISTS order;
+    DROP TABLE IF EXISTS cart_items;
+    DROP TABLE IF EXISTS reviews;
+    DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS flavors;
     DROP TABLE IF EXISTS users;
     `);
@@ -25,34 +26,48 @@ async function createTables() {
     await client.query(`
     CREATE TABLE users (
       id SERIAL PRIMARY KEY, 
+      name VARCHAR (225) NOT NULL,
       username VARCHAR(225) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
-      address VARCHAR(255),
-
+      address VARCHAR(255) NOT NULL,
+      admin BOOLEAN DEFAULT false
     );
 
     CREATE TABLE flavors (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      price , 
-      description TEXT NOT NULL
+      image_url VARCHAR(225),
+      description TEXT NOT NULL,
+      price INTEGER NOT NULL, 
     );
 
-    CREATE TABLE cart (
+    CREATE TABLE orders (
       id SERIAL PRIMARY KEY,
-      "creatorId" INTEGER REFERENCES users(id),
-      "isPublic" BOOLEAN DEFAULT false, 
-      name VARCHAR(255) UNIQUE NOT NULL,
-      goal TEXT NOT NULL
+      user_id INTEGER REFERENCES users(id),
+      date VARCHAR(255) NOT NULL,
+      billing_address VARCHAR(255) NOT NULL,
+      shipping_address VARCHAR(255) NOT NULL,
+      subtotal VARCHAR(255) NOT NULL,
+      total INTEGER NOT NULL,
+      payment_type VARCHAR(255) NOT NULL,
+      is_open BOOLEAN DEFAULT true
     );
 
-    CREATE TABLE routine_activities (
+    CREATE TABLE reviews (
       id SERIAL PRIMARY KEY,
-      "routineId" INTEGER REFERENCES routines(id),
-      "activityId" INTEGER REFERENCES activities(id),
-      duration INTEGER,
-      count INTEGER,
-      UNIQUE ("routineId", "activityId")
+      user_id INTEGER REFERENCES users(id),
+      flavor_id INTEGER REFERENCES flavors(id),
+      title VARCHAR(255) NOT NULL,
+      review_content VARCHAR(255) NOT NULL,
+      UNIQUE ("user_id", "flavor_id")
+    );      
+
+    CREATE TABLE cart_items (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id),
+      flavor_id INTEGER REFERENCES flavors(id),
+      quantity INTEGER NOT NULL,
+      UNIQUE ("user_id", "flavor_id")
     );`);
 
     console.log("Finished building tables!");
