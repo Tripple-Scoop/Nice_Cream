@@ -35,6 +35,7 @@ async function createTables() {
     CREATE TABLE flavors (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
+      type VARCHAR(255) UNIQUE NOT NULL,
       image_url VARCHAR(225),
       description TEXT NOT NULL,
       price INTEGER NOT NULL, 
