@@ -9,4 +9,4 @@
 
 //getReviewsByFlavor(flavorId)- return array of reviews for a specific flavor
 
-//deleteReview(reviewId, userId)-
+//*(same author)deleteReview(reviewId, userId)-

@@ -66,8 +66,9 @@ async function createTables() {
       id SERIAL PRIMARY KEY,
       customer_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),
+      order_id INTEGER REFERENCES order(id),
       quantity INTEGER NOT NULL,
-      UNIQUE ("user_id", "flavor_id")
+      UNIQUE ("user_id", "flavor_id", "order_id")
     );`);
 
     console.log("Finished building tables!");
