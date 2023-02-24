@@ -43,28 +43,28 @@ async function createTables() {
 
     CREATE TABLE orders (
       id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id),
+      customer_id INTEGER REFERENCES users(id),
       date VARCHAR(255) NOT NULL,
       billing_address VARCHAR(255) NOT NULL,
       shipping_address VARCHAR(255) NOT NULL,
       subtotal VARCHAR(255) NOT NULL,
       total INTEGER NOT NULL,
       payment_type VARCHAR(255) NOT NULL,
-      is_open BOOLEAN DEFAULT true
+      fulfilled BOOLEAN DEFAULT false
     );
 
     CREATE TABLE reviews (
       id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id),
+      author_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),
       title VARCHAR(255) NOT NULL,
-      review_content VARCHAR(255) NOT NULL,
+      content VARCHAR(255) NOT NULL,
       UNIQUE ("user_id", "flavor_id")
     );      
 
     CREATE TABLE cart_items (
       id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id),
+      customer_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),
       quantity INTEGER NOT NULL,
       UNIQUE ("user_id", "flavor_id")

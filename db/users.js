@@ -2,6 +2,9 @@ const client = require("./client");
 const bcrypt = require('bcrypt');
 const SALT_COUNT = 10;
 
+
+//getAllUsers()-return array of all registered users
+
 async function createUser({ username, password }) {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
     try {
@@ -71,6 +74,11 @@ async function createUser({ username, password }) {
       throw error;
     }
   }
+
+  //updateUser-updates user password and address (use ... fields object)
+
+
+  
 
 
   module.exports = {
