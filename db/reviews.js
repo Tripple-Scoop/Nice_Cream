@@ -18,14 +18,14 @@ async function getAllReviews() {
 
 //*createReview(userId, flavorId, title, content)- return new review
 
-async function createReview({ author_id, flavor_id, title, content }) {
+async function createReview({ userId, flavor_id, title, content }) {
     try {
         const { rows: [review] } = await client.query(`
-        INSERT INTO routines(author_id, flavor_id, title, content) 
+        INSERT INTO routines(userId, flavor_id, title, content) 
         VALUES($1, $2, $3, $4) 
         ON CONFLICT (flavor_id) DO NOTHING 
         RETURNING *;
-      `, [author_id, flavor_id, title, content]);
+      `, [userId, flavor_id, title, content]);
 
         return review;
     } catch (error) {
@@ -35,8 +35,11 @@ async function createReview({ author_id, flavor_id, title, content }) {
 
 //*(same author)updateReview(reviewId, userId)- return updated review object
 
-async function updateReview({ author_id, flavor_id, title, content }) {
+async function updateReview({ reviewId, author_id, flavor_id, title, content }) {
     let reviewToUpdate = {};
+    if (reviewId /*maybe username? */) {
+        reviewToUpdate.reviewId = reviewId;
+    }
     if (author_id /*maybe username? */) {
         reviewToUpdate.author_id = author_id;
     }
@@ -74,8 +77,77 @@ async function updateReview({ author_id, flavor_id, title, content }) {
         throw error;
     }
 }
+
 //getReviewsByUser(userId)- return array of reviews by specific user
+
+async function getReviewsByUser({ userId }) {
+    try {
+      const { rows } = await client.query(
+        `
+        SELECT * , reviews.id
+        FROM reviews 
+        INNER JOIN users
+        ON users.id = reviews.author_id"
+         WHERE users.id = $1
+        ;
+      `,
+        [userId]
+      );
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  }
 
 //getReviewsByFlavor(flavorId)- return array of reviews for a specific flavor
 
+async function getReviewsByFlavor({ flavorId }) {
+    try {
+      const { rows } = await client.query(
+        `
+        SELECT * , reviews.id
+        FROM reviews 
+        INNER JOIN users
+        ON users.id = reviews.author_id
+        ;
+      `
+      );
+      for (let item of rows) {
+        const flavors = await client.query(`
+        SELECT * FROM flavors
+        INNER JOIN reviews
+        ON  flavors.id = reviews.id 
+          `);/*Not sure if this is properly linked/*/
+        
+      }
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 //*(same author)deleteReview(reviewId, userId)-
+
+async function deleteReview(reviewId, userId) {
+    try {
+      await client.query(
+        `
+        DELETE FROM reviews
+        WHERE reviewId = $1;
+      `,
+        [reviewId]
+      );
+  
+      await client.query(
+        `
+        DELETE FROM ????
+        WHERE id = $1; 
+      `,
+        [userId]
+      );
+  
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
