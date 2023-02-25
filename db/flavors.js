@@ -2,6 +2,19 @@
 // getAllFlavors()
 // -return array of all flavor objects 
 
+async function getAllFlavors() {
+  try{
+    const {rows: flavors} = await client.query(
+      `SELECT * FROM flavors;`
+    );
+    return flavors
+
+  }catch (error){
+    console.error("Error getting all flavors!", error)
+
+  }
+}
+
 //*** createFlavor(name, type, image_url, description, price)
 //-return new flavor obj
 
@@ -12,7 +25,7 @@
 // - return flavor obj
 
 //*** updateFlavor(id, ...fields)
-//- return updated flavor
+//- return upd:ated flavor
 
 //*** deleteFlavor(id)
 
