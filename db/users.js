@@ -15,15 +15,16 @@ async function getAllUsers(){
   }
 }
 
-async function createUser({ username, password }) {
+async function createUser({ name, username, password, address, admin = false }) {
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
   try {
     const { rows: [user] } = await client.query(`
-      INSERT INTO users(username, password)
-      VALUES ($1, $2)
+      INSERT INTO users(name, username, password, address, admin)
+      VALUES ($1, $2, $3, $4, $5)
       ON CONFLICT (username) DO NOTHING 
       RETURNING id, username;
-      `, [username, hashedPassword]);
+      `, [name, username, hashedPassword, address, admin]);
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -77,7 +78,8 @@ async function getUserByUsername(username) {
       `,
       [username]
     );
-
+    
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -105,12 +107,42 @@ if (setString.length === 0) {
     WHERE id=${id}
     RETURNING *;
   `, Object.values(fields));
+  
+  //delete user password
+  delete user.password;
 
   return user;
 
 }
 
+async function addAdminPerms(userId){
+  const {rows: [user]} = await client.query(`
+  UPDATE users
+  SET admin = true
+  WHERE id=${userId}
+  RETURNING *;
+  `)
 
+  delete user.password;
+  return user;
+}
+
+async function removeAdminPerms(userId){
+  try{
+  const {rows: [user]} = await client.query(`
+  UPDATE users
+  SET admin = false
+  WHERE id=${userId}
+  RETURNING *;
+  `)
+
+  delete user.password;
+  return user;
+  }catch(error){
+    throw error;
+  }
+
+}
 
 module.exports = {
   getAllUsers,
@@ -118,5 +150,7 @@ module.exports = {
   getUser,
   getUserById,
   getUserByUsername,
-  updateUser
+  updateUser,
+  addAdminPerms,
+  removeAdminPerms
 }
