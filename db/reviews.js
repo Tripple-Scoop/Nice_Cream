@@ -1,3 +1,4 @@
+const client = require("./client");
 
 //getAllReviews()- return an array of all reviews
 
