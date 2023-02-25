@@ -1,4 +1,3 @@
-// createOrderId()
 
 //addToCart(userId, flavorId, quantity)- returns cart item object
 
