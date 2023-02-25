@@ -1,5 +1,9 @@
 // test
 // Sunny's test
+
+const client = require("./client")
+
+
 async function dropTables() {
   try {
     console.log("Dropping All Tables...");
@@ -77,3 +81,5 @@ async function createTables() {
     throw error;
   }
 }
+
+
