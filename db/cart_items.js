@@ -1,12 +1,12 @@
 
-//addToCart(userId, flavorId, quantity)- returns cart item object
+//addToCart(customer_id, flavor_id, quantity)- returns cart item object
 
-//updateQuantity(id, newQuan)- allow to quantity of flavor
+//updateQuantity(cart_item_id, newQuant)- allow to quantity of flavor
 
-//getItemById(cart_item)- 
+//getItemById(cart_item_id)- return cart_item based on it's id
 
-//getActiveCarts(userId)- return array of items by given user
+//getActiveCartItems(customer_id)- return array of cart_items in customer's unsubmitted order
 
-//getItemsByOrderId(orderId)- return array of items for given orderId
+//getItemsByOrderId(order_id)- return array of cart_items for given order_id
 
-//removeFromCart(id, userId)
+//removeFromCart(cart_item_id, user_id)

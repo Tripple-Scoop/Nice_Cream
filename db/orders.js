@@ -2,10 +2,13 @@
 
 //** getAllOrders()- return array of all orders
 
-//createOrder(customerId, date, billingAddress, shippingAddress, subtotal, total, paymentType)
+//createOrder({customer_id, date, billing_address, shipping_address, subtotal, total, payment_type})
 
-//getOrdersByUser(UserId)
+//getOrdersByCustomer(customer_id)
 
-//getOrderById(id)
+//getOrderById(order_id)
 
-//updateOrder(orderId)- changed 'fulfilled' status on specific order to true
+//updateOrder(order_id)- changed 'fulfilled' status on specific order to true
+
+//deleteOrder(user_id, order_id)- determine if user is creator of that id, 
+//if they are the author, delete the order and all associated cart_items from the db
