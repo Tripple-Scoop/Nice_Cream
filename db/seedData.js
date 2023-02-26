@@ -47,10 +47,10 @@ async function createTables() {
     CREATE TABLE flavors (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      type VARCHAR(255) UNIQUE NOT NULL,
+      type VARCHAR(255) NOT NULL,
       image_url VARCHAR(225),
       description TEXT NOT NULL,
-      price INTEGER NOT NULL, 
+      price INTEGER NOT NULL 
     );
 
     CREATE TABLE orders (
@@ -71,16 +71,16 @@ async function createTables() {
       flavor_id INTEGER REFERENCES flavors(id),
       title VARCHAR(255) NOT NULL,
       content VARCHAR(255) NOT NULL,
-      UNIQUE ("user_id", "flavor_id")
+      UNIQUE ("author_id", "flavor_id")
     );      
 
     CREATE TABLE cart_items (
       id SERIAL PRIMARY KEY,
       customer_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),
-      order_id INTEGER REFERENCES order(id),
+      order_id INTEGER REFERENCES orders(id),
       quantity INTEGER NOT NULL,
-      UNIQUE ("user_id", "flavor_id", "order_id")
+      UNIQUE ("customer_id", "flavor_id", "order_id")
     );`);
 
     console.log("Finished building tables!");
@@ -134,8 +134,6 @@ async function createInitialUsers(){
 async function createInitialFlavors() {
  
   try {
-
-
     console.log('Starting to create flavors...');
 
     const flavorsToCreate = [
@@ -182,7 +180,7 @@ async function createInitialFlavors() {
         price: 2,
       },
     ];
-
+    console.log(createFlavor);
     const flavors = await Promise.all(flavorsToCreate.map(createFlavor));
 
     console.log('Flavors created:');
@@ -203,12 +201,14 @@ async function createInitialReviews() {
   const reviewsToCreate = [
     {
       reviewId: 2,
+      flavorId:1,
       author_id: 2,
       title: "Chocolate rules",
       content: "Hands down the best chocolate ice cream ever!",
     },
     {
       reviewId: 3,
+      flavor_id:2,
       author_id: 2,
       title: "Vanilla is okay",
       content: "Kind of plain but can't go wrong with the classics!",

@@ -21,13 +21,13 @@ async function getAllFlavors() {
 async function createFlavor(flavor) {
   
   try {
-    const { rows :flavor } = await client.query(
+    const { rows : flavors } = await client.query(
       `INSERT INTO flavors(name, type, image_url, description, price)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id, name, type, image_url, description, price`,
       [flavor.name, flavor.type, flavor.image_url, flavor.description, flavor.price]
     );
-    return flavor
+    return flavors;
 
   } catch (error) {
     console.error(`Error creating flavor ${flavor.name}!`);
@@ -105,3 +105,12 @@ async function deleteFlavor(id) {
 }
 
 // Comment here to test Flavor branch push 
+
+module.exports = {
+  createFlavor,
+  getAllFlavors,
+  getFlavorById,
+  getFlavorByName,
+  updateFlavor,
+  deleteFlavor
+}
