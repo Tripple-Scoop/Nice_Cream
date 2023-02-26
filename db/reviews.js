@@ -19,14 +19,13 @@ async function getAllReviews() {
 
 //*createReview(userId, flavorId, title, content)- return new review
 
-async function createReview({ userId, flavor_id, title, content }) {
+async function createReview({ author_id, flavor_id, title, content }) {
     try {
-        const { rows: [review] } = await client.query(`
-        INSERT INTO routines(userId, flavor_id, title, content) 
+        const { rows: review } = await client.query(`
+        INSERT INTO reviews(author_id, flavor_id, title, content) 
         VALUES($1, $2, $3, $4) 
-        ON CONFLICT (flavor_id) DO NOTHING 
         RETURNING *;
-      `, [userId, flavor_id, title, content]);
+      `, [author_id, flavor_id, title, content]);
 
         return review;
     } catch (error) {
@@ -151,4 +150,13 @@ async function deleteReview(reviewId, userId) {
     } catch (error) {
       throw error;
     }
+  }
+
+  module.exports = {
+    getAllReviews,
+    getReviewsByFlavor,
+    getReviewsByFlavor,
+    getReviewsByUser,
+    createReview,
+    deleteReview
   }

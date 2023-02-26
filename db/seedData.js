@@ -180,7 +180,6 @@ async function createInitialFlavors() {
         price: 2,
       },
     ];
-    console.log(createFlavor);
     const flavors = await Promise.all(flavorsToCreate.map(createFlavor));
 
     console.log('Flavors created:');
@@ -190,8 +189,6 @@ async function createInitialFlavors() {
   } catch (error) {
     console.error('Error creating flavors!');
     throw error;
-  } finally {
-    await client.end();
   }
 }
 
@@ -200,34 +197,32 @@ async function createInitialReviews() {
 
   const reviewsToCreate = [
     {
-      reviewId: 2,
-      flavorId:1,
+      flavor_id:1,
       author_id: 2,
       title: "Chocolate rules",
       content: "Hands down the best chocolate ice cream ever!",
     },
     {
-      reviewId: 3,
       flavor_id:2,
       author_id: 2,
       title: "Vanilla is okay",
       content: "Kind of plain but can't go wrong with the classics!",
     },
     {
-      reviewId: 1,
+      flavor_id: 4,
       author_id: 1,
-      title: "Strawberry",
+      title: "Suprising Strawberry",
       content: "Was not expecting this to be as tasty as it was!",
     },
     {
-      reviewId: 5,
+      flavor_id: 2,
       author_id: 3,
       title: "Vanilla is tasty",
       content: "One of the most creamy vanilla ice creams I've eaten!",
     },
   ]
   const reviews = await Promise.all(
-    reviewsToCreate.map((review) => createReviews(review))
+    reviewsToCreate.map((review) => createReview(review))
   )
   console.log("Review Created: ", reviews)
   console.log("Finished creating reviews.")
