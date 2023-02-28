@@ -9,7 +9,7 @@ const {
   createReview,
   createOrder,
   addToCart,
- } = require("./")
+} = require("./")
 
 
 async function dropTables() {
@@ -90,49 +90,54 @@ async function createTables() {
   }
 }
 
-async function createInitialUsers(){
+async function createInitialUsers() {
   console.log('Starting to create users...');
-  try{
+  try {
     const usersToCreate = [
-    {name: 'Admin Adminson',
-    username: 'admin', 
-    password: 'admin',
-    address: '123 Admington Rd.', 
-    admin: true
-    }, 
-    {name: 'Robert de Leche',
-    username: 'bobthesnob', 
-    password: 'iambob',
-    address: '123 Main St.', 
-    }, 
-    {name: 'Samantha Sucre',
-    username: 'samiam', 
-    password: 'iscream',
-    address: '321 Boulevard Rd.', 
-    }, 
-    {name: 'Edwin Milk',
-    username: 'milk_man', 
-    password: 'gotmilk',
-    address: '321 Example Ct.', 
-    }, 
-    {name: 'Alex Sweet',
-    username: 'scoops123', 
-    password: 'basicpassword',
-    address: '1 Lonely Rd.', 
-    }, 
+      {
+        name: 'Admin Adminson',
+        username: 'admin',
+        password: 'admin',
+        address: '123 Admington Rd.',
+        admin: true
+      },
+      {
+        name: 'Robert de Leche',
+        username: 'bobthesnob',
+        password: 'iambob',
+        address: '123 Main St.',
+      },
+      {
+        name: 'Samantha Sucre',
+        username: 'samiam',
+        password: 'iscream',
+        address: '321 Boulevard Rd.',
+      },
+      {
+        name: 'Edwin Milk',
+        username: 'milk_man',
+        password: 'gotmilk',
+        address: '321 Example Ct.',
+      },
+      {
+        name: 'Alex Sweet',
+        username: 'scoops123',
+        password: 'basicpassword',
+        address: '1 Lonely Rd.',
+      },
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
     console.log('Users created:');
     console.log(users);
     console.log('Finished creating users!');
-  } catch(error){
+  } catch (error) {
     console.log.err('Error creating users!');
     throw error;
   }
 }
 
 async function createInitialFlavors() {
- 
+
   try {
     console.log('Starting to create flavors...');
 
@@ -197,13 +202,13 @@ async function createInitialReviews() {
 
   const reviewsToCreate = [
     {
-      flavor_id:1,
+      flavor_id: 1,
       author_id: 2,
       title: "Chocolate rules",
       content: "Hands down the best chocolate ice cream ever!",
     },
     {
-      flavor_id:2,
+      flavor_id: 2,
       author_id: 2,
       title: "Vanilla is okay",
       content: "Kind of plain but can't go wrong with the classics!",
@@ -248,4 +253,3 @@ module.exports = {
   dropTables,
   createTables
 }
-
