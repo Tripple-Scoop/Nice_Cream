@@ -59,7 +59,6 @@ async function createTables() {
       date VARCHAR(255) NOT NULL,
       billing_address VARCHAR(255) NOT NULL,
       shipping_address VARCHAR(255) NOT NULL,
-      subtotal VARCHAR(255) NOT NULL,
       total INTEGER NOT NULL,
       payment_type VARCHAR(255) NOT NULL,
       fulfilled BOOLEAN DEFAULT false
@@ -74,7 +73,7 @@ async function createTables() {
       UNIQUE ("author_id", "flavor_id")
     );      
 
-    CREATE TABLE cart_items (
+    CREATE TABLE order_items (s
       id SERIAL PRIMARY KEY,
       customer_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),

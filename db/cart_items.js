@@ -4,25 +4,25 @@ const client = require("./client");
 async function addToCart(customer_id, flavor_id, quantity) {
 
     try {
-        const { rows: cart_item } = await client.query(
-            `INSERT INTO cart_items(customer_id, flavor_id, quantity)
+        const { rows: order_item } = await client.query(
+            `INSERT INTO order_items(customer_id, flavor_id, quantity)
          VALUES ($1, $2, $3)
          RETURNING *;`
             [customer_id, flavor_id, quantity]
         );
-        return cart_item;
+        return order_item;
 
     } catch (error) {
         console.error(`Error adding item to cart!`);
         throw error;
     }
-} //Ask about order.id?
+}
 
 //updateQuantity(cart_item.id, newQuant)- allow to quantity of flavor
 async function updateQuantity(id, newQuant) {
     try {
         const { rows: [newQuantity] } = await client.query(
-            `UPDATE cart_items
+            `UPDATE order_items
        SET quanity = $1
        WHERE id = $2
        RETURNING *;
@@ -40,7 +40,7 @@ async function getItemById(id) {
     try {
         const { rows: [item] } = await client.query(
             `SELECT *
-         FROM cart_items
+         FROM order_items
          WHERE id = $1;
         `,
             [id]
@@ -54,9 +54,9 @@ async function getItemById(id) {
 //getActiveCartItems(customer_id)- return array of cart_items in customer's unsubmitted order
 async function getActiveCartItems(customer_id) {
     try {
-        const { rows: [activeCart] } = await client.query(
+        const { rows: activeCart } = await client.query(
             `SELECT *
-         FROM cart_items
+         FROM order_items
          WHERE customer_id = $1
          AND order_id IS NULL
         `,
@@ -66,15 +66,15 @@ async function getActiveCartItems(customer_id) {
     } catch (error) {
         console.error(`Error retrieving cart with id ${customer_id}!`, error);
     }
-} //ASK steve/Shannon
+}
 
 
 //getItemsByOrderId(order_id)- return array of cart_items for given order_id
 async function getItemsByOrderId(order_id) {
     try {
-        const { rows: [order] } = await client.query(
+        const { rows: order } = await client.query(
             `SELECT *
-         FROM cart_items
+         FROM order_items
          WHERE order_id = $1;
         `,
             [order_id]
@@ -88,8 +88,8 @@ async function getItemsByOrderId(order_id) {
 //removeFromCart(id, user_id)
 async function removeFromCart(id, customer_id) {
     try {
-        const { rows: [updatedCart] } = await client.query(
-            `DELETE FROM cart_items
+        const { rows: updatedCart } = await client.query(
+            `DELETE FROM order_items
          WHERE id = $1
 AND customer_id =$2
          RETURNING *;
