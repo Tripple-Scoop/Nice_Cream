@@ -6,5 +6,5 @@ module.exports = {
   ...require('./flavors'), // adds key/values from flavors.js
   ...require('./reviews'), // etc
   ...require('./orders'), // etc
-  ...require('./cart_items') // etc
+  ...require('./order_items') // etc
 }

@@ -101,3 +101,12 @@ AND customer_id =$2
         console.error(`Error deleting item with id ${id}!`, error);
     }
 }
+
+module.exports ={
+    addToCart,
+    updateQuantity,
+    getItemById,
+    getActiveCartItems,
+    getItemsByOrderId,
+    removeFromCart
+}

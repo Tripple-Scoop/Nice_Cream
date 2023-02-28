@@ -6,5 +6,5 @@
 
 //PATCH /api/cart_items/:flavorId
 
-// DELETE /api/cart_items
+//DELETE /api/cart_items
 
