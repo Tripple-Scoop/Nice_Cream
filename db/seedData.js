@@ -17,9 +17,9 @@ async function dropTables() {
     console.log("Dropping All Tables...");
     // drop all tables, in the correct order
     await client.query(`
-    DROP TABLE IF EXISTS cart_items;
-    DROP TABLE IF EXISTS reviews;
+    DROP TABLE IF EXISTS order_items;
     DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS flavors;
     DROP TABLE IF EXISTS users;
     `);
@@ -73,7 +73,7 @@ async function createTables() {
       UNIQUE ("author_id", "flavor_id")
     );      
 
-    CREATE TABLE order_items (s
+    CREATE TABLE order_items (
       id SERIAL PRIMARY KEY,
       customer_id INTEGER REFERENCES users(id),
       flavor_id INTEGER REFERENCES flavors(id),
@@ -239,38 +239,38 @@ async function createInitialOrders() {
     {
       customer_id: 2,
       date: '2020-11-11 11:11:00',
-      billing_address:'123 Main St.',
+      billing_address: '123 Main St.',
       shipping_address: '123 Main St.',
       total: 40,
-      payment_type:'Credit',
-      fulfilled:true
+      payment_type: 'Credit',
+      fulfilled: true
     },
     {
       customer_id: 3,
       date: '2021-01-01 12:00:00',
-      billing_address:'321 Boulevard Rd.',
+      billing_address: '321 Boulevard Rd.',
       shipping_address: '321 Boulevard Rd.',
       total: 25,
-      payment_type:'Debit',
-      fulfilled:true
+      payment_type: 'Debit',
+      fulfilled: true
     },
     {
       customer_id: 4,
       date: '2022-05-05 07:00:00',
-      billing_address:'321 Example Ct.',
+      billing_address: '321 Example Ct.',
       shipping_address: '321 Example Ct.',
       total: 200,
-      payment_type:'Klarna',
-      fulfilled:true
+      payment_type: 'Klarna',
+      fulfilled: true
     },
     {
       customer_id: 5,
       date: '2024-02-14 12:00:00',
-      billing_address:'1 Lonely Rd.',
-      shipping_address:'1 Lonely Rd.',
+      billing_address: '1 Lonely Rd.',
+      shipping_address: '1 Lonely Rd.',
       total: 12,
-      payment_type:'Klarna',
-      fulfilled:false
+      payment_type: 'Klarna',
+      fulfilled: false
     },
   ]
   const orders = await Promise.all(
@@ -281,6 +281,45 @@ async function createInitialOrders() {
 }
 
 
+async function createInitialOrderItems() {
+  console.log('Starting to create order...');
+  try {
+    const itemsToCreate = [
+      {
+        customer_id: 2,
+        flavor_id: 2,
+        order_id: 1,
+        quantity: 2
+      },
+      {
+        customer_id: 3,
+        flavor_id: 2,
+        order_id: 2,
+        quantity: 5
+      },
+      {
+        customer_id: 4,
+        flavor_id: 3,
+        order_id: 3,
+        quantity: 3
+      },
+      {
+        customer_id: 5,
+        flavor_id: 1,
+        order_id: 4,
+        quantity: 6
+      }
+    ]
+    const items = await Promise.all(itemsToCreate.map(addToCart));
+    console.log('items created:');
+    console.log(items);
+    console.log('Finished creating order items!');
+  } catch (error) {
+    console.error('Error creating items!');
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     await dropTables()
@@ -289,7 +328,7 @@ async function rebuildDB() {
     await createInitialFlavors()
     await createInitialReviews()
     await createInitialOrders()
-    // await createInitialCartItems()
+    await createInitialOrderItems()
   } catch (error) {
     console.log("Error during rebuildDB")
     throw error;

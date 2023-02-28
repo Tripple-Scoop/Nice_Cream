@@ -1,4 +1,4 @@
-
+const client = require("./client");
 
 //** getAllOrders()- return array of all orders
 async function getAllOrders() {
@@ -18,9 +18,9 @@ async function getAllOrders() {
 async function createOrder({ customer_id, date, billing_address, shipping_address, total, payment_type }) {
 
     try {
-        const { rows: newOrder } = await client.query(
+        const { rows: [newOrder] } = await client.query(
             `INSERT INTO orders(customer_id, date, billing_address, shipping_address, total, payment_type)
-       VALUES ($1, $2, $3, $4, $5, $6 , $7)
+       VALUES ($1, $2, $3, $4, $5, $6 )
        RETURNING *;`,
             [customer_id, date, billing_address, shipping_address, total, payment_type]
         );
@@ -102,9 +102,9 @@ async function submitOrder(id) {
 // }
 
 module.exports = {
-  createOrder,
-  submitOrder,
-  getAllOrders,
-  getOrderById,
-  getOrdersByCustomer
+    createOrder,
+    submitOrder,
+    getAllOrders,
+    getOrderById,
+    getOrdersByCustomer
 }

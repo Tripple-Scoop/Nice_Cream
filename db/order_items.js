@@ -1,14 +1,14 @@
 const client = require("./client");
 
 //addToCart(customer_id, flavor_id, quantity)- returns cart item object
-async function addToCart(customer_id, flavor_id, quantity) {
+async function addToCart({ customer_id, flavor_id, quantity, order_id }) {
 
     try {
-        const { rows: order_item } = await client.query(
-            `INSERT INTO order_items(customer_id, flavor_id, quantity)
-         VALUES ($1, $2, $3)
-         RETURNING *;`
-            [customer_id, flavor_id, quantity]
+        const { rows: [order_item] } = await client.query(
+            `INSERT INTO order_items(customer_id, flavor_id, quantity, order_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING *;`,
+            [customer_id, flavor_id, quantity, order_id]
         );
         return order_item;
 
@@ -102,7 +102,7 @@ AND customer_id =$2
     }
 }
 
-module.exports ={
+module.exports = {
     addToCart,
     updateQuantity,
     getItemById,

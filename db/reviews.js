@@ -21,7 +21,7 @@ async function getAllReviews() {
 
 async function createReview({ author_id, flavor_id, title, content }) {
   try {
-    const { rows: review } = await client.query(`
+    const { rows: [review] } = await client.query(`
         INSERT INTO reviews(author_id, flavor_id, title, content) 
         VALUES($1, $2, $3, $4) 
         RETURNING *;

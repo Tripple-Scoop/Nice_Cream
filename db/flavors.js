@@ -3,13 +3,13 @@ const client = require("./client")
 // -return array of all flavor objects 
 
 async function getAllFlavors() {
-  try{
-    const {rows: flavors} = await client.query(
+  try {
+    const { rows: flavors } = await client.query(
       `SELECT * FROM flavors;`
     );
     return flavors
 
-  }catch (error){
+  } catch (error) {
     console.error("Error getting all flavors!", error)
 
   }
@@ -19,9 +19,9 @@ async function getAllFlavors() {
 //-return new flavor obj
 
 async function createFlavor(flavor) {
-  
+
   try {
-    const { rows : flavors } = await client.query(
+    const { rows: [flavors] } = await client.query(
       `INSERT INTO flavors(name, type, image_url, description, price)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id, name, type, image_url, description, price`,
@@ -32,7 +32,7 @@ async function createFlavor(flavor) {
   } catch (error) {
     console.error(`Error creating flavor ${flavor.name}!`);
     throw error;
-  } 
+  }
 }
 // getFlavorByName(name)
 // - return flavor obj
