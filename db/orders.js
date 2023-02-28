@@ -33,7 +33,7 @@ async function createOrder({ customer_id, date, billing_address, shipping_addres
 }
 
 //getOrdersByCustomer(customer_id)
-async function getItemById(customer_id) {
+async function getOrdersByCustomer(customer_id) {
     try {
         const { rows: orders } = await client.query(
             `SELECT *
@@ -100,3 +100,11 @@ async function submitOrder(id) {
 //         console.error(`Error deleting item with id ${id}!`, error);
 //     }
 // }
+
+module.exports = {
+  createOrder,
+  submitOrder,
+  getAllOrders,
+  getOrderById,
+  getOrdersByCustomer
+}

@@ -232,6 +232,55 @@ async function createInitialReviews() {
   console.log("Finished creating reviews.")
 }
 
+async function createInitialOrders() {
+  console.log("starting to create orders...")
+
+  const ordersToCreate = [
+    {
+      customer_id: 2,
+      date: '2020-11-11 11:11:00',
+      billing_address:'123 Main St.',
+      shipping_address: '123 Main St.',
+      total: 40,
+      payment_type:'Credit',
+      fulfilled:true
+    },
+    {
+      customer_id: 3,
+      date: '2021-01-01 12:00:00',
+      billing_address:'321 Boulevard Rd.',
+      shipping_address: '321 Boulevard Rd.',
+      total: 25,
+      payment_type:'Debit',
+      fulfilled:true
+    },
+    {
+      customer_id: 4,
+      date: '2022-05-05 07:00:00',
+      billing_address:'321 Example Ct.',
+      shipping_address: '321 Example Ct.',
+      total: 200,
+      payment_type:'Klarna',
+      fulfilled:true
+    },
+    {
+      customer_id: 5,
+      date: '2024-02-14 12:00:00',
+      billing_address:'1 Lonely Rd.',
+      shipping_address:'1 Lonely Rd.',
+      total: 12,
+      payment_type:'Klarna',
+      fulfilled:false
+    },
+  ]
+  const orders = await Promise.all(
+    ordersToCreate.map((order) => createOrder(order))
+  )
+  console.log("Orders Created: ", orders)
+  console.log("Finished creating orders.")
+}
+
+
 async function rebuildDB() {
   try {
     await dropTables()
@@ -239,7 +288,7 @@ async function rebuildDB() {
     await createInitialUsers()
     await createInitialFlavors()
     await createInitialReviews()
-    // await createInitialOrders()
+    await createInitialOrders()
     // await createInitialCartItems()
   } catch (error) {
     console.log("Error during rebuildDB")
