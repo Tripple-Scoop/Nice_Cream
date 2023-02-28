@@ -126,7 +126,7 @@ async function createInitialUsers() {
       },
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
-    console.log('Users created:');
+    console.log('Users Created:');
     console.log(users);
     console.log('Finished creating users!');
   } catch (error) {
@@ -186,7 +186,7 @@ async function createInitialFlavors() {
     ];
     const flavors = await Promise.all(flavorsToCreate.map(createFlavor));
 
-    console.log('Flavors created:');
+    console.log('Flavors Created:');
     console.log(flavors);
 
     console.log('Finished creating flavors!');
@@ -229,7 +229,7 @@ async function createInitialReviews() {
     reviewsToCreate.map((review) => createReview(review))
   )
   console.log("Review Created: ", reviews)
-  console.log("Finished creating reviews.")
+  console.log("Finished creating reviews!")
 }
 
 async function createInitialOrders() {
@@ -277,7 +277,7 @@ async function createInitialOrders() {
     ordersToCreate.map((order) => createOrder(order))
   )
   console.log("Orders Created: ", orders)
-  console.log("Finished creating orders.")
+  console.log("Finished creating orders!")
 }
 
 
@@ -311,7 +311,7 @@ async function createInitialOrderItems() {
       }
     ]
     const items = await Promise.all(itemsToCreate.map(addToCart));
-    console.log('items created:');
+    console.log('Items Created:');
     console.log(items);
     console.log('Finished creating order items!');
   } catch (error) {
