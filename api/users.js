@@ -1,3 +1,20 @@
+const express = require("express");
+const usersRouter = express.Router();
+const jwt = require("jsonwebtoken");
+const {
+  getAllUsers,
+  createUser,
+  getUser,
+  getUserById,
+  getUserByUsername,
+  updateUser,
+  addAdminPerms,
+  removeAdminPerms
+} = require("../db");
+const SALT_COUNT = 10;
+const { JWT_SECRET } = process.env;
+
+
 /*
 POST api/users/register
 parameters, (username, password)
@@ -7,6 +24,50 @@ should do the following:
 - sets 'userToken' into local storage
 */
 
+usersRouter.post("/register", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const queriedUser = await getUserByUsername(username);
+
+    if (queriedUser) {
+      res.status(401);
+      next({
+        name: "Error",
+        message: `User ${username} is already taken.`,
+      });
+      return;
+
+    } else if (password.length < 8) {
+      res.status(401);
+      next({
+        name: "PasswordLengthError",
+        message: "Password Too Short!",
+      });
+      return;
+
+    } else {
+      const user = await createUser({
+        username,
+        password,
+      });
+      if (!user) {
+        next({
+          name: "UserCreationError",
+          message: "There was a problem registering you. Please try again.",
+        });
+      } else {
+        const token = jwt.sign(
+          { id: user.id, username: user.username },
+          JWT_SECRET,
+          { expiresIn: "1w" }
+        );
+        res.send({ user, message: "you're signed up!", token });
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 /*
@@ -17,6 +78,37 @@ should do the following:
 -returns message, the success message
 -sets 'userToken' into local storage
 */
+
+usersRouter.post("/login", async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    next({
+      name: "MissingCredentialsError",
+      message: "Please supply both a username and password",
+    });
+  }
+
+  try {
+    const user = await getUser({ username, password });
+    if (!user) {
+      next({
+        name: "IncorrectCredentialsError",
+        message: "Username or password is incorrect",
+      });
+    } else {
+      const token = jwt.sign(
+        { id: user.id, username: user.username },
+        JWT_SECRET,
+        { expiresIn: "1w" }
+      );
+      res.send({ user, message: "you're logged in!", token });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 /*
 GET /api/users/me

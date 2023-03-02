@@ -222,7 +222,7 @@ async function createInitialReviews() {
       flavor_id: 2,
       author_id: 3,
       title: "Vanilla is tasty",
-      content: "One of the most creamy vanilla ice creams I've eaten!",
+      content: "One of the most creamy vanilla ice creams I have eaten!",
     },
   ]
   const reviews = await Promise.all(
