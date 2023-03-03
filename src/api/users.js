@@ -23,7 +23,7 @@ export const register = async (username, password) => {
 };
 
 
-const Login = ({ setToken }) => {
+const login = ({ setToken }) => {
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -64,4 +64,4 @@ const Login = ({ setToken }) => {
 
     setUsername("");
     setPassword("");
-  };
+  }};
