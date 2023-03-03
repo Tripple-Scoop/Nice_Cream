@@ -15,7 +15,6 @@ const SALT_COUNT = 10;
 const { JWT_SECRET } = process.env;
 
 
-
 /*
 POST api/users/register
 parameters, (username, password)
@@ -25,6 +24,50 @@ should do the following:
 - sets 'userToken' into local storage
 */
 
+usersRouter.post("/register", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const queriedUser = await getUserByUsername(username);
+
+    if (queriedUser) {
+      res.status(401);
+      next({
+        name: "Error",
+        message: `User ${username} is already taken.`,
+      });
+      return;
+
+    } else if (password.length < 8) {
+      res.status(401);
+      next({
+        name: "PasswordLengthError",
+        message: "Password Too Short!",
+      });
+      return;
+
+    } else {
+      const user = await createUser({
+        username,
+        password,
+      });
+      if (!user) {
+        next({
+          name: "UserCreationError",
+          message: "There was a problem registering you. Please try again.",
+        });
+      } else {
+        const token = jwt.sign(
+          { id: user.id, username: user.username },
+          JWT_SECRET,
+          { expiresIn: "1w" }
+        );
+        res.send({ user, message: "you're signed up!", token });
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 /*
@@ -73,7 +116,8 @@ NO PARAMETERS
 returns user object(id, username)
 */
 
-/* GET /api/users/:username/orders
+/*
+GET /api/users/:username/orders
 current user's username must match customer_id
 returns array of objects (orders)
 EXAMPLE:
@@ -105,7 +149,35 @@ EXAMPLE:
 ]
 */
 
+//GET /api/users/:username/reviews
+
+/*
+
 /* GET /api/users/:username/reviews
+current user's username must match customer_id
+returns array of objects of reviews created by the user (reviews) 
+EXAMPLE:
+[
+  {
+    id:2,
+    username: 'bobthesnob',
+    reviews: [
+        {
+        flavor_id: 1,
+        author_id: 2,
+        title: "Chocolate rules",
+        content: "Meh.",
+      },
+      {
+        flavor_id: 2,
+        author_id: 2,
+        title: "Vanilla is okay",
+        content: "I can not see the vanilla bean! What gross factory did this come from? I need answers",
+      }]
+  }
+]
+*/
+GET /api/users/:username/reviews
 current user's username must match customer_id
 returns array of objects of reviews created by the user (reviews) 
 EXAMPLE:
