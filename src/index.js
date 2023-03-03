@@ -18,6 +18,4 @@ const App = () => {
       console.log("Change in user or token!")
   }, [user, token])
 
-  
-
 }
