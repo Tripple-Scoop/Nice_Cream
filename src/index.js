@@ -18,4 +18,18 @@ const App = () => {
       console.log("Change in user or token!")
   }, [user, token])
 
+
+  return(
+    <BrowserRouter>
+      <div>
+        <nav id='nav_bar'><h1>Nice Cream</h1></nav>
+          
+      </div>
+    
+    
+    
+    
+    
+    </BrowserRouter>
+  )
 }
