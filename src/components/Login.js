@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
-import { loginUser } from '../api/users';
+import { login } from '../api/users';
 
 //NATOSHIA
 
-const Login = ({ setToken, setUser}) => {
+const Login = ({ setToken, setUser }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const history = useHistory();
@@ -17,7 +17,7 @@ const Login = ({ setToken, setUser}) => {
                     event.preventDefault();
 
                     try {
-                        const user = await loginUser(username, password);
+                        const user = await login(username, password);
                         setToken(user.token);
                         setUser(user.user)
                         // localStorage.setItem('myToken', );
@@ -56,9 +56,9 @@ const Login = ({ setToken, setUser}) => {
 
                 <input type="submit" value="Log In"></input>
                 <Link to="/Register">New to Fitness Trackr? Click here to register!</Link>
-            
+
                 <div id='loginPopUpDiv'></div>
-            
+
             </form>
         </div>
     )

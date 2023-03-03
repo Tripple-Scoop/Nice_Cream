@@ -3,7 +3,7 @@
 import { API_URL } from "./url";
 
 export const register = async (username, password) => {
-  const response = await fetch(`${APIURL}/users/register`, {
+  const response = await fetch(`${API_URL}/users/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,45 +23,34 @@ export const register = async (username, password) => {
 };
 
 
-const login = ({ setToken }) => {
-  const [error, setError] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const history = useHistory();
-
-  const handleChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await fetch(`${APIURL}/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+export const login = async (username, password) => {
+  try {
+    const response = await fetch(`${API_URL}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: {
+          username,
+          password,
         },
-        body: JSON.stringify({
-          user: {
-            username,
-            password,
-          },
-        }),
-      });
-      const json = await response.json();
-      if (json.success === false) {
-        throw json.error.message;
-      }
-
-      alert("Login successful");
-      setToken(json.data.token);
-      history.push("/Posts");
-    } catch (e) {
-      console.error(e);
-      setError(e);
+      })
+    },
+    );
+    const json = await response.json();
+    if (json.success === false) {
+      throw json.error.message;
     }
 
-    setUsername("");
-    setPassword("");
-  }};
+    alert("Login successful");
+    setToken(json.data.token);
+    history.push("/Home");
+  } catch (e) {
+    console.error(e);
+    setError(e);
+  }
+
+  setUsername("");
+  setPassword("");
+}; 
