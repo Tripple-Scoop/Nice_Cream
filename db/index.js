@@ -1,7 +1,7 @@
 const client = require("./client");
 
 module.exports = {
-  ...require('./client'), // etc
+  client,
   ...require('./users'), // adds key/values from users.js
   ...require('./flavors'), // adds key/values from flavors.js
   ...require('./reviews'), // etc
