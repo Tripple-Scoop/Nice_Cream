@@ -9,25 +9,45 @@ import {
 } from "react-router-dom";
 import { Login } from "./components";
 import {} from "./api/users";
-
 const App = () => {
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState({});
-  let navigate = useNavigate();
-  console.log(user);
-  useEffect(() => {
-    setToken(localStorage.getItem("userToken"));
-    fetchUser().then((result) => {
-      setUser(result);
-    });
-  }, []);
-  const removeToken = () => {
-    setToken(null);
-    localStorage.removeItem("myToken");
+  //Login State
+  const [token, setToken] = useState(localStorage.getItem("auth_token"));
+  const [featuredActivity, setFeaturedActivity] = useState({});
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [featuredRoutine, setFeaturedRoutine] = useState({});
+  const navigate = useNavigate();
+
+  const storeUser = (username, token) => {
+    localStorage.setItem("auth_token", token);
+    localStorage.setItem("username", username);
+    setToken(token);
+    console.log(username, token);
+    setUsername(username);
+    navigate("/profile");
   };
-  useEffect(() => {
-    console.log("Change in user or token!");
-  }, [user, token]);
+   const removeToken = () => {
+     setToken(null);
+     localStorage.removeItem("myToken");
+  };
+
+  // const App = () => {
+  //   const [token, setToken] = useState("");
+  //   const [user, setUser] = useState({});
+  //   let navigate = useNavigate();
+  //   console.log(user);
+  //   useEffect(() => {
+  //     setToken(localStorage.getItem("userToken"));
+  //     fetchUser().then((result) => {
+  //       setUser(result);
+  //     });
+  //   }, []);
+  //   const removeToken = () => {
+  //     setToken(null);
+  //     localStorage.removeItem("myToken");
+  //   };
+  //   useEffect(() => {
+  //     console.log("Change in user or token!");
+  //   }, [user, token]);
 
   return (
     <div>
