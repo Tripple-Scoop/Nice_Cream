@@ -177,7 +177,7 @@ EXAMPLE:
   }
 ]
 */
-GET /api/users/:username/reviews
+/*GET /api/users/:username/reviews
 current user's username must match customer_id
 returns array of objects of reviews created by the user (reviews) 
 EXAMPLE:
