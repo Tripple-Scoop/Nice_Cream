@@ -1,3 +1,4 @@
+
 /*
 POST api/users/register
 parameters, (username, password)
@@ -6,8 +7,6 @@ should do the following:
 - returns message, the success message
 - sets 'userToken' into local storage
 */
-
-
 
 /*
 POST api/users/login
@@ -24,8 +23,7 @@ NO PARAMETERS
 returns user object(id, username)
 */
 
-/*
-GET /api/users/:username/orders
+/* GET /api/users/:username/orders
 current user's username must match customer_id
 returns array of objects (orders)
 EXAMPLE:
@@ -57,11 +55,7 @@ EXAMPLE:
 ]
 */
 
-//GET /api/users/:username/reviews
-
-/*
-
-GET /api/users/:username/reviews
+/* GET /api/users/:username/reviews
 current user's username must match customer_id
 returns array of objects of reviews created by the user (reviews) 
 EXAMPLE:
