@@ -21,7 +21,7 @@ reviewRouter.get('/', async (req, res) => {
     }
 });
 
-reviewRouter.post('/reviews', async (req, res) => {
+reviewRouter.post('/:id', requireUser, async (req, res) => {
     try {
         const { author_id, flavor_id, title, content } = req.body;
         console.log(req.body)
@@ -40,7 +40,7 @@ reviewRouter.post('/reviews', async (req, res) => {
     }
 });
 
-reviewRouter.patch('/', async (req, res, next) => {
+reviewRouter.patch('/:id', requireUser, async (req, res, next) => {
     try {
         const { author_id, flavor_id, title, content } = req.body
         const reviewId = req.params.id;
@@ -58,7 +58,7 @@ reviewRouter.patch('/', async (req, res, next) => {
     }
 });
 
-flavorRouter.delete("/reviews/delete", requireUser, async (req, res, next) => {
+flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
     const { author_id, flavor_id, title, content } = req.body
     const reviewId = req.params.id;
 
