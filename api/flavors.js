@@ -13,7 +13,7 @@ const {
 
 // SUNNY //
 
-flavorRouter.get('/flavors', async (req, res) => {
+flavorRouter.get('/', async (req, res) => {
     try {
         const flavors = await getAllFlavors();
         res.send(flavors);
@@ -24,7 +24,7 @@ flavorRouter.get('/flavors', async (req, res) => {
 });
 
 
-flavorRouter.post('/flavors', async (req, res) => {
+flavorRouter.post('/:name', async (req, res) => {
     try {
         const { name, type, image_url, description } = req.body;
         console.log(req.body)
@@ -43,31 +43,36 @@ flavorRouter.post('/flavors', async (req, res) => {
     }
 });
 
-flavorRouter.patch('/flavorsId', async (req, res, next) => {
-    try {
-        const { name, type, image_url, description } = req.body
-        const flavorId = req.params.id;
-        const existingFlavor = await getFlavorById(flavorId);
+flavorRouter.patch("/:id", async (req, res, next) => {
+  try {
+    const { name, type, image_url, description } = req.body;
+    const flavorId = req.params.id;
+    const existingFlavor = await getFlavorById(flavorId);
 
-        if (!existingFlavor) {
-            throw new Error(`There is no Flavor with this ${flavorId} id`)
-        }
-
-        const conflictFlavor = await getFlavorByName(name);
-
-        if (conflictFlavor && conflictFlavor.id !== flavorId) {
-            throw new Error(`The flavor ${name} does not exists`);
-        }
-
-        const updatedFlavor = await updateFlavor({ name, type, image_url, description });
-
-        res.send(updatedFlavor);
-    } catch (error) {
-        next(error);
+    if (!existingFlavor) {
+      throw new Error(`There is no Flavor with this ${flavorId} id`);
     }
+
+    const conflictFlavor = await getFlavorByName(name);
+
+    if (conflictFlavor && conflictFlavor.id !== flavorId) {
+      throw new Error(`The flavor ${name} does not exists`);
+    }
+
+    const updatedFlavor = await updateFlavor({
+      name,
+      type,
+      image_url,
+      description,
+    });
+
+    res.send(updatedFlavor);
+  } catch (error) {
+    next(error);
+  }
 });
 
-flavorRouter.delete("/flavor", requireUser, async (req, res, next) => {
+flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
     const { flavorId } = req.params.id;
     const { name, type, image_url, description } = req.body;
 

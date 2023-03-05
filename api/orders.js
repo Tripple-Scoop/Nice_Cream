@@ -10,7 +10,7 @@ const {
 } = require("../db");
 
 //GET all orders
-orderRouter.get("/orders", async (req, res) => {
+orderRouter.get("/", async (req, res) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -21,7 +21,7 @@ orderRouter.get("/orders", async (req, res) => {
 });
 
 //GET order by ID
-orderRouter.get("/orders/:id", async (req, res) => {
+orderRouter.get("/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
     const order = await getOrderById(orderId);
@@ -38,7 +38,7 @@ orderRouter.get("/orders/:id", async (req, res) => {
 });
 
 //UPDATE order status
-orderRouter.patch("/orders/:id", async (req, res, next) => {
+orderRouter.patch("/:id", async (req, res, next) => {
   try {
     const orderId = req.params.id;
     const { fulfilled } = req.body;
@@ -54,7 +54,7 @@ orderRouter.patch("/orders/:id", async (req, res, next) => {
 });
 
 //POST new order
-orderRouter.post("/orders", async (req, res) => {
+orderRouter.post("/", async (req, res) => {
   try {
     const {
       customer_id,
@@ -80,7 +80,7 @@ orderRouter.post("/orders", async (req, res) => {
 });
 
 //GET orders by customer ID
-orderRouter.get("/orders/customer/:id", async (req, res) => {
+orderRouter.get("/customer/:id", async (req, res) => {
   try {
     const customerId = req.params.id;
     const orders = await getOrdersByCustomer(customerId);
