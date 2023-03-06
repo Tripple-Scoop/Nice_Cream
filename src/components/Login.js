@@ -57,7 +57,7 @@ const Login = ({ setToken, setUser }) => {
 
         <input type="submit" value="Log In"></input>
         <Link to="/Register">
-          New to Fitness Trackr? Click here to register!
+          New to Nice Cream? Click here to register!
         </Link>
 
         <div id="loginPopUpDiv"></div>

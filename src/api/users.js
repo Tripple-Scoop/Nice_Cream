@@ -22,7 +22,6 @@ export const register = async (username, password) => {
   return json.data.token;
 };
 
-
 export const login = async (username, password) => {
   try {
     const response = await fetch(`${API_URL}/users/login`, {
@@ -54,3 +53,4 @@ export const login = async (username, password) => {
   setUsername("");
   setPassword("");
 }; 
+

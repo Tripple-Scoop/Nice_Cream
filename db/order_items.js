@@ -72,14 +72,14 @@ async function getActiveCartItems(customer_id) {
 //getItemsByOrderId(order_id)- return array of cart_items for given order_id
 async function getItemsByOrderId(order_id) {
     try {
-        const { rows: order } = await client.query(
+        const { rows: orders } = await client.query(
             `SELECT *
          FROM order_items
          WHERE order_id = $1;
         `,
             [order_id]
         );
-        return order;
+        return orders;
     } catch (error) {
         console.error(`Error retrieving order with id ${order_id}!`, error);
     }
