@@ -8,7 +8,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Login } from "./components";
-import {fetchUser} from "./api/users";
+import { fetchUser } from "./api/users";
 const App = () => {
   //Login State
   const [token, setToken] = useState('');
@@ -35,22 +35,22 @@ const App = () => {
   //   const [user, setUser] = useState({});
   //   let navigate = useNavigate();
   //   console.log(user);
-    useEffect(() => {
-      setToken(localStorage.getItem("userToken"));
-      fetchUser().then((result) => {
-        setUser(result);
-      });
-    }, []);
+  useEffect(() => {
+    setToken(localStorage.getItem("myToken"));
+    fetchUser().then((result) => {
+      setUser(result);
+    });
+  }, []);
 
-    useEffect(() => {
-      console.log("Change in user or token!");
-    }, [user, token]);
+  useEffect(() => {
+    console.log("Change in user or token!");
+  }, [user, token]);
 
 
-    const removeToken = () => {
-      setToken(null);
-      localStorage.removeItem("myToken");
-    };
+  const removeToken = () => {
+    setToken(null);
+    localStorage.removeItem("myToken");
+  };
   return (
     <div>
       <header>

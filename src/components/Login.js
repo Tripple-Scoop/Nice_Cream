@@ -23,7 +23,7 @@ const Login = ({ setToken, setUser }) => {
             const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
-            // localStorage.setItem('myToken', );
+            localStorage.setItem('myToken', );
             console.log(user);
             // navigate.push("/");
           } catch (error) {

@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const orderItemsRouter = express.Router();
 const {
   addToCart,
   updateQuantity,
@@ -8,14 +8,15 @@ const {
   getItemsByOrderId,
   removeFromCart,
 } = require("./order_items"); // import your functions from order_items.js
+const { requireUser } = require("./utils");
 
 //TAHJ//
 
 
 // GET all cart items
-router.get("/", async (req, res) => {
+orderItemsRouter.get("/", async (req, res) => {
   try {
-    const activeCart = await getActiveCartItems(req.user.customer_id);
+    const activeCart = await getActiveCartItems(req.user.id);
     res.json(activeCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET cart items by order id
-router.get("/:order_id", async (req, res) => {
+orderItemsRouter.get("/:order_id", async (req, res) => {
   try {
     const order = await getItemsByOrderId(req.params.order_id);
     res.json(order);
@@ -33,7 +34,7 @@ router.get("/:order_id", async (req, res) => {
 });
 
 // POST add item to cart
-router.post("/", async (req, res) => {
+orderItemsRouter.post("/", async (req, res) => {
   const { customer_id, flavor_id, quantity } = req.body;
   try {
     const cartItem = await addToCart({
@@ -49,7 +50,7 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH update quantity of cart item
-router.patch("/:id", async (req, res) => {
+orderItemsRouter.patch("/:id", async (req, res) => {
   const id = req.params.id;
   const newQuant = req.body.quantity;
   try {
@@ -61,14 +62,14 @@ router.patch("/:id", async (req, res) => {
 });
 
 // DELETE remove item from cart
-router.delete("/:id", async (req, res) => {
+orderItemsRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const updatedCart = await removeFromCart(id, req.user.customer_id);
+    const updatedCart = await removeFromCart(id, req.user.id);
     res.json(updatedCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-module.exports = router;
+module.exports = orderItemsRouter;

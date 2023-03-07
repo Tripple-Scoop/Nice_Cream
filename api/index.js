@@ -57,19 +57,19 @@ const usersRouter = require('./users');
 router.use('/users', usersRouter);
 
 // ROUTER: /api/activities
-const flavorsRouter = require('./flavors');
-router.use('/flavors', flavorsRouter);
+const flavorRouter = require('./flavors');
+router.use('/flavors', flavorRouter);
 
-// // ROUTER: /api/routines
-// const reviewsRouter = require('./reviews');
-// router.use('/reviews', reviewsRouter);
+// ROUTER: /api/routines
+const reviewsRouter = require('./reviews');
+router.use('/reviews', reviewsRouter);
 
-// // ROUTER: /api/routine_activities
-// const ordersRouter = require('./orders');
-// router.use('/orders', ordersRouter);
+// ROUTER: /api/routine_activities
+const ordersRouter = require('./orders');
+router.use('/orders', ordersRouter);
 
-// const orderItemsRouter = require('./order_items');
-// router.use('/order_items', orderItemsRouter);
+const orderItemsRouter = require('./order_items');
+router.use('/order_items', orderItemsRouter);
 
 //general error handler
 router.use((error, req, res, next) => {

@@ -8,6 +8,7 @@ const {
   submitOrder,
   getOrdersByCustomer,
 } = require("../db");
+const { requireUser } = require("./utils");
 
 //GET all orders
 orderRouter.get("/", async (req, res) => {
