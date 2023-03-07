@@ -203,27 +203,33 @@ async function createInitialReviews() {
     {
       flavor_id: 1,
       author_id: 2,
-      title: "Chocolate rules",
-      content: "Hands down the best chocolate ice cream ever!",
+      title: "Mediocre at Best...",
+      content: "Meh.",
     },
     {
       flavor_id: 2,
       author_id: 2,
       title: "Vanilla is okay",
-      content: "Kind of plain but can't go wrong with the classics!",
+      content: "I can not see the vanilla bean! What gross factory did this come from? I need answers",
     },
     {
       flavor_id: 4,
-      author_id: 1,
+      author_id: 3,
       title: "Suprising Strawberry",
       content: "Was not expecting this to be as tasty as it was!",
     },
     {
       flavor_id: 2,
-      author_id: 3,
+      author_id: 4,
       title: "Vanilla is tasty",
       content: "One of the most creamy vanilla ice creams I have eaten!",
     },
+    {
+      flavor_id: 1,
+      author_id: 5,
+      title: "So much flavor!",
+      content: "Officially my favorite! Love that they have a dairy-free option!",
+    }
   ]
   const reviews = await Promise.all(
     reviewsToCreate.map((review) => createReview(review))
