@@ -120,15 +120,22 @@ NO PARAMETERS
 returns user object(id, username)
 */
 
-usersRouter.get('/me', requireUser, async (req, res, next) => {
-  const { username, password } = req.body;
+usersRouter.get('/me', async (req, res, next) => {
 
-  try {
-    const userObj = getUser(username, password);
-    res.send(userObj);
-  } catch (error) {
-    console.error(error);
-    next(error);
+  const user = req.user;
+  if (user) {
+      res.send(
+          user
+      )
+  } else {
+
+      res.status(401)
+
+      res.send({
+          error: "error",
+          message: "You must be logged in to perform this action",
+          name: "error"
+  })
   }
 })
 
@@ -223,8 +230,35 @@ usersRouter.get('/:username/reviews', requireUser, async (req, res, next) => {
 
 
 
+/*
+PATCH  /:username
+ */
 
+usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const {id, ...fields} = req.body;
+    const user = getUserByUsername(username);
 
+    const canEdit = userId === user.id;
+
+    if (!canEdit) {
+      throw ({
+        error: "error",
+        message: `User is not allowed to update this profile. Please log in as the correct user.`,
+        name: `error`
+      });
+    }
+    const updatedUser = await updateUser({ id: id, ...fields })
+    // console.log("updatedRoutineActivity:", updatedRoutineActivity)
+    res.send(
+      updatedUser
+    );
+
+  } catch (error) {
+    next(error)
+  }
+});
 
 
 
