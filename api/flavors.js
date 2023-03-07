@@ -44,32 +44,32 @@ flavorRouter.post('/:name', async (req, res) => {
 });
 
 flavorRouter.patch("/:id", async (req, res, next) => {
-  try {
-    const { name, type, image_url, description } = req.body;
-    const flavorId = req.params.id;
-    const existingFlavor = await getFlavorById(flavorId);
+    try {
+        const { name, type, image_url, description } = req.body;
+        const flavorId = req.params.id;
+        const existingFlavor = await getFlavorById(flavorId);
 
-    if (!existingFlavor) {
-      throw new Error(`There is no Flavor with this ${flavorId} id`);
+        if (!existingFlavor) {
+            throw new Error(`There is no Flavor with this ${flavorId} id`);
+        }
+
+        const conflictFlavor = await getFlavorByName(name);
+
+        if (conflictFlavor && conflictFlavor.id !== flavorId) {
+            throw new Error(`The flavor ${name} does not exists`);
+        }
+
+        const updatedFlavor = await updateFlavor({
+            name,
+            type,
+            image_url,
+            description,
+        });
+
+        res.send(updatedFlavor);
+    } catch (error) {
+        next(error);
     }
-
-    const conflictFlavor = await getFlavorByName(name);
-
-    if (conflictFlavor && conflictFlavor.id !== flavorId) {
-      throw new Error(`The flavor ${name} does not exists`);
-    }
-
-    const updatedFlavor = await updateFlavor({
-      name,
-      type,
-      image_url,
-      description,
-    });
-
-    res.send(updatedFlavor);
-  } catch (error) {
-    next(error);
-  }
 });
 
 flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
