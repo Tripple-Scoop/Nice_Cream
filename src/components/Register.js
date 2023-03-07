@@ -12,7 +12,7 @@ const Login = ({ setToken, setUser }) => {
   return (
     <div className="register-container">
       <div className="title">
-        <h1>Log into your Nice Cream Account:</h1>
+        <h1>Log into your Fitness Trackr Account:</h1>
       </div>
       <form
         id="create-account"
@@ -25,13 +25,13 @@ const Login = ({ setToken, setUser }) => {
             setUser(user.user);
             // localStorage.setItem('myToken', );
             console.log(user);
-            // navigate.push("/");
+            history.push("/");
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }
         }}
       >
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Create a unique username here:</label>
         <input
           type="text"
           placeholder="ex. username"
@@ -43,7 +43,7 @@ const Login = ({ setToken, setUser }) => {
         ></input>
 
         <label htmlFor="create-password">
-          Password:
+          Set a password for your new account:
         </label>
         <input
           type="password"
