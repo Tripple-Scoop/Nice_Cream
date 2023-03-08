@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/users";
 
+
 //NATOSHIA
 
 const Login = ({ setToken, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className="register-container">
@@ -23,8 +24,9 @@ const Login = ({ setToken, setUser }) => {
             const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
-            localStorage.setItem('myToken', );
             console.log(user);
+            setUsername('');
+            setPassword('');
             // navigate.push("/");
           } catch (error) {
             console.error("Having trouble logging in:", error);

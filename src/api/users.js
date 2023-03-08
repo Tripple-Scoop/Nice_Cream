@@ -15,10 +15,10 @@ export const login = async (username, password) => {
       })
     })
   const json = await result.json();
-
+  console.log('json from src > api', json)
   // json.success === true ? document.getElementById('registerPopUpDiv').innerHTML = json.message : document.getElementById('registerPopUpDiv').innerHTML = json.message;
 
-  if(json.error){
+  if (json.error) {
     throw json.error
   }
 
@@ -26,7 +26,7 @@ export const login = async (username, password) => {
   // console.log(json);
 
   return json;
-} 
+}
 
 //export function loginUser that logs user into fitness trackr and returns a token
 
@@ -46,7 +46,7 @@ export const register = async (username, password) => {
 
   // json.success === true ? document.getElementById('loginPopUpDiv').innerHTML = json.message : document.getElementById('loginPopUpDiv').innerHTML = json.message;
 
-  if(json.error){
+  if (json.error) {
     throw json.error
   }
 
@@ -60,21 +60,21 @@ export const register = async (username, password) => {
 
 export const fetchUser = async () => {
 
-    const result = await fetch(`${API_URL}/users/me`,
-      {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('userToken')}`
-        }
-      })
-    const json = await result.json();
+  const result = await fetch(`${API_URL}users/me`,
+    {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+      }
+    })
+  const json = await result.json();
 
-    if(json.error){
-      throw json.error
-    }
-    // console.log(json);
-    return json;
+  if (json.error) {
+    throw json.error
+  }
+  // console.log(json);
+  return json;
 
 }
 

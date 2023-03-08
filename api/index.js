@@ -36,13 +36,13 @@ const { JWT_SECRET } = process.env;
 // });
 
 
-// router.use((req, res, next) => {
-//   if (req.user) {
-//     console.log("User is set:", req.user);
-//   }
+router.use((req, res, next) => {
+  if (req.user) {
+    console.log("User is set:", req.user);
+  }
 
-//   next();
-// });
+  next();
+});
 
 
 // GET /api/health

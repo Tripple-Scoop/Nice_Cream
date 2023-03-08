@@ -22,7 +22,7 @@ async function createUser({ name, username, password, address, admin = false }) 
       INSERT INTO users(name, username, password, address, admin)
       VALUES ($1, $2, $3, $4, $5)
       ON CONFLICT (username) DO NOTHING 
-      RETURNING id, username;
+      RETURNING *;
       `, [name, username, hashedPassword, address, admin]);
     delete user.password;
     return user;
@@ -31,9 +31,11 @@ async function createUser({ name, username, password, address, admin = false }) 
   }
 }
 
+
+
 async function getUser({ username, password }) {
   if (!username || !password) {
-    return;
+    return 'You are missing the username or password.';
   }
 
   try {
@@ -78,8 +80,7 @@ async function getUserByUsername(username) {
       `,
       [username]
     );
-    
-    delete user.password;
+  
     return user;
   } catch (error) {
     throw error;

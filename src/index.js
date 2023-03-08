@@ -16,7 +16,7 @@ const App = () => {
   const [user, setUser] = useState('');
   const [featuredRoutine, setFeaturedRoutine] = useState({});
   const navigate = useNavigate();
-
+  console.log(user);
   // const storeUser = (username, token) => {
   //   localStorage.setItem("auth_token", token);
   //   localStorage.setItem("username", username);
@@ -25,10 +25,6 @@ const App = () => {
   //   setUsername(username);
   //   // navigate("/profile");
   // };
-  //  const removeToken = () => {
-  //    setToken(null);
-  //    localStorage.removeItem("myToken");
-  // };
 
   // const App = () => {
   //   const [token, setToken] = useState("");
@@ -36,10 +32,14 @@ const App = () => {
   //   let navigate = useNavigate();
   //   console.log(user);
   useEffect(() => {
+    // if(localStorage.getItem("myToken"))
+    // then try to do this.  otherwise its setting null. 
     setToken(localStorage.getItem("myToken"));
     fetchUser().then((result) => {
       setUser(result);
     });
+    console.log(user)
+
   }, []);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const App = () => {
 
   const removeToken = () => {
     setToken(null);
-    localStorage.removeItem("myToken");
+    localStorage.removeItem("userToken");
   };
   return (
     <div>
@@ -75,7 +75,10 @@ const App = () => {
                 {token === null ? (
                   "Login"
                 ) : (
-                  <button className="logout" onClick={removeToken}>
+                  <button className="logout" onClick={(event)=>{
+                    event.preventDefault();
+                    removeToken()}
+                    }>
                     LogOut
                   </button>
                 )}
@@ -91,7 +94,7 @@ const App = () => {
             </Route> */}
             <Route
               path="/Login"
-              element={<Login setToken={setToken} token={token} />}
+              element={<Login setToken={setToken} token={token} setUser={setUser} />}
             />
           </Routes>
         </div>
