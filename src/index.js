@@ -46,7 +46,7 @@ const App = () => {
             <Link className="link" id="cart_link" to="/My_Cart">My Cart</Link>
            
               {token === null 
-              ?   (<Link className="link" to="/Login">Log In</Link>)
+              ?   (<Link className="link" to="/Login">Log n</Link>)
               : ( <button id="logout" className="link" onClick={(event) => {
                   event.preventDefault();
                   removeToken()

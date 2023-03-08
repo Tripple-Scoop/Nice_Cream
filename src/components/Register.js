@@ -1,35 +1,38 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../api/users";
+import { login } from "../api/users";
+
 
 //NATOSHIA
 
 const Register = ({ setToken, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const navigate = useNavigate();
 
   return (
     <div className="register-container">
       <div className="title">
-        <h1>Create a Nice Cream Account:</h1>
+        <h1>Log into your Nice Cream Account:</h1>
       </div>
       <form
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
           try {
-            const user = await register(username, password);
+            const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
             console.log(user);
+            setUsername('');
+            setPassword('');
+            navigate('/Profile');
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }
         }}
       >
-        <label htmlFor="username">Create a unique username here:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           placeholder="ex. username"
@@ -52,7 +55,8 @@ const Register = ({ setToken, setUser }) => {
             setPassword(event.target.value);
           }}
         ></input>
-    <label htmlFor="confirm-password">
+
+        <label htmlFor="confirm-password">
           Confirm your password:
         </label>
         <input
@@ -70,9 +74,18 @@ const Register = ({ setToken, setUser }) => {
         </Link>
 
         <div id="loginPopUpDiv"></div>
+
+        <input type="submit" value="Log In"></input>
+        <Link to="/Register">
+          New to Nice Cream? Click here to register!
+        </Link>
+
+        <div id="loginPopUpDiv"></div>
       </form>
     </div>
   );
 };
+
+
 
 export default Register;

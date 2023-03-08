@@ -8,7 +8,7 @@ import { login } from "../api/users";
 const Login = ({ setToken, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="register-container">
@@ -19,7 +19,6 @@ const Login = ({ setToken, setUser }) => {
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
-
           try {
             const user = await login(username, password);
             setToken(user.token);
@@ -27,7 +26,7 @@ const Login = ({ setToken, setUser }) => {
             console.log(user);
             setUsername('');
             setPassword('');
-            // navigate.push("/");
+            navigate('/Profile');
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }
