@@ -1,0 +1,50 @@
+html {
+  height: 100%;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav_links {
+  display: flex;
+  flex-direction: row;
+  font-size: x-large;
+}
+
+.link{
+padding:10px;
+text-decoration: none;
+color: #DC6A69;
+height:20px;
+display:flex;
+align-items: center;
+border-radius: 20px;
+}
+
+.link > button{
+  background-color:white;
+}
+
+#header_logo {
+  height: 150px;
+  display: flex;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover:hover) {
+  .link:hover{
+    color: rgb(255, 255, 255);
+    background-color: #5CA49C;
+    border-radius: 20px;
+  }
+}
