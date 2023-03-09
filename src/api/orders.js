@@ -17,7 +17,7 @@ export function getHeaders() {
 // Get all orders
 export async function getAllOrders() {
   try {
-    const response = await fetch(`${BASE_URL}/orders`, {
+    const response = await fetch(`${API_URL}orders`, {
       headers: getHeaders(),
     });
     return await response.json();
@@ -60,14 +60,14 @@ export async function createOrder(
 
 //update orders
 //?? What else do i need to update in the order besides if its fulfilled or not ??
-export async function editOrder(orderId, fulfilled) {
+export async function fulfillOrder(orderId, fulfilled) {
   console.log(id);
   const sendData = {
     orderId: orderId,
-    fulfilled: fulfilled,
+    fulfilled: true,
   };
   try {
-    const res = await fetch(`${BASE_URL}/orders/${id}`, {
+    const res = await fetch(`${API_URL}orders/${id}`, {
       method: "PATCH",
       body: JSON.stringify(sendData),
       headers: getHeaders(),
@@ -80,3 +80,4 @@ export async function editOrder(orderId, fulfilled) {
     throw error;
   }
 }
+
