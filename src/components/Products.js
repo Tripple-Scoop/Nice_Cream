@@ -12,7 +12,7 @@ const Login = ({ setToken, setUser }) => {
   return (
     <div className="register-container">
       <div className="title">
-        <h1>Flavors galore</h1>
+        <h1>Flavors Galore</h1>
       </div>
       <form
         id="create-account"

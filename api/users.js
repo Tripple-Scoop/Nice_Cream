@@ -1,7 +1,7 @@
 const express = require("express");
 const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
-import { requireUser } from "./utils";
+// import { requireUser } from "./utils";
 const {
   getAllUsers,
   createUser,
@@ -15,6 +15,7 @@ const {
   removeAdminPerms,
   getReviewsByUser,
 } = require("../db");
+const { requireUser } = require("./utils")
 const SALT_COUNT = 10;
 const { JWT_SECRET } = process.env;
 
@@ -86,6 +87,7 @@ should do the following:
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
 
+  console.log("Inside /login endpoint: ", username, password);
   if (!username || !password) {
     next({
       name: "MissingCredentialsError",
@@ -124,18 +126,18 @@ usersRouter.get('/me', async (req, res, next) => {
 
   const user = req.user;
   if (user) {
-      res.send(
-          user
-      )
+    res.send(
+      user
+    )
   } else {
 
-      res.status(401)
+    res.status(401)
 
-      res.send({
-          error: "error",
-          message: "You must be logged in to perform this action",
-          name: "error"
-  })
+    res.send({
+      error: "error",
+      message: "You must be logged in to perform this action",
+      name: "error"
+    })
   }
 })
 
@@ -237,7 +239,7 @@ PATCH  /:username
 usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const {id, ...fields} = req.body;
+    const { id, ...fields } = req.body;
     const user = getUserByUsername(username);
 
     const canEdit = userId === user.id;
@@ -260,5 +262,5 @@ usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
   }
 });
 
-
+module.exports = usersRouter
 

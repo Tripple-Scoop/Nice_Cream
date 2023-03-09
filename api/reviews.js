@@ -9,6 +9,7 @@ const {
     updateReview,
     deleteReview
 } = require("../db");
+const { requireUser } = require("./utils");
 
 
 reviewRouter.get('/', async (req, res) => {
@@ -58,7 +59,7 @@ reviewRouter.patch('/:id', requireUser, async (req, res, next) => {
     }
 });
 
-flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
+reviewRouter.delete("/:id", requireUser, async (req, res, next) => {
     const { author_id, flavor_id, title, content } = req.body
     const reviewId = req.params.id;
 
@@ -81,3 +82,5 @@ flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
     }
 }
 );
+
+module.exports = reviewRouter;

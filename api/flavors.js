@@ -9,6 +9,7 @@ const {
     updateFlavor,
     deleteFlavor
 } = require("../db");
+const { requireUser } = require("./utils");
 
 
 // SUNNY //
@@ -97,3 +98,4 @@ flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
 }
 );
 
+module.exports = flavorRouter;
