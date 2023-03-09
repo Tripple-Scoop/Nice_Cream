@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/users";
 
+
 //NATOSHIA
 
 const Login = ({ setToken, setUser }) => {
@@ -18,14 +19,14 @@ const Login = ({ setToken, setUser }) => {
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
-
           try {
             const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
-            localStorage.setItem('myToken', );
             console.log(user);
-            // navigate.push("/");
+            setUsername('');
+            setPassword('');
+            navigate('/Profile');
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }

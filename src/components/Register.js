@@ -2,36 +2,41 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/users";
 
+
 //NATOSHIA
 
-const Login = ({ setToken, setUser }) => {
+const Register = ({ setToken, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const navigate = useNavigate();
 
   return (
     <div className="register-container">
       <div className="title">
-        <h1>Log into your Fitness Trackr Account:</h1>
+        <h1>Create your Nice Cream Account:</h1>
       </div>
       <form
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
-
           try {
-            const user = await login(username, password);
+            if(password === confirm){
+              const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
-            // localStorage.setItem('myToken', );
             console.log(user);
-            history.push("/");
+            setUsername('');
+            setPassword('');
+            navigate('/Profile');
+            }
+            
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }
         }}
       >
-        <label htmlFor="username">Create a unique username here:</label>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           placeholder="ex. username"
@@ -43,7 +48,7 @@ const Login = ({ setToken, setUser }) => {
         ></input>
 
         <label htmlFor="create-password">
-          Set a password for your new account:
+          Password:
         </label>
         <input
           type="password"
@@ -52,13 +57,29 @@ const Login = ({ setToken, setUser }) => {
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
-          }}
-        ></input>
+          }}>
 
-        <input type="submit" value="Log In"></input>
-        <Link to="/Register">
-          New to Nice Cream? Click here to register!
+          </input>
+
+        <label htmlFor="confirm-password">
+          Confirm your password:
+        </label>
+        <input
+          type="password"
+          placeholder="ex. password321"
+          id="confirm-password"
+          value={confirm}
+          onChange={(event) => {
+            setConfirm(event.target.value);
+          }}>
+
+          </input>
+        <input type="submit" value="Create Account"></input>
+        <Link to="/Login">
+          Already a Nice Cream member? Click here to log in!
         </Link>
+
+        <div id="loginPopUpDiv"></div>
 
         <div id="loginPopUpDiv"></div>
       </form>
@@ -66,4 +87,6 @@ const Login = ({ setToken, setUser }) => {
   );
 };
 
-export default Login;
+
+
+export default Register;

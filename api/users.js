@@ -87,6 +87,7 @@ should do the following:
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
 
+  console.log("Inside /login endpoint: ", username, password);
   if (!username || !password) {
     next({
       name: "MissingCredentialsError",
