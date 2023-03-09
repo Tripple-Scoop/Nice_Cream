@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Link, Route, useNavigate, } from "react-router-dom";
-import { Login } from "./components";
+import { Home, Login, Checkout, Register, My_Cart, Profile, Products} from "./components";
 import { fetchUser } from "./api/users";
 import logo from './assets/images/Full_Logo_Transparent.png'
 
@@ -19,8 +19,6 @@ const App = () => {
         setUser(result);
       });
     }
-    // then try to do this.  otherwise its setting null. 
-
     console.log(user)
 
   }, []);
@@ -44,26 +42,34 @@ const App = () => {
             <Link className="link" id="products_link" to="/Products"> Products </Link>
             {token === null ? null : <Link className="link" id="profile_link" to="/Profile"> My Profile</Link>}
             <Link className="link" id="cart_link" to="/My_Cart">My Cart</Link>
-           
-              {token === null 
-              ?   (<Link className="link" to="/Login">Log n</Link>)
-              : ( <button id="logout" className="link" onClick={(event) => {
-                  event.preventDefault();
-                  removeToken()
-                }}> Log Out </button>
+
+            {token === null
+              ? (<Link to={'/Login'}>
+                <img
+                  id='header-button'
+                  src="https://cdn-icons-png.flaticon.com/512/9403/9403338.png"
+                ></img>
+              </Link>)
+              : (<Link id="logout" onClick={(event) => {
+                event.preventDefault();
+                removeToken();
+                navigate("/Login")
+              }}>
+                <img
+                  id='header-button'
+                  src="https://cdn-icons-png.flaticon.com/512/9403/9403330.png"
+                ></img>
+              </Link>
               )}
-            
+
           </div>
         </nav>
 
         <div>
           <Routes>
-            {/* <Route path="/Home">
-              <Home token={token} />
-            </Route> */}
             <Route
               path="/Home"
-              element={<Login user={user} token={token} />}
+              element={<Home user={user} token={token} />}
             />
             <Route
               path="/Login"
@@ -71,23 +77,23 @@ const App = () => {
             />
             <Route
               path="/Register"
-              element={<Login setToken={setToken} setUser={setUser} user={user} token={token} />}
+              element={<Register setToken={setToken} setUser={setUser} user={user} token={token} />}
             />
             <Route
               path="/Profile"
-              element={<Login user={user} token={token} />}
+              element={<Profile user={user} token={token} />}
             />
             <Route
               path="/My_Cart"
-              element={<Login user={user} token={token} />}
+              element={<My_Cart user={user} token={token} />}
             />
             <Route
               path="/Products"
-              element={<Login user={user} token={token} />}
+              element={<Products user={user} token={token} />}
             />
             <Route
               path="/Checkout"
-              element={<Login user={user} token={token} />}
+              element={<Checkout user={user} token={token} />}
             />
           </Routes>
         </div>

@@ -8,25 +8,29 @@ import { login } from "../api/users";
 const Register = ({ setToken, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const navigate = useNavigate();
 
   return (
     <div className="register-container">
       <div className="title">
-        <h1>Log into your Nice Cream Account:</h1>
+        <h1>Create your Nice Cream Account:</h1>
       </div>
       <form
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
           try {
-            const user = await login(username, password);
+            if(password === confirm){
+              const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
             console.log(user);
             setUsername('');
             setPassword('');
             navigate('/Profile');
+            }
+            
           } catch (error) {
             console.error("Having trouble logging in:", error);
           }
@@ -53,8 +57,9 @@ const Register = ({ setToken, setUser }) => {
           value={password}
           onChange={(event) => {
             setPassword(event.target.value);
-          }}
-        ></input>
+          }}>
+
+          </input>
 
         <label htmlFor="confirm-password">
           Confirm your password:
@@ -66,19 +71,15 @@ const Register = ({ setToken, setUser }) => {
           value={confirm}
           onChange={(event) => {
             setConfirm(event.target.value);
-          }}
-        ></input>
-        <input type="submit" value="Log In"></input>
+          }}>
+
+          </input>
+        <input type="submit" value="Create Account"></input>
         <Link to="/Login">
           Already a Nice Cream member? Click here to log in!
         </Link>
 
         <div id="loginPopUpDiv"></div>
-
-        <input type="submit" value="Log In"></input>
-        <Link to="/Register">
-          New to Nice Cream? Click here to register!
-        </Link>
 
         <div id="loginPopUpDiv"></div>
       </form>
