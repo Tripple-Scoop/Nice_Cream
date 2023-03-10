@@ -1,54 +1,85 @@
 import { API_URL } from "./url";
 
 export const fetchAllFlavors = async () => {
-  const response = await fetch(`${API_URL}/flavors/allFlavors`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      user: {
-        username,
-        password,
-      },
-    }),
-  });
-  const json = await response.json();
-  if (json.success === false) {
-    throw json.error.message;
+  try {
+    const res = await fetch(`${API_URL}flavors`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const flavorData = await res.json();
+    return flavorData
+
+    // console.log(flavorData)
+  } catch (e) {
+    console.error(e)
   }
-  return json.data.token;
 };
 
 
-export const login = async (username, password) => {
+
+export const fetchCreateFlavor = async (name, type, image_url, description) => {
   try {
-    const response = await fetch(`${API_URL}/users/login`, {
+    const response = await fetch(`${API_URL}flavors/${name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        user: {
-          username,
-          password,
-        },
+        name: name,
+        type: type,
+        image_url: image_url,
+        description: description
       })
-    },
-    );
-    const json = await response.json();
-    if (json.success === false) {
-      throw json.error.message;
-    }
-
-    alert("Login successful");
-    setToken(json.data.token);
-    history.push("/Home");
+    });
+    const newFlavorData = await response.json();
+    return newFlavorData;
   } catch (e) {
-    console.error(e);
-    setError(e);
+    console.error(e)
   }
+};
 
-  setUsername("");
-  setPassword("");
-}; 
+export const fetchUpdateFlavor = async (name, type, image_url, description) => {
+  try {
+    const response = await fetch(`${API_URL}flavors/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: name,
+        type: type,
+        image_url: image_url,
+        description: description
+      })
+    });
+    const newUpdatedFlavorData = await response.json();
+    return newUpdatedFlavorData;
+  } catch (e) {
+    console.error(e)
+  }
+};
+
+
+export const fetchdeleteFlavor = async (name, type, image_url, description) => {
+  try {
+    const response = await fetch(`${API_URL}flavors/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const deletedFlavor = await response.json();
+    return deletedFlavor;
+  } catch (e) {
+    console.error(e)
+  }
+};
+
+
+
+// FAVORITES
