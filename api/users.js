@@ -31,8 +31,10 @@ should do the following:
 
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { name, username, password, address } = req.body;
     const queriedUser = await getUserByUsername(username);
+
+    console.log(queriedUser);
 
     if (queriedUser) {
       res.status(401);
@@ -51,10 +53,11 @@ usersRouter.post("/register", async (req, res, next) => {
       return;
 
     } else {
-      const user = await createUser({
-        username,
-        password,
-      });
+      console.log("DEBUG: about to run createUser");
+      const user = await createUser(
+        name, username, password, address, false
+      );
+      console.log("DEBUG:  logging created user object ", user);
       if (!user) {
         next({
           name: "UserCreationError",
