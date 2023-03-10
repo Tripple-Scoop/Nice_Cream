@@ -30,7 +30,7 @@ export const login = async (username, password) => {
 
 //export function loginUser that logs user into fitness trackr and returns a token
 
-export const register = async (username, password) => {
+export const register = async (name, username, password, address) => {
   const result = await fetch(`${API_URL}users/register`,
     {
       method: "POST",
@@ -38,8 +38,11 @@ export const register = async (username, password) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        name: name,
         username: username,
-        password: password
+        password: password,
+        address: address,
+        admin: false
       })
     })
   const json = await result.json();

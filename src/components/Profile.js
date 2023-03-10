@@ -10,8 +10,10 @@ const Profile = ({ user, token }) => {
   const navigate = useNavigate();
 
   return (
-    <div> My Profile!</div>
-  );
+   <div>
+    {user ? <div>You are currently signed in as: {user.username}</div> : <div></div>}
+   </div> 
+  )
 };
 
 
