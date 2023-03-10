@@ -34,7 +34,7 @@ async function updateQuantity(id, newQuant) {
         console.error(`Error updating quantity ${id}!`, error);
     }
 }
-
+//tahj
 //getItemById(cart_item_id)- return cart_item based on it's id
 async function getItemById(id) {
     try {
