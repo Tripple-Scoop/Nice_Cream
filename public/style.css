@@ -30,6 +30,7 @@ border-radius: 20px;
 #header_logo {
   height: 150px;
   display: flex;
+  margin-left: 10px;
 }
 
 .register-container {
@@ -43,6 +44,7 @@ border-radius: 20px;
   color:white;
   border-radius: 10px;
   height: 40px;
+  margin: 20px;
 }
 
 @media (hover:hover) {
@@ -51,4 +53,16 @@ border-radius: 20px;
     background-color: #5CA49C;
     border-radius: 20px;
   }
+}
+
+#create-account{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+#create-account > input {
+  margin-bottom: 20px;
+  height: 30px;
+  font-size: larger;
 }
