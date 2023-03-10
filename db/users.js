@@ -24,7 +24,7 @@ async function createUser({ name, username, password, address, admin = false }) 
       ON CONFLICT (username) DO NOTHING 
       RETURNING *;
       `, [name, username, hashedPassword, address, admin]);
-    console.log("DEBUG:  after the insert statement: users:", user);
+      
     delete user.password;
     return user;
   } catch (error) {

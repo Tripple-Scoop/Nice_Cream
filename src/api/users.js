@@ -15,8 +15,7 @@ export const login = async (username, password) => {
       })
     })
   const json = await result.json();
-  console.log('json from src > api', json)
-  // json.success === true ? document.getElementById('registerPopUpDiv').innerHTML = json.message : document.getElementById('registerPopUpDiv').innerHTML = json.message;
+  // console.log('json from src > api', json)
 
   if (json.error) {
     throw json.error
@@ -30,7 +29,8 @@ export const login = async (username, password) => {
 
 //export function loginUser that logs user into fitness trackr and returns a token
 
-export const register = async (name, username, password, address) => {
+export const register = async ({name, username, password, address}) => {
+  console.log(name, username, password, address);
   const result = await fetch(`${API_URL}users/register`,
     {
       method: "POST",

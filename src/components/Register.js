@@ -25,12 +25,12 @@ const Register = ({ setToken, setUser, user, token }) => {
           event.preventDefault();
           try {
             if (password === confirm) {
-              const user = await register(name, username, password, address);
+              const user = await register({name, username, password, address});
               setToken(user.token);
               setUser(user.user);
               console.log(user);
-              // setUsername('');
-              // setPassword('');
+              setUsername('');
+              setPassword('');
               if (user) {
                 navigate('/Profile');
               }

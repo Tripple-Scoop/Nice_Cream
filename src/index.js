@@ -19,18 +19,16 @@ const App = () => {
         setUser(result);
       });
     }
-    console.log(user)
-
   }, []);
 
   useEffect(() => {
-    console.log("Change in user or token!");
-  }, [user, token]);
+  }, [user]);
 
 
   const removeToken = () => {
     setToken(null);
     localStorage.removeItem("userToken");
+    setUser('');
   };
   return (
     <div>
