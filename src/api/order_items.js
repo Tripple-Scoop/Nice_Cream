@@ -14,7 +14,7 @@ export async function getAllCartItems() {
   }
 }
 // GET ADD TO CART
-export async function addItemToCart(customer_id, flavor_id, quantity) {
+export async function addOrderItemToCart(customer_id, flavor_id, quantity) {
   const sendData = {
     customer_id: customer_id,
     flavor_id: flavor_id,
