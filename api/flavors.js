@@ -25,9 +25,9 @@ flavorRouter.get('/', async (req, res) => {
 });
 
 
-flavorRouter.post('/:name', async (req, res) => {
+flavorRouter.post('/:name', async (req, res, next) => {
     try {
-        const { name, type, image_url, description } = req.body;
+        const { name, type, image_url, description, price } = req.body;
         console.log(req.body)
 
         const existingFlavor = await getFlavorByName(name);
@@ -36,7 +36,7 @@ flavorRouter.post('/:name', async (req, res) => {
             throw new Error(`The Flavor ${name} already exists!!`);
         }
 
-        const createdFlavor = await createFlavor({ name, type, image_url, description });
+        const createdFlavor = await createFlavor({ name, type, image_url, description, price });
         console.log(createdFlavor)
         res.send(createdFlavor);
     } catch (error) {
@@ -46,7 +46,7 @@ flavorRouter.post('/:name', async (req, res) => {
 
 flavorRouter.patch("/:id", async (req, res, next) => {
     try {
-        const { name, type, image_url, description } = req.body;
+        const { name, type, image_url, description, price } = req.body;
         const flavorId = req.params.id;
         const existingFlavor = await getFlavorById(flavorId);
 
@@ -61,10 +61,12 @@ flavorRouter.patch("/:id", async (req, res, next) => {
         }
 
         const updatedFlavor = await updateFlavor({
+            id: flavorId,
             name,
             type,
             image_url,
             description,
+            price
         });
 
         res.send(updatedFlavor);
