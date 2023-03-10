@@ -23,7 +23,6 @@ const App = () => {
 
   useEffect(() => {
     console.log(user);  
-
   }, [user]);
 
 
