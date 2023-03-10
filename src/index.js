@@ -10,7 +10,7 @@ const App = () => {
   const [token, setToken] = useState('');
   const [user, setUser] = useState('');
   const navigate = useNavigate();
-  console.log(user);
+  
 
   useEffect(() => {
     if (localStorage.getItem("myToken")) {
@@ -22,6 +22,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log(user);  
+
   }, [user]);
 
 
