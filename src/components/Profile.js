@@ -14,8 +14,12 @@ const Profile = ({ user, token }) => {
           <h1>You must be logged in to access your profile page.</h1>
     }
 
-    <div className="profile-section" id="user_reviews">My Reviews:</div>
+    {/* <div className="profile-section" id="user_reviews">My Reviews:</div> */}
     <div className="profile-section" id="order_history">Order History: </div>
+
+
+
+    
     {/* <div className="profile-section" id="order_history">Order History:</div> */}
     
     

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Link, Route, useNavigate, } from "react-router-dom";
+import { BrowserRouter, Routes, Link, Route, useNavigate, Navigate} from "react-router-dom";
 import { Home, Login, Checkout, Register, My_Cart, Profile, Products} from "./components";
 import { fetchUser } from "./api/users";
 import logo from './assets/images/Full_Logo_Transparent.png'
 
 const App = () => {
   //Login State
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState('');
   const navigate = useNavigate();
   
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     console.log(user);  
-  }, [user]);
+  }, [user, token]);
 
 
   const removeToken = () => {
@@ -78,9 +78,11 @@ const App = () => {
               path="/Register"
               element={<Register setToken={setToken} setUser={setUser} user={user} token={token} />}
             />
+            {}
             <Route
               path="/Profile"
-              element={<Profile user={user} token={token} />}
+              element={user.name ? <Profile user={user} token={token} /> : 
+            <Navigate to="/Home" />}
             />
             <Route
               path="/My_Cart"
