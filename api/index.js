@@ -7,33 +7,33 @@ const { JWT_SECRET } = process.env;
 
 // 'test push'
 
-// router.use(async (req, res, next) => {
-//   const prefix = 'Bearer ';
-//   const auth = req.header('Authorization');
-//   // console.log('middleware called');
-//   if (!auth) { // nothing to see here
-//     next();
-//   } else if (auth.startsWith(prefix)) {
-//     const token = auth.slice(prefix.length);
-//     // console.log(token);
-//     try {
-//       const { id } = jwt.verify(token, JWT_SECRET);
-//       // console.log(id);
-//       if (id) {
-//         req.user = await getUserById(id);
-//         // console.log(req.user);
-//         next();
-//       }
-//     } catch ({ name, message }) {
-//       next({ name, message });
-//     }
-//   } else {
-//     next({
-//       name: 'AuthorizationHeaderError',
-//       message: `Authorization token must start with ${prefix}`
-//     });
-//   }
-// });
+router.use(async (req, res, next) => {
+  const prefix = 'Bearer ';
+  const auth = req.header('Authorization');
+  // console.log('middleware called');
+  if (!auth) { // nothing to see here
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
+    // console.log(token);
+    try {
+      const { id } = jwt.verify(token, JWT_SECRET);
+      // console.log(id);
+      if (id) {
+        req.user = await getUserById(id);
+        // console.log(req.user);
+        next();
+      }
+    } catch ({ name, message }) {
+      next({ name, message });
+    }
+  } else {
+    next({
+      name: 'AuthorizationHeaderError',
+      message: `Authorization token must start with ${prefix}`
+    });
+  }
+});
 
 
 router.use((req, res, next) => {
