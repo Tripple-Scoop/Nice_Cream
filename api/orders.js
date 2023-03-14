@@ -7,7 +7,7 @@ const {
   getOrderById,
   submitOrder,
   getOrdersByCustomer,
-} = require("../db");
+} = require("../db/orders");
 const { requireUser } = require("./utils");
 
 //GET all orders
@@ -44,10 +44,11 @@ orderRouter.patch("/:id", async (req, res, next) => {
     const orderId = req.params.id;
     const { fulfilled } = req.body;
     const order = await getOrderById(orderId);
+    
     if (!order) {
       return res.status(404).send(`Order with ID ${orderId} not found.`);
     }
-    const updatedOrder = await submitOrder(orderId);
+    const updatedOrder = await submitOrder(orderId, fulfilled);
     res.send(updatedOrder);
   } catch (error) {
     next(error);

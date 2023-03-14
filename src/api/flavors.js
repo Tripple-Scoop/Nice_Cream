@@ -8,10 +8,10 @@ export const fetchAllFlavors = async () => {
       }
     });
 
-    const flavorData = await res.json();
-    return flavorData
+    const flavorsData = await res.json();
+    return flavorsData
 
-    // console.log(flavorData)
+    // console.log(flavorsData)
   } catch (e) {
     console.error(e)
   }

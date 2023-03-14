@@ -19,6 +19,7 @@ flavorRouter.get('/', async (req, res) => {
     try {
         const flavors = await getAllFlavors();
         res.send(flavors);
+        console.log(flavors)
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred while getting all flavors');
