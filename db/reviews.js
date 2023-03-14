@@ -84,11 +84,8 @@ async function getReviewsByUser({ userId }) {
   try {
     const { rows } = await client.query(
       `
-        SELECT * , reviews.id
-        FROM reviews 
-        INNER JOIN users
-        ON users.id = reviews.author_id"
-         WHERE users.id = $1
+        SELECT * FROM reviews
+        WHERE author_id = $1
         ;
       `,
       [userId]

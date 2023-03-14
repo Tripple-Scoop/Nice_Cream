@@ -13,7 +13,7 @@ export const login = async (username, password) => {
     }),
   });
   const json = await result.json();
-  console.log("json from src > api", json);
+  // console.log("json from src > api", json);
   // json.success === true ? document.getElementById('registerPopUpDiv').innerHTML = json.message : document.getElementById('registerPopUpDiv').innerHTML = json.message;
 
   if (json.error) {
@@ -51,7 +51,7 @@ export const register = async (name, username, password, address) => {
   }
 
   localStorage.setItem("userToken", json.token);
-  console.log(json);
+  // console.log(json);
   return json;
 };
 
@@ -76,32 +76,20 @@ export const fetchUser = async () => {
 
 // }
 
-export const fetchUserReviews = async (userId) => {
-  try {
-    const allReviews = await fetch(`${API_URL}/reviews`, {
+export const fetchUserReviews = async (username) => {
+  
+    const result = await fetch(`${API_URL}users/${username}/reviews`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
       },
-      body: JSON.stringify({
-        user: {
-          username,
-          password,
-        },
-      }),
     });
-    const json = await response.json();
 
-    if (json.success === false) {
-      throw json.error.message;
-    }
-    console.log("allReviews:", allReviews);
-    const userReviews = allReviews.filter(
-      (review) => review.customer_id === userId
-    );
-    console.log("userReviews", userReviews);
-    return userReviews;
-  } catch (error) {
-    console.error(error);
+    const json = result.json;
+    console.log(json);
+  if(json.error) {
+    throw json.error(error);
   }
+   return json;
 };

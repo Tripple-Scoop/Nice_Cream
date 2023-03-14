@@ -10,6 +10,7 @@ const {
   getUserByUsername,
   getOrdersByCustomer,
   getItemsByOrderId,
+  getAllOrders,
   updateUser,
   addAdminPerms,
   removeAdminPerms,
@@ -183,15 +184,23 @@ EXAMPLE:
 */
 
 usersRouter.get('/:username/orders', requireUser, async (req, res, next) => {
-  const { username } = req.params;
-  const user = getUserByUsername(username);
-  const userOrders = getOrdersByCustomer(user.id);
+
   try {
+  const { username } = req.params;
+  const user = await getUserByUsername(username);
+  // console.log(`User from users.js: ${user}`);
+  const userOrders = await getOrdersByCustomer(user.id);
+  // console.log(userOrders);
+  let result = [... userOrders];  
     //map through user orders and attach order_items to the matching order number
-    userOrders.map(order => {
-      order.order_items = getItemsByOrderId(order.id);
+    result.map(async (order) => {
+      const orderItems = await getItemsByOrderId(order.id);
+      order.items = orderItems;
+      result.push(order);
+      console.log('order logged: ',order);
     })
-    res.send(userOrders);
+    console.log('result:', result);
+    res.send(result);
   } catch (error) {
     console.error(error);
     next(error);
@@ -225,17 +234,25 @@ EXAMPLE:
 */
 
 usersRouter.get('/:username/reviews', requireUser, async (req, res, next) => {
-  const { username } = req.params;
-  const user = getUserByUsername(username);
-  const userReviews = getReviewsByUser(user.id);
   try {
-    //map through user orders and attach order_items to the matching order number
-    userReviews.reviews = userReviews;
-    res.send(userReviews);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
+    const { username } = req.params;
+    const user = await getUserByUsername(username);
+    // console.log(`User from users.js: ${user}`);
+    const userReviews = await getReviewsByUser({userId: user.id});
+    console.log(userReviews);
+    let result;  
+      //map through user orders and attach order_items to the matching order number
+      // userOrders.map(async (order) => {
+      //   const orderItems = await getItemsByOrderId(order.id);
+      //   order.items = orderItems;
+      //   console.log(order);
+      // })
+     
+      res.send(userReviews);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
 })
 
 

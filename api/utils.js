@@ -3,8 +3,8 @@ function requireUser(req, res, next) {
     if (!req.user) {
       res.status(403);
       next({
-        name: "",
-        message: "",
+        name: "AuthorizationError:",
+        message: "You must be a logged in user.",
       });
     } else {
       next();
@@ -20,8 +20,8 @@ function requireAdmin(req, res, next) {
     if (!req.user.admin) {
       res.status(403);
       next({
-        name: "",
-        message: "",
+        name: "AuthorizationError:",
+        message: "You must be logged in as an administrator.",
       });
     } else {
       next();
