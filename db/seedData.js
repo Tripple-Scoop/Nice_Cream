@@ -78,7 +78,7 @@ async function createTables() {
       flavor_id INTEGER REFERENCES flavors(id),
       order_id INTEGER REFERENCES orders(id),
       quantity INTEGER NOT NULL,
-      UNIQUE ("customer_id", "flavor_id", "order_id")
+      UNIQUE ("flavor_id", "order_id")
     );`);
 
     console.log("Finished building tables!");
@@ -144,14 +144,14 @@ async function createInitialFlavors() {
         type: "The Good Stuff",
         image_url: "https://lmld.org/wp-content/uploads/2012/07/Chocolate-Ice-Cream-3.jpg",
         description: "Rich and creamy chocolate flavor.",
-        price: 3,
+        price: 4,
       },
       {
         name: "Vanilla",
         type: "The Good Stuff",
         image_url: "https://icecreamfromscratch.com/wp-content/uploads/2022/04/Vanilla-Bean-Ice-Cream-1.2-735x1103.jpg",
         description: "Smooth and classic vanilla flavor.",
-        price: 3,
+        price: 4,
       },
       {
         name: "Strawberry",
@@ -172,14 +172,14 @@ async function createInitialFlavors() {
         type: "The Good Stuff",
         image_url: "https://www.biggerbolderbaking.com/wp-content/uploads/2016/05/IMG_0175.jpg",
         description: "This flavor has a cult following! Vanilla ice cream with carmel drizzle and carmel popcorn bits in every bite!",
-        price: 2,
+        price: 6,
       },
       {
         name: "Cookies & Cream",
         type: "The Good Stuff",
         image_url: "https://www.tablefortwoblog.com/wp-content/uploads/2013/09/cookies-and-cream-ice-cream-tablefortwoblog-3.jpg.webp",
         description: "Crispy, crunchy, and creamy! Delicious cream-filled chocolate sandwich cookies smashed into each spoonful.",
-        price: 2,
+        price: 4,
       },
     ];
     const flavors = await Promise.all(flavorsToCreate.map(createFlavor));
@@ -292,15 +292,21 @@ async function createInitialOrderItems() {
     const itemsToCreate = [
       {
         customer_id: 2,
+        flavor_id: 1,
+        order_id: 1,
+        quantity: 5,
+      },
+      {
+        customer_id: 2,
         flavor_id: 2,
         order_id: 1,
         quantity: 2,
       },
       {
-        customer_id: 3,
-        flavor_id: 2,
+        customer_id: 2,
+        flavor_id: 1,
         order_id: 2,
-        quantity: 5,
+        quantity: 1,
       },
       {
         customer_id: 4,
@@ -314,6 +320,7 @@ async function createInitialOrderItems() {
         order_id: 4,
         quantity: 6,
       },
+ 
     ];
     const items = await Promise.all(itemsToCreate.map(addToCart));
     console.log("Items Created:");
