@@ -1,69 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../api/users";
+import { fetchAllFlavors } from "../api/flavors";
 
 
-
-const Login = ({ setToken, setUser }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const Products = () => {
+  const [flavors, setFlavors] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchedAllFlavors = () => {
+      fetchAllFlavors()
+        .then((result) => {
+          setFlavors(result)
+          console.log(result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+    fetchedAllFlavors()
+  }, []);
+
   return (
-    <div className="register-container">
-      <div className="title">
-        <h1>Flavors Galore</h1>
+    <div className="products-container">
+      <div className="flavorTitle">
+        <h1>Our Flavors</h1>
       </div>
       <form
         id="create-account"
         onSubmit={async (event) => {
           event.preventDefault();
-
-          try {
-            const user = await login(username, password);
-            setToken(user.token);
-            setUser(user.user);
-            // localStorage.setItem('myToken', );
-            console.log(user);
-            history.push("/");
-          } catch (error) {
-            console.error("Having trouble logging in:", error);
-          }
         }}
       >
-        <label htmlFor="username">Create a unique username here:</label>
-        <input
-          type="text"
-          placeholder="ex. username"
-          id="create-username"
-          value={username}
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
-        ></input>
-
-        <label htmlFor="create-password">
-          Set a password for your new account:
-        </label>
-        <input
-          type="password"
-          placeholder="ex. password321"
-          id="create-password"
-          value={password}
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        ></input>
-
-        <input type="submit" value="Log In"></input>
-        <Link to="/Register">
-          New to Fitness Trackr? Click here to register!
-        </Link>
-
+        <div className="flavorBody">
+          {flavors.map((flavor) => {
+            return (
+              <div className="flavor_name" key={flavor.name}>
+                <h2 className="flavor_type">Type: {flavor.type}</h2>
+                <h2 className="flavor_image">Title: {flavor.image_url}</h2>
+                <h3 className="flavor_Description"> Description: {flavor.description}</h3>
+                <h3 className="flavor_Price"> Price: ${flavor.price}</h3>
+              </div>
+            );
+          })}
+        </div>
         <div id="loginPopUpDiv"></div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Products;
