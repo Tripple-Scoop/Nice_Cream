@@ -35,11 +35,13 @@ const Products = () => {
         <div className="flavorBody">
           {flavors.map((flavor) => {
             return (
-              <div className="flavor_name" key={flavor.name}>
-                <h2 className="flavor_type">Type: {flavor.type}</h2>
-                <h2 className="flavor_image">Title: {flavor.image_url}</h2>
-                <h3 className="flavor_Description"> Description: {flavor.description}</h3>
-                <h3 className="flavor_Price"> Price: ${flavor.price}</h3>
+              <div className="flavor_info">
+                <div className="flavor_name">{flavor.name}</div>
+                <div className="flavor_type">{flavor.type}</div>
+                <div> <img className="flavor_image" src={flavor.image_url} /></div>
+                <div className="flavor_Description"> Description:{flavor.description}</div>
+                <div className="flavor_Price"> Price: ${flavor.price}</div>
+                <button className="createButton" onClick={() => addFlavorToCart(flavor)}>Add to Cart!</button>
               </div>
             );
           })}

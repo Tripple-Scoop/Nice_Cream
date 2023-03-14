@@ -131,7 +131,7 @@ const App = () => {
                 />
               }
             />
-            {}
+            { }
             <Route
               path="/Profile"
               element={
@@ -156,7 +156,8 @@ const App = () => {
             />
             <Route
               path="/Products"
-              element={<Products user={user} token={token} />}
+              element={<Products user={user} token={token}
+                addFlavorToCart={addFlavorToCart} />}
             />
             <Route
               path="/Checkout"

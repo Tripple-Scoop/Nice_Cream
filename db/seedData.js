@@ -142,7 +142,7 @@ async function createInitialFlavors() {
       {
         name: "Chocolate",
         type: "Ice Cream",
-        image_url: "https://example.com/chocolate.jpg",
+        image_url: "https://lmld.org/wp-content/uploads/2012/07/Chocolate-Ice-Cream-3.jpg",
         description: "Rich and creamy chocolate flavor.",
         price: 3,
       },
