@@ -10,6 +10,7 @@ const {
   getUserByUsername,
   getOrdersByCustomer,
   getItemsByOrderId,
+  getFlavorById,
   getAllOrders,
   updateUser,
   addAdminPerms,
@@ -190,16 +191,19 @@ usersRouter.get('/:username/orders', requireUser, async (req, res, next) => {
   const user = await getUserByUsername(username);
   // console.log(`User from users.js: ${user}`);
   const userOrders = await getOrdersByCustomer(user.id);
-  // console.log(userOrders);
-  let result = [... userOrders];  
+  console.log('user orders: ', userOrders);
+  
+  let result = [];  
     //map through user orders and attach order_items to the matching order number
-    result.map(async (order) => {
+    for(let i = 0; i < userOrders.length; i++){
+      const order = userOrders[i];
       const orderItems = await getItemsByOrderId(order.id);
       order.items = orderItems;
-      result.push(order);
       console.log('order logged: ',order);
-    })
-    console.log('result:', result);
+      result.push(order);
+    }
+
+    console.log('final result', result);
     res.send(result);
   } catch (error) {
     console.error(error);
@@ -239,16 +243,26 @@ usersRouter.get('/:username/reviews', requireUser, async (req, res, next) => {
     const user = await getUserByUsername(username);
     // console.log(`User from users.js: ${user}`);
     const userReviews = await getReviewsByUser({userId: user.id});
-    console.log(userReviews);
-    let result;  
-      //map through user orders and attach order_items to the matching order number
-      // userOrders.map(async (order) => {
-      //   const orderItems = await getItemsByOrderId(order.id);
-      //   order.items = orderItems;
-      //   console.log(order);
-      // })
-     
-      res.send(userReviews);
+    console.log('user reviews: ', userReviews);
+    
+    let result = {
+      user_id: user.id,
+      name: user.name,
+      username: user.username,
+      reviews: userReviews, 
+    };  
+      // //map through user orders and attach order_items to the matching order number
+      for(let i = 0; i < result.reviews.length; i++){
+        const review = userReviews[i];
+        const flavor = await getFlavorById(review.flavor_id);
+        review.flavor_info = flavor;
+        // console.log('review logged: ',review);
+        // result.push(order);
+      }
+      
+      // 
+    // console.log({result});
+      res.send(result);
     } catch (error) {
       console.error(error);
       next(error);

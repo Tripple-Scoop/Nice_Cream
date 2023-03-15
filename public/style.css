@@ -55,6 +55,12 @@ border-radius: 20px;
   }
 }
 
+
+
+#profile_welcome{
+  font-style: oblique;
+}
+
 #create-account{
   display: flex;
   flex-direction: column;
@@ -79,6 +85,7 @@ border-radius: 20px;
   padding-top: 2vh;
   justify-content: center;
   background-color: #f3f3f3;
+ 
 }
 
 .flavor_info{
@@ -112,4 +119,12 @@ border-radius: 20px;
 .flavor_image{
   height: 40vh;
   border-radius: 20px;
+}
+
+#reviews_container{
+  display:flex;
+ 
+  flex-direction: row;
+  border-radius: 20px;
+  background-color: #DC6A69;
 }

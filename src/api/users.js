@@ -86,10 +86,12 @@ export const fetchUserReviews = async (username) => {
       },
     });
 
-    const json = result.json;
-    console.log(json);
-  if(json.error) {
-    throw json.error(error);
-  }
+    const json = await result.json();
+    console.log(json)
+      
+    if (json.error) {
+      throw json.error;
+    }
    return json;
 };
+
