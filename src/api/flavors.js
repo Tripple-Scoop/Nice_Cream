@@ -17,7 +17,22 @@ export const fetchAllFlavors = async () => {
   }
 };
 
+export const fetchFlavorById = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}flavors/${id.toString()}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    const flavorIdData = await res.json();
+    console.log("FlavorIdData", flavorIdData)
+    return flavorIdData;
+
+  } catch (e) {
+    console.error(e)
+  }
+};
 
 export const fetchCreateFlavor = async (name, type, image_url, description, price) => {
   try {

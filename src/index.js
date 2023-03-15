@@ -17,6 +17,7 @@ import {
   My_Cart,
   Profile,
   Products,
+  SingleProduct,
 } from "./components";
 import { fetchUser } from "./api/users";
 import logo from "./assets/images/Full_Logo_Transparent.png";
@@ -157,6 +158,10 @@ const App = () => {
             <Route
               path="/Products"
               element={<Products user={user} token={token}
+                addFlavorToCart={addFlavorToCart} />}
+            />
+            <Route
+              path="/flavors/:id" element={<SingleProduct user={user}
                 addFlavorToCart={addFlavorToCart} />}
             />
             <Route
