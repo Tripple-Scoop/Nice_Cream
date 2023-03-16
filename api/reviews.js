@@ -22,6 +22,16 @@ reviewRouter.get('/', async (req, res) => {
     }
 });
 
+reviewRouter.get('/:flavor_id', async (req, res) => {
+    try {
+        const reviews = await getReviewsByFlavorId(req.params.flavor_id);
+        res.send(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while getting all Reviews');
+    }
+});
+
 reviewRouter.post('/:id', requireUser, async (req, res) => {
     try {
         const { author_id, flavor_id, title, content } = req.body;

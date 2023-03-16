@@ -101,25 +101,24 @@ async function getReviewsByUser({ userId }) {
 
 //getReviewsByFlavor(flavorId)- return array of reviews for a specific flavor
 
-async function getReviewsByFlavor({ flavorId }) {
+async function getReviewsByFlavorId(flavor_id) {
   try {
     const { rows } = await client.query(
       `
-        SELECT * , reviews.id
+        SELECT *, reviews.id
         FROM reviews 
-        INNER JOIN users
-        ON users.id = reviews.author_id
-        ;
-      `
+        INNER JOIN users ON users.id = reviews.author_id
+        WHERE flavor_id = $1;
+      `, [flavor_id]
     );
-    for (let item of rows) {
-      const flavors = await client.query(`
-        SELECT * FROM flavors
-        INNER JOIN reviews
-        ON  flavors.id = reviews.id 
-          `);/*Not sure if this is properly linked/*/
+    
+    const flavors = await client.query(`
+      SELECT *
+      FROM flavors
+      INNER JOIN reviews ON flavors.id = reviews.flavor_id
+      WHERE flavors.id = $1;
+    `, [flavor_id]);
 
-    }
     return rows;
   } catch (error) {
     throw error;
@@ -146,7 +145,7 @@ async function deleteReview(reviewId) {
 
 module.exports = {
   getAllReviews,
-  getReviewsByFlavor,
+  getReviewsByFlavorId,
   getReviewsByUser,
   createReview,
   updateReview,

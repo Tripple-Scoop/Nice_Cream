@@ -8,34 +8,47 @@ export const fetchAllReviews = async () => {
             }
         });
 
-        const reviewData = await res.json();
-        return reviewData
+        const reviewsData = await res.json();
+        return reviewsData
 
-        // console.log(reviewData)
+        // console.log(flavorsData)
     } catch (e) {
         console.error(e)
     }
 };
 
-
-
-export const fetchCreateReview = async (author_id, flavor_id, title, content) => {
+export const fetchReviewsByFlavorId = async (flavor_id) => {
     try {
-        const response = await fetch(`${API_URL}reviews/${id}`, {
+        const res = await fetch(`${API_URL}reviews/${flavor_id}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const reviewIdData = await res.json();
+        console.log("ReviewIdData", reviewIdData)
+        return reviewIdData;
+
+    } catch (e) {
+        console.error(e)
+    }
+};
+
+export const fetchCreateReview = async (flavor_id, title, content) => {
+    try {
+        const response = await fetch(`${API_URL}reviews/${flavor_id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                author_id: author_id,
-                flavor_id: flavor_id,
                 title: title,
                 content: content
             })
         });
-        const newReviewData = await response.json();
-        return newReviewData;
+        const newFlavorData = await response.json();
+        return newFlavorData;
     } catch (e) {
         console.error(e)
     }
@@ -50,7 +63,7 @@ export const fetchUpdateReview = async (title, content) => {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                title: title,
+                title: title, 
                 content: content
             })
         });
@@ -64,15 +77,15 @@ export const fetchUpdateReview = async (title, content) => {
 
 export const fetchDeleteReview = async () => {
     try {
-        const response = await fetch(`${API_URL}reviews/${id}`, {
+        const response = await fetch(`${API_URL}flavors/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${token}`
             }
         });
-        const deletedFlavor = await response.json();
-        return deletedFlavor;
+        const deletedReview = await response.json();
+        return deletedReview;
     } catch (e) {
         console.error(e)
     }
