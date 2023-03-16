@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchFlavorById } from "../api/flavors";
 
 
-const SingleProduct = ({ user, id }) => {
+const SingleProduct = ({ user}) => {
   const [singleFlavor, setSingleFlavor] = useState({});
   const navigate = useNavigate();
+  let { id } = useParams();
 
   useEffect(() => {
     const fetchedFlavorById = async () => {
       try {
-        const result = await fetchFlavorById({ id });
+        const result = await fetchFlavorById(id);
         setSingleFlavor(result);
         console.log(result);
       } catch (error) {

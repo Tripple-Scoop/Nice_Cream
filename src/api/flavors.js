@@ -19,7 +19,7 @@ export const fetchAllFlavors = async () => {
 
 export const fetchFlavorById = async (id) => {
   try {
-    const res = await fetch(`${API_URL}flavors/${id.toString()}`, {
+    const res = await fetch(`${API_URL}flavors/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }

@@ -41,7 +41,7 @@ const Products = ({ user }) => {
                 <div>
                   <img
                     className="flavor_image"
-                    onClick={() => navigate(`/flavors/${flavor.id}`)}
+                    onClick={() => navigate(`/Products/${flavor.id}`)}
                     src={flavor.image_url}
                   />
                 </div>

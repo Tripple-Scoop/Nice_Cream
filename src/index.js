@@ -161,7 +161,7 @@ const App = () => {
                 addFlavorToCart={addFlavorToCart} />}
             />
             <Route
-              path="/flavors/:id" element={<SingleProduct user={user}
+              path="/Products/:id" element={<SingleProduct user={user}
                 addFlavorToCart={addFlavorToCart} />}
             />
             <Route
