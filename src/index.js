@@ -19,23 +19,27 @@ import {
   Products,
 } from "./components";
 import { fetchUser } from "./api/users";
+import { getAllCartItems } from "./api/order_items";
 import logo from "./assets/images/Full_Logo_Transparent.png";
 
 const App = () => {
   //Cart State TAHJ
   const [cartShown, setCartShown] = useState(false);
   const [cartFlavors, setCartFlavors] = useState([]);
-  const addFlavorToCart = () => {
-    const newFlavor = {
-      ...flavor,
-      count: 1,
-    };
-    setCartFlavors([...cartFlavors, newFlavor]);
-  };
+
   //Login State
   const [token, setToken] = useState("");
   const [user, setUser] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      const data = await getAllCartItems();
+      setCartFlavors(data);
+    };
+
+    fetchCartItems();
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("myToken")) {
@@ -131,7 +135,7 @@ const App = () => {
                 />
               }
             />
-            { }
+            {}
             <Route
               path="/Profile"
               element={
@@ -146,6 +150,7 @@ const App = () => {
               path="/My_Cart"
               element={
                 <My_Cart
+                  setCartFlavors={setCartFlavors}
                   onClose={() => setCartShown(false)}
                   user={user}
                   shown={cartShown}
@@ -156,8 +161,14 @@ const App = () => {
             />
             <Route
               path="/Products"
-              element={<Products user={user} token={token}
-                addFlavorToCart={addFlavorToCart} />}
+              element={
+                <Products
+                  setCartFlavors={setCartFlavors}
+                  cartFlavors={cartFlavors}
+                  user={user}
+                  token={token}
+                />
+              }
             />
             <Route
               path="/Checkout"

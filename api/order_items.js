@@ -11,7 +11,6 @@ const {
 } = require("../db/order_items"); // import your functions from order_items.js
 const { requireUser } = require("./utils");
 
-
 // GET all cart items
 orderItemsRouter.get("/", async (req, res) => {
   try {
@@ -32,12 +31,11 @@ orderItemsRouter.get("/:order_id", async (req, res) => {
   }
 });
 
-// POST add item to cart 
+// POST add item to cart
 orderItemsRouter.post("/", async (req, res) => {
-  const { customer_id, flavor_id, quantity } = req.body;
+  const { flavor_id, quantity } = req.body;
   try {
     const cartItem = await addToCart({
-      customer_id,
       flavor_id,
       quantity,
       order_id: null,

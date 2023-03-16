@@ -49,7 +49,7 @@ async function getOrdersByCustomer(customer_id) {
     const { rows: orders } = await client.query(
       `SELECT *
          FROM orders
-         WHERE customer_id = $1;
+         WHERE customer_id = $1 AND fulfilled = false;
         `,
       [customer_id]
     );
