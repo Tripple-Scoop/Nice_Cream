@@ -6,7 +6,7 @@ import { fetchUserReviews } from "../api/users";
 
 //NATOSHIA
 
-const Profile = ({ user, token }) => {
+const Profile = ({ user }) => {
   const [reviews, setReviews] = useState(null);
   const {username} = user;
   console.log(reviews);
