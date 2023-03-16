@@ -10,6 +10,7 @@ const {
   getUserByUsername,
   getOrdersByCustomer,
   getItemsByOrderId,
+  getAllOrders,
   updateUser,
   addAdminPerms,
   removeAdminPerms,
@@ -30,51 +31,56 @@ should do the following:
 */
 
 usersRouter.post("/register", async (req, res, next) => {
-  try {
+  
     const { name, username, password, address } = req.body;
     const queriedUser = await getUserByUsername(username);
 
-    console.log(queriedUser);
+    // console.log('The username:', username)
+    // console.log('The password:', password)
 
-    if (queriedUser) {
-      res.status(401);
-      next({
-        name: "Error",
-        message: `User ${username} is already taken.`,
-      });
-      return;
+    try {
+        const _user = await getUserByUsername(username);
 
-    } else if (password.length < 8) {
-      res.status(401);
-      next({
-        name: "PasswordLengthError",
-        message: "Password Too Short!",
-      });
-      return;
+        // console.log('_user:', _user)
 
-    } else {
-      console.log("DEBUG: about to run createUser");
-      const user = await createUser(
-        name, username, password, address, false
-      );
-      console.log("DEBUG:  logging created user object ", user);
-      if (!user) {
-        next({
-          name: "UserCreationError",
-          message: "There was a problem registering you. Please try again.",
+        if (_user) {
+            // console.log('user already exists!')
+            next({
+                error: 'Error',
+                name: 'UserExistsError',
+                message: `The username ${username} is already taken.`
+            });
+        }
+        else if (password.length < 8) {
+            // console.log('password is to short!')
+            next ({
+                error: 'PasswwordLengthError',
+                message: 'You password must be eight characters or longer',
+                name: 'PasswordLengthError'
+            });
+        }
+
+        const user = await createUser({ name,  username, password, address });
+        // console.log("this is the user", user)
+
+        const token = jwt.sign({
+            id: user.id,
+            username: username,
+            password: password
+        }, process.env.JWT_SECRET, {
+            expiresIn: '1w'
         });
-      } else {
-        const token = jwt.sign(
-          { id: user.id, username: user.username },
-          JWT_SECRET,
-          { expiresIn: "1w" }
-        );
-        res.send({ user, message: "you're signed up!", token });
-      }
+
+        // console.log('this is the token:', token)
+
+        res.send({
+            message: "Thank you for signing up!",
+            token: token,
+            user: user
+        });
+    } catch(error){
+        next(error);
     }
-  } catch (error) {
-    next(error);
-  }
 });
 
 
@@ -178,15 +184,23 @@ EXAMPLE:
 */
 
 usersRouter.get('/:username/orders', requireUser, async (req, res, next) => {
-  const { username } = req.params;
-  const user = getUserByUsername(username);
-  const userOrders = getOrdersByCustomer(user.id);
+
   try {
+  const { username } = req.params;
+  const user = await getUserByUsername(username);
+  // console.log(`User from users.js: ${user}`);
+  const userOrders = await getOrdersByCustomer(user.id);
+  // console.log(userOrders);
+  let result = [... userOrders];  
     //map through user orders and attach order_items to the matching order number
-    userOrders.map(order => {
-      order.order_items = getItemsByOrderId(order.id);
+    result.map(async (order) => {
+      const orderItems = await getItemsByOrderId(order.id);
+      order.items = orderItems;
+      result.push(order);
+      console.log('order logged: ',order);
     })
-    res.send(userOrders);
+    console.log('result:', result);
+    res.send(result);
   } catch (error) {
     console.error(error);
     next(error);
@@ -220,17 +234,25 @@ EXAMPLE:
 */
 
 usersRouter.get('/:username/reviews', requireUser, async (req, res, next) => {
-  const { username } = req.params;
-  const user = getUserByUsername(username);
-  const userReviews = getReviewsByUser(user.id);
   try {
-    //map through user orders and attach order_items to the matching order number
-    userReviews.reviews = userReviews;
-    res.send(userReviews);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
+    const { username } = req.params;
+    const user = await getUserByUsername(username);
+    // console.log(`User from users.js: ${user}`);
+    const userReviews = await getReviewsByUser({userId: user.id});
+    console.log(userReviews);
+    let result;  
+      //map through user orders and attach order_items to the matching order number
+      // userOrders.map(async (order) => {
+      //   const orderItems = await getItemsByOrderId(order.id);
+      //   order.items = orderItems;
+      //   console.log(order);
+      // })
+     
+      res.send(userReviews);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
 })
 
 

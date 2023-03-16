@@ -8,18 +8,33 @@ export const fetchAllFlavors = async () => {
       }
     });
 
-    const flavorData = await res.json();
-    return flavorData
+    const flavorsData = await res.json();
+    return flavorsData
 
-    // console.log(flavorData)
+    // console.log(flavorsData)
   } catch (e) {
     console.error(e)
   }
 };
 
+export const fetchFlavorById = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}flavors/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    const flavorIdData = await res.json();
+    console.log("FlavorIdData", flavorIdData)
+    return flavorIdData;
 
-export const fetchCreateFlavor = async (name, type, image_url, description) => {
+  } catch (e) {
+    console.error(e)
+  }
+};
+
+export const fetchCreateFlavor = async (name, type, image_url, description, price) => {
   try {
     const response = await fetch(`${API_URL}flavors/${name}`, {
       method: "POST",
@@ -31,7 +46,8 @@ export const fetchCreateFlavor = async (name, type, image_url, description) => {
         name: name,
         type: type,
         image_url: image_url,
-        description: description
+        description: description,
+        price: price
       })
     });
     const newFlavorData = await response.json();
@@ -41,7 +57,7 @@ export const fetchCreateFlavor = async (name, type, image_url, description) => {
   }
 };
 
-export const fetchUpdateFlavor = async (name, type, image_url, description) => {
+export const fetchUpdateFlavor = async (name, type, image_url, description, price, id) => {
   try {
     const response = await fetch(`${API_URL}flavors/${id}`, {
       method: "PATCH",
@@ -53,7 +69,8 @@ export const fetchUpdateFlavor = async (name, type, image_url, description) => {
         name: name,
         type: type,
         image_url: image_url,
-        description: description
+        description: description,
+        price: price
       })
     });
     const newUpdatedFlavorData = await response.json();

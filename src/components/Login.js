@@ -23,7 +23,7 @@ const Login = ({ setToken, setUser }) => {
             const user = await login(username, password);
             setToken(user.token);
             setUser(user.user);
-            console.log(user);
+            // console.log(user);
             setUsername('');
             setPassword('');
             navigate('/Profile');

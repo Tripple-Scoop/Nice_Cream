@@ -72,15 +72,20 @@ async function getFlavorById(id) {
 
 //*** updateFlavor(id, ...fields)
 //- return upd:ated flavor
-async function updateFlavor(id, updates) {
+async function updateFlavor({ id, ...fieldsToUpdate }, fieldsToReturn = ['*']) {
   try {
+    const filteredFields = Object.keys(fieldsToUpdate).filter((key) => fieldsToUpdate[key] !== undefined);
+    const setString = filteredFields
+      .map((key, index) => `"${key}"=$${index + 1}`)
+      .join(", ");
+
     const { rows: [flavor] } = await client.query(
       `UPDATE flavors
-       SET name = $1, type = $2, image_url = $3, description = $4, price = $5
-       WHERE id = $6
-       RETURNING *;
-      `,
-      [updates.name, updates.type, updates.image_url, updates.description, updates.price, id]
+     SET ${setString}
+     WHERE id = ${id}
+     RETURNING ${fieldsToReturn.join(', ')}
+    `,
+      filteredFields.map((key) => fieldsToUpdate[key])
     );
     return flavor;
   } catch (error) {

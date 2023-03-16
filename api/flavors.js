@@ -10,6 +10,7 @@ const {
     deleteFlavor
 } = require("../db");
 const { requireUser } = require("./utils");
+const { requireAdmin } = require("./utils");
 
 
 // SUNNY //
@@ -18,16 +19,27 @@ flavorRouter.get('/', async (req, res) => {
     try {
         const flavors = await getAllFlavors();
         res.send(flavors);
+        console.log(flavors)
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred while getting all flavors');
     }
 });
 
-
-flavorRouter.post('/:name', async (req, res) => {
+flavorRouter.get('/:id', async (req, res) => {
     try {
-        const { name, type, image_url, description } = req.body;
+        const flavor = await getFlavorById(req.params.id);
+        res.send(flavor);
+        console.log(flavor)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while getting the flavor');
+    }
+});
+
+flavorRouter.post('/:name', requireAdmin, async (req, res, next) => {
+    try {
+        const { name, type, image_url, description, price } = req.body;
         console.log(req.body)
 
         const existingFlavor = await getFlavorByName(name);
@@ -36,7 +48,7 @@ flavorRouter.post('/:name', async (req, res) => {
             throw new Error(`The Flavor ${name} already exists!!`);
         }
 
-        const createdFlavor = await createFlavor({ name, type, image_url, description });
+        const createdFlavor = await createFlavor({ name, type, image_url, description, price });
         console.log(createdFlavor)
         res.send(createdFlavor);
     } catch (error) {
@@ -44,9 +56,9 @@ flavorRouter.post('/:name', async (req, res) => {
     }
 });
 
-flavorRouter.patch("/:id", async (req, res, next) => {
+flavorRouter.patch("/:id", requireUser, async (req, res, next) => {
     try {
-        const { name, type, image_url, description } = req.body;
+        const { name, type, image_url, description, price } = req.body;
         const flavorId = req.params.id;
         const existingFlavor = await getFlavorById(flavorId);
 
@@ -61,10 +73,12 @@ flavorRouter.patch("/:id", async (req, res, next) => {
         }
 
         const updatedFlavor = await updateFlavor({
+            id: flavorId,
             name,
             type,
             image_url,
             description,
+            price
         });
 
         res.send(updatedFlavor);
@@ -73,14 +87,14 @@ flavorRouter.patch("/:id", async (req, res, next) => {
     }
 });
 
-flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
-    const { flavorId } = req.params.id;
+flavorRouter.delete("/:id", requireAdmin, async (req, res, next) => {
+    const flavorId = req.params.id;
     const { name, type, image_url, description } = req.body;
-
+    console.log("flavorID", flavorId)
     try {
 
-        const registeredFlavor = await getFlavorById(id);
-
+        const registeredFlavor = await getFlavorById(flavorId);
+        console.log("registeredFlav", registeredFlavor)
         if (registeredFlavor.id === flavorId) {
             await deleteFlavor(id);
             res.send(registeredFlavor);
@@ -89,7 +103,7 @@ flavorRouter.delete("/:id", requireUser, async (req, res, next) => {
             next({
                 error: "Deletetion Not Allowed",
                 name: "PostNotFoundError",
-                message: `User ${req.user.username} is not allowed to delete ${flavors.name}`,
+                message: `User ${req.user.username} is not allowed to delete ${registeredFlavor.name}`,
             });
         }
     } catch ({ name, message }) {
