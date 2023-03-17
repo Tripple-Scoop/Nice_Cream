@@ -8,6 +8,7 @@ const {
   getActiveCartItems,
   getItemsByOrderId,
   removeFromCart,
+  duplicateItems,
 } = require("../db/order_items"); // import your functions from order_items.js
 const { requireUser } = require("./utils");
 
@@ -33,19 +34,29 @@ orderItemsRouter.get("/:order_id", async (req, res) => {
 
 // POST add item to cart
 orderItemsRouter.post("/", async (req, res) => {
-  const { flavor_id, quantity } = req.body;
+  const { flavor_id, quantity, order_id, customer_id } = req.body;
   try {
     const cartItem = await addToCart({
-      flavor_id,
-      quantity,
-      order_id: null,
+      flavor_id: flavor_id,
+      quantity: quantity,
+      order_id: order_id,
+      customer_id: customer_id,
     });
+    console.log("CART ITEM", cartItem);
     res.json(cartItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
+// GET all cart items
+orderItemsRouter.get("/customer/:id", async (req, res) => {
+  try {
+    const duplicateCartItems = await duplicateItems(req.params.customer_id);
+    res.json(duplicateCartItems);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // PATCH update quantity of cart item
 orderItemsRouter.patch("/:id", async (req, res) => {
   const id = req.params.id;

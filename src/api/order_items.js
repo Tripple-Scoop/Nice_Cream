@@ -1,9 +1,10 @@
 import { API_URL } from "./url";
 
-export const addToCart = async (flavor_id, quantity, userId) => {
+export const addToCart = async ({ flavor_id, quantity, customer_id }) => {
   try {
     // Check if user has an unfulfilled order
-    const response = await fetch(`${API_URL}orders/customer/${userId}`);
+    console.log("LOG : USER ID", customer_id);
+    const response = await fetch(`${API_URL}orders/customer/${customer_id}`);
     const orders = await response.json();
     let order_id;
 
@@ -12,19 +13,24 @@ export const addToCart = async (flavor_id, quantity, userId) => {
       order_id = orders[0].id;
     } else {
       // If user does not have an unfulfilled order, create a new one
-      const orderResponse = await fetch(`${API_URL}orders/customer/:id`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customer_id: customer_id,
-          fulfilled: false,
-        }),
-      });
+      const orderResponse = await fetch(
+        `${API_URL}orders/customer/${customer_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer_id: customer_id,
+            fulfilled: false,
+          }),
+        }
+      );
+
       const orderData = await orderResponse.json();
       order_id = orderData.id;
     }
+    console.log("LOG", flavor_id, quantity, order_id, customer_id);
 
     // Create the order_item sending the orderId from the first step
     const orderItemResponse = await fetch(`${API_URL}order_items`, {
@@ -33,17 +39,17 @@ export const addToCart = async (flavor_id, quantity, userId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        flavor_id,
-        quantity,
-        order_id,
-        userId,
+        flavor_id: flavor_id,
+        quantity: quantity,
+        order_id: order_id,
+        customer_id: customer_id,
       }),
     });
     const data = await orderItemResponse.json();
 
     return data;
   } catch (error) {
-    console.error(error);
+    console.error(`Error: ${error}`);
   }
 };
 // get all cart items

@@ -60,7 +60,13 @@ const Products = ({ setCartFlavors, cartFlavors, user }) => {
                 <div id="product_options">
                   <button
                     className="create-button"
-                    onClick={() => addToCart(flavor.id, 1, user.id)}
+                    onClick={() =>
+                      addToCart({
+                        flavor_id: flavor.id,
+                        quantity: 1,
+                        customer_id: user.id,
+                      })
+                    }
                   >
                     Add to Cart!
                   </button>

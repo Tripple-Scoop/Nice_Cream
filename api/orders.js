@@ -44,7 +44,7 @@ orderRouter.patch("/:id", async (req, res, next) => {
     const orderId = req.params.id;
     const { fulfilled } = req.body;
     const order = await getOrderById(orderId);
-    
+
     if (!order) {
       return res.status(404).send(`Order with ID ${orderId} not found.`);
     }

@@ -24,8 +24,8 @@ async function createOrder({
     const {
       rows: [newOrder],
     } = await client.query(
-      `INSERT INTO orders(customer_id, date, billing_address, shipping_address, total, payment_type)
-       VALUES ($1, $2, $3, $4, $5, $6 )
+      `INSERT INTO orders(customer_id, date, billing_address, shipping_address, total, payment_type, fulfuilled)
+       VALUES ($1, $2, $3, $4, $5, $6, false)
        RETURNING *;`,
       [
         customer_id,
@@ -56,6 +56,7 @@ async function getOrdersByCustomer(customer_id) {
     return orders;
   } catch (error) {
     console.error(`Error retrieving orders with id ${customer_id}!`, error);
+    return [];
   }
 }
 
