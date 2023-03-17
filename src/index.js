@@ -50,7 +50,7 @@ const App = () => {
 
   useEffect(() => {
     console.log(user);
-  }, [user, token]);
+  }, [token]);
 
   const removeToken = () => {
     setToken(null);
