@@ -55,7 +55,10 @@ border-radius: 20px;
   }
 }
 
-
+.profile-section{
+  margin-top: 30px;
+  padding: 20px;
+}
 
 #profile_welcome{
   font-style: oblique;
@@ -123,8 +126,26 @@ border-radius: 20px;
 
 #reviews_container{
   display:flex;
- 
+
   flex-direction: row;
   border-radius: 20px;
   background-color: #DC6A69;
+}
+
+.item_image{
+  height: 30vh;
+  border-radius: 20px;
+}
+
+.users-info{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: larger;
+}
+
+.single-user-info{
+  margin: 30px;
 }

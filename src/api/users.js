@@ -1,6 +1,27 @@
 //import API_URL
 import { API_URL } from "./url";
 
+
+export const fetchAllUsers = async () => {
+  const result = await fetch(`${API_URL}users/all`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
+    },
+  })
+
+  const json = await result.json();
+  
+  if (json.error) {
+    throw json.error;
+  }
+
+  console.log(json);
+
+  return json;
+}
+
 export const login = async (username, password) => {
   const result = await fetch(`${API_URL}users/login`, {
     method: "POST",
@@ -75,6 +96,27 @@ export const fetchUser = async () => {
 // export const fetchUserOrders = async () {
 
 // }
+
+export const fetchUserOrderHistory = async (username) => {
+  
+  const result = await fetch(`${API_URL}users/${username}/orders`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  });
+
+  const json = await result.json();
+  console.log(json)
+    
+  if (json.error) {
+    throw json.error;
+  }
+ return json;
+};
+
+
 
 export const fetchUserReviews = async (username) => {
   

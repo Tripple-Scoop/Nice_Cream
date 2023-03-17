@@ -17,10 +17,22 @@ const {
   removeAdminPerms,
   getReviewsByUser,
 } = require("../db");
-const { requireUser } = require("./utils")
+const { requireUser, requireAdmin } = require("./utils")
 const SALT_COUNT = 10;
 const { JWT_SECRET } = process.env;
 
+
+//GET /users
+
+usersRouter.get('/all', requireAdmin, async (req, res, next) => {
+  try{
+    const allUsers = await getAllUsers();
+    res.send(allUsers)
+  }catch(error){
+    throw error;
+  }
+  
+})
 
 /*
 POST api/users/register
@@ -198,6 +210,11 @@ usersRouter.get('/:username/orders', requireUser, async (req, res, next) => {
     for(let i = 0; i < userOrders.length; i++){
       const order = userOrders[i];
       const orderItems = await getItemsByOrderId(order.id);
+      for(let i = 0; i < orderItems.length; i++){
+        const item = orderItems[i];
+        orderItems[i].flavor_info = await getFlavorById(item.flavor_id);
+      }
+
       order.items = orderItems;
       console.log('order logged: ',order);
       result.push(order);
