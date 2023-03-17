@@ -320,7 +320,7 @@ async function createInitialOrderItems() {
         order_id: 4,
         quantity: 6,
       },
- 
+
     ];
     const items = await Promise.all(itemsToCreate.map(addToCart));
     console.log("Items Created:");

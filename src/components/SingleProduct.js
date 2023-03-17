@@ -79,28 +79,31 @@ const SingleProduct = ({ user }) => {
               >
                 Add to Cart!
               </button>
-              {user.admin === true ? (
-                <div>You are an admin</div>
-              ) : (
-                <div>You are not an admin</div>
-              )}
+              <button
+                className="edit-button">
+                {user.admin === true ? (
+                  <div onClick={() => navigate(`/EditFlavor/${flavor.id}`)}> Edit </div>
+                ) : (
+                  <div>You are not an admin</div>
+                )}
+              </button>
             </div>
           </div>
         </div>
         <div>
-        <div id="flavor_body">
-          {reviews.map((review) => {
-            return (
-              <div className="review_info" key={review.id}>
-                <div className="review_user"><h2>{review.username}</h2></div>
-                <div className="review_title">{review.title}</div>
-                <div className="review_content">
-                  <p>Review:{review.content}</p>
+          <div id="flavor_body">
+            {reviews.map((review) => {
+              return (
+                <div className="review_info" key={review.id}>
+                  <div className="review_user"><h2>{review.username}</h2></div>
+                  <div className="review_title">{review.title}</div>
+                  <div className="review_content">
+                    <p>Review:{review.content}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
         </div>
       </form>
     </div>
