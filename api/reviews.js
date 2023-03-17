@@ -3,7 +3,7 @@ const reviewRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const {
     getAllReviews,
-    getReviewsByFlavor,
+    getReviewsByFlavorId,
     getReviewsByUser,
     createReview,
     updateReview,

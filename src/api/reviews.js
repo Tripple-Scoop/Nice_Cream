@@ -17,9 +17,9 @@ export const fetchAllReviews = async () => {
     }
 };
 
-export const fetchReviewsByFlavorId = async (flavor_id) => {
+export const fetchReviewsByFlavorId = async (id) => {
     try {
-        const res = await fetch(`${API_URL}reviews/${flavor_id}`, {
+        const res = await fetch(`${API_URL}reviews/${id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -63,7 +63,7 @@ export const fetchUpdateReview = async (title, content) => {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                title: title, 
+                title: title,
                 content: content
             })
         });

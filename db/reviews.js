@@ -106,17 +106,11 @@ async function getReviewsByFlavorId(flavor_id) {
         FROM reviews 
         INNER JOIN users ON users.id = reviews.author_id
         WHERE flavor_id = $1;
-      `, [flavor_id]
+      `,
+      [flavor_id]
     );
-    
-    const flavors = await client.query(`
-      SELECT *
-      FROM flavors
-      INNER JOIN reviews ON flavors.id = reviews.flavor_id
-      WHERE flavors.id = $1;
-    `, [flavor_id]);
 
-    return rows;
+    return rows
   } catch (error) {
     throw error;
   }

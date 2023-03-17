@@ -35,7 +35,7 @@ const Products = ({ user }) => {
         <div id="flavor_body">
           {flavors.map((flavor) => {
             return (
-              <div className="flavor_info">
+              <div className="flavor_info" key={flavor.id}>
                 <div className="flavor_name"><h2>{flavor.name}</h2></div>
                 <div className="flavor_type">{flavor.type}</div>
                 <div>

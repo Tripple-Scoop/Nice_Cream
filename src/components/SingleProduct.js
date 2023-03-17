@@ -6,16 +6,16 @@ import { fetchReviewsByFlavorId } from "../api/reviews";
 
 const SingleProduct = ({ user }) => {
   const [singleFlavor, setSingleFlavor] = useState({});
-  const [review, setReview] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
   let { id } = useParams();
-  
+
   useEffect(() => {
     const fetchedFlavorById = async () => {
       try {
         const result = await fetchFlavorById(id);
         setSingleFlavor(result);
-        console.log(result);
+        console.log("single flavor", result);
       } catch (error) {
         console.log(error);
       }
@@ -23,8 +23,8 @@ const SingleProduct = ({ user }) => {
     const fetchedReviewsByFlavorId = async () => {
       try {
         const result = await fetchReviewsByFlavorId(id);
-        setReview(result);
-        console.log(result);
+        setReviews(result);
+        console.log("reviews", result);
       } catch (error) {
         console.log(error);
       }
@@ -37,7 +37,7 @@ const SingleProduct = ({ user }) => {
   if (!singleFlavor) {
     return <div>Loading...</div>;
   }
-  if (!review) {
+  if (!reviews) {
     return <div>No reviews yet</div>;
   }
 
@@ -86,6 +86,21 @@ const SingleProduct = ({ user }) => {
               )}
             </div>
           </div>
+        </div>
+        <div>
+        <div id="flavor_body">
+          {reviews.map((review) => {
+            return (
+              <div className="review_info" key={review.id}>
+                <div className="review_user"><h2>{review.username}</h2></div>
+                <div className="review_title">{review.title}</div>
+                <div className="review_content">
+                  <p>Review:{review.content}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
         </div>
       </form>
     </div>
