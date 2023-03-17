@@ -79,7 +79,7 @@ const Profile = ({ user }) => {
         : null}
 
       <div className="profile-section" id="user_reviews">
-        <div><h2>MY REVIEWS: <Link className="link" to="/Products">Have an about a product? Take a look and Post a Review!</Link></h2></div>
+        <div><h2>MY REVIEWS: <Link className="link" to="/Products">Have an opionion about a product? Take a look and Post a Review!</Link></h2></div>
         <div id="reviews_container">
           <div>
             {reviews?.reviews?.map((review, i) => {
