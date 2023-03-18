@@ -56,15 +56,15 @@ router.get('/health', async (req, res) => {
 const usersRouter = require('./users');
 router.use('/users', usersRouter);
 
-// ROUTER: /api/activities
+// ROUTER: /api/flavors
 const flavorRouter = require('./flavors');
 router.use('/flavors', flavorRouter);
 
-// ROUTER: /api/routines
+// ROUTER: /api/reviews
 const reviewsRouter = require('./reviews');
 router.use('/reviews', reviewsRouter);
 
-// ROUTER: /api/routine_activities
+// ROUTER: /api/orders
 const ordersRouter = require('./orders');
 router.use('/orders', ordersRouter);
 

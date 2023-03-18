@@ -17,6 +17,7 @@ import {
   My_Cart,
   Profile,
   Products,
+  SingleProduct,
 } from "./components";
 import { fetchUser } from "./api/users";
 import { getAllCartItems } from "./api/order_items";
@@ -43,7 +44,7 @@ const App = () => {
 
   useEffect(() => {
     console.log(user);
-  }, [user, token]);
+  }, [token]);
 
   const removeToken = () => {
     setToken(null);
@@ -151,6 +152,10 @@ const App = () => {
             <Route
               path="/Products"
               element={<Products user={user} token={token} />}
+            />
+            <Route
+              path="/Products/:id" element={<SingleProduct user={user}
+                addFlavorToCart={addFlavorToCart} />}
             />
             <Route
               path="/Checkout"

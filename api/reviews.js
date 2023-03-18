@@ -3,7 +3,7 @@ const reviewRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const {
     getAllReviews,
-    getReviewsByFlavor,
+    getReviewsByFlavorId,
     getReviewsByUser,
     createReview,
     updateReview,
@@ -15,6 +15,16 @@ const { requireUser } = require("./utils");
 reviewRouter.get('/', async (req, res) => {
     try {
         const reviews = await getAllReviews();
+        res.send(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while getting all Reviews');
+    }
+});
+
+reviewRouter.get('/:flavor_id', async (req, res) => {
+    try {
+        const reviews = await getReviewsByFlavorId(req.params.flavor_id);
         res.send(reviews);
     } catch (error) {
         console.error(error);

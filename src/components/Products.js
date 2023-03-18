@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchAllFlavors } from "../api/flavors";
 import { addToCart } from "../api/order_items";
 
-const Products = ({ setCartFlavors, cartFlavors, user }) => {
+
+const Products = ({ user }) => {
   const [flavors, setFlavors] = useState([]);
   const navigate = useNavigate();
 
@@ -43,30 +44,24 @@ const Products = ({ setCartFlavors, cartFlavors, user }) => {
         <div id="flavor_body">
           {flavors.map((flavor) => {
             return (
-              <div className="flavor_info">
-                <div className="flavor_name">
-                  <h2>{flavor.name}</h2>
-                </div>
+              <div className="flavor_info" key={flavor.id}>
+                <div className="flavor_name"><h2>{flavor.name}</h2></div>
                 <div className="flavor_type">{flavor.type}</div>
                 <div>
-                  {" "}
-                  <img className="flavor_image" src={flavor.image_url} />
+                  <img
+                    className="flavor_image"
+                    onClick={() => navigate(`/Products/${flavor.id}`)}
+                    src={flavor.image_url}
+                  />
                 </div>
                 <div className="flavor_description">
-                  {" "}
                   <p>Description:{flavor.description}</p>
                 </div>
-                <div className="flavor_price"> Price: ${flavor.price}</div>
+                <div className="flavor_price">Price: ${flavor.price}</div>
                 <div id="product_options">
                   <button
                     className="create-button"
-                    onClick={() =>
-                      addToCart({
-                        flavor_id: flavor.id,
-                        quantity: 1,
-                        customer_id: user.id,
-                      })
-                    }
+                    onClick={() => addFlavorToCart(flavor)}
                   >
                     Add to Cart!
                   </button>
@@ -80,10 +75,10 @@ const Products = ({ setCartFlavors, cartFlavors, user }) => {
             );
           })}
         </div>
-        <div id="loginPopUpDiv"></div>
       </form>
     </div>
   );
 };
+
 
 export default Products;
