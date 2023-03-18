@@ -21,25 +21,15 @@ import {
 import { fetchUser } from "./api/users";
 import { getAllCartItems } from "./api/order_items";
 import logo from "./assets/images/Full_Logo_Transparent.png";
-
+import { fetchActiveCart } from "./api/order_items";
 const App = () => {
   //Cart State TAHJ
   const [cartShown, setCartShown] = useState(false);
-  const [cartFlavors, setCartFlavors] = useState([]);
 
   //Login State
   const [token, setToken] = useState("");
   const [user, setUser] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      const data = await getAllCartItems();
-      setCartFlavors(data);
-    };
-
-    fetchCartItems();
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("myToken")) {
@@ -129,9 +119,9 @@ const App = () => {
               element={
                 <Register
                   setToken={setToken}
-                  setUser={setUser}
                   user={user}
                   token={token}
+                  setUser={setUser}
                 />
               }
             />
@@ -150,25 +140,17 @@ const App = () => {
               path="/My_Cart"
               element={
                 <My_Cart
-                  setCartFlavors={setCartFlavors}
-                  onClose={() => setCartShown(false)}
+                  // setCartFlavors={setCartFlavors}
+                  // onClose={() => setCartShown(false)}
                   user={user}
                   shown={cartShown}
-                  flavors={cartFlavors}
                   token={token}
                 />
               }
             />
             <Route
               path="/Products"
-              element={
-                <Products
-                  setCartFlavors={setCartFlavors}
-                  cartFlavors={cartFlavors}
-                  user={user}
-                  token={token}
-                />
-              }
+              element={<Products user={user} token={token} />}
             />
             <Route
               path="/Checkout"

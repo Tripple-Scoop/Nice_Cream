@@ -1,4 +1,5 @@
 //TAHJ//
+
 const express = require("express");
 const orderItemsRouter = express.Router();
 const {
@@ -13,20 +14,20 @@ const {
 const { requireUser } = require("./utils");
 
 // GET all cart items
-orderItemsRouter.get("/", async (req, res) => {
-  try {
-    const activeCart = await getActiveCartItems(req.user.id);
-    res.json(activeCart);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// orderItemsRouter.get("/", async (req, res) => {
+//   try {
+//     const activeCart = await getActiveCartItems(req.user.id);
+//     res.json(activeCart);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
-// GET cart items by order id
-orderItemsRouter.get("/:order_id", async (req, res) => {
+// GET ACTIVE CART
+orderItemsRouter.get("/:customer_id", async (req, res) => {
   try {
-    const order = await getItemsByOrderId(req.params.order_id);
-    res.json(order);
+    const activeCart = await getActiveCartItems(req.params.customer_id);
+    res.json(activeCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

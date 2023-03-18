@@ -66,9 +66,15 @@ export const getAllCartItems = async () => {
 };
 
 // get cart items by order id
-export const getCartItemsByOrderId = async (order_id) => {
+export const fetchActiveCart = async (customer_id) => {
   try {
-    const response = await fetch(`${API_URL}/order_items/${order_id}`);
+    const response = await fetch(`${API_URL}order_items/${customer_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("FETCH ACTIVE CART", customer_id);
 
     const data = await response.json();
 
@@ -77,11 +83,12 @@ export const getCartItemsByOrderId = async (order_id) => {
     console.error(error);
   }
 };
+//
 
 // update quantity of cart item
 export const updateCartItemQuantity = async (id, newQuantity) => {
   try {
-    const response = await fetch(`${API_URL}/order_items/${id}`, {
+    const response = await fetch(`${API_URL}order_items/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

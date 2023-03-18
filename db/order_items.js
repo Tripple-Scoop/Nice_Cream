@@ -79,11 +79,11 @@ async function getActiveCartItems(customer_id) {
     const { rows: activeCart } = await client.query(
       `SELECT *
             FROM order_items
-            WHERE customer_id = $1
-            AND order_id IS NULL
+            WHERE customer_id = $1;
             `,
       [customer_id]
     );
+    console.log("ACTIVE CART", activeCart);
     return activeCart;
   } catch (error) {
     console.error(`Error retrieving cart with id ${customer_id}!`, error);
@@ -126,7 +126,7 @@ async function addOrderItemToCart(customer_id, flavor_id, quantity, price) {
 async function duplicateItems(customer_id, flavor_id, order_id) {
   try {
     const { rows: dupItem } = await client.query(
-      `SELECT * FROM order_items 
+      `SELECT * FROM order_items
       WHERE customer_id = ${customer_id} AND flavor_id = ${flavor_id} AND order_id = ${order_id}
       RETURNING *;
       `

@@ -1,22 +1,46 @@
-import React from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../api/users";
 import "../components/MyCart.css";
-import { removeCartItem, updateCartItemQuantity } from "../api/order_items";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { fetchActiveCart } from "../api/order_items";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { GiNunchaku } from "react-icons/gi";
+import { Products } from ".";
 
-// export const changeQuantity = (flavor_id, count) => {
-//   setCartFlavors((oldState) => {
-//     const flavorIndex = oldState.findIndex((item) => item.id === flavor_id);
-//     if (flavorIndex !== -1) {
-//       oldState[flavorIndex].count = count;
-//     }
-//     return [...oldState];
-//   });
+//   return (
+//     <div>
+//       <h1>My Cart</h1>
+//       {cart.map((item) => (
+//         <div key={item.id}>
+//           <p>{item.flavor_name}</p>
+//           <p>Quantity: {item.quantity}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
 // };
 
+const My_Cart = ({
+  shown,
+  onClose,
+  cartFlavors,
+  flavor_id,
+  customer_id,
+  count,
+}) => {
+  const [cart, setCart] = useState([]);
 
-
-const MyCart = ({ shown, flavors, onClose, flavor_id, count }) => {
+  useEffect(() => {
+    const getActiveCart = async () => {
+      const cartData = await fetchActiveCart(customer_id);
+      setCart(cartData);
+      console.log("This IS CART DATA", cartData);
+    };
+    getActiveCart();
+    console.log("MY CART CUS ID", customer_id);
+  }, [customer_id]);
+  const flavors = cart;
   return (
     <div className="modal" style={{ display: shown ? "block" : "none" }}>
       <div className="shoppingCart">
@@ -42,7 +66,7 @@ const MyCart = ({ shown, flavors, onClose, flavor_id, count }) => {
                   className="count"
                   value={flavor.count}
                   onChange={(e) => {
-                    changeQuantity(flavor_id, count);
+                    updateCartItemQuantity(flavor_id, count);
                   }}
                 >
                   {[...Array(10).keys()].map((number) => {
@@ -71,5 +95,4 @@ const MyCart = ({ shown, flavors, onClose, flavor_id, count }) => {
     </div>
   );
 };
-
-export default MyCart;
+export default My_Cart;
