@@ -3,18 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchAllFlavors } from "../api/flavors";
 import { addToCart } from "../api/order_items";
 
-
 const Products = ({ user }) => {
   const [flavors, setFlavors] = useState([]);
   const navigate = useNavigate();
-
-  // const addFlavorToCart = (flavor) => {
-  //   const newFlavor = {
-  //     ...flavor,
-  //     count: 1,
-  //   };
-  //   setCartFlavors([...cartFlavors, newFlavor]);
-  // };
 
   useEffect(() => {
     const fetchedAllFlavors = () => {
@@ -45,7 +36,9 @@ const Products = ({ user }) => {
           {flavors.map((flavor) => {
             return (
               <div className="flavor_info" key={flavor.id}>
-                <div className="flavor_name"><h2>{flavor.name}</h2></div>
+                <div className="flavor_name">
+                  <h2>{flavor.name}</h2>
+                </div>
                 <div className="flavor_type">{flavor.type}</div>
                 <div>
                   <img
@@ -61,7 +54,13 @@ const Products = ({ user }) => {
                 <div id="product_options">
                   <button
                     className="create-button"
-                    onClick={() => addFlavorToCart(flavor)}
+                    onClick={() =>
+                      addToCart({
+                        flavor_id: flavor.id,
+                        quantity: 1,
+                        customer_id: user.id,
+                      })
+                    }
                   >
                     Add to Cart!
                   </button>
@@ -79,6 +78,5 @@ const Products = ({ user }) => {
     </div>
   );
 };
-
 
 export default Products;

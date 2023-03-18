@@ -79,7 +79,8 @@ async function getActiveCartItems(customer_id) {
     const { rows: activeCart } = await client.query(
       `SELECT *
             FROM order_items
-            WHERE customer_id = $1;
+            JOIN orders ON orders.id  = order_items.order_id
+            WHERE order_items.customer_id  = $1 AND orders.fulfilled = false;
             `,
       [customer_id]
     );

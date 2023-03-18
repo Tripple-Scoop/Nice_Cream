@@ -154,8 +154,8 @@ const App = () => {
               element={<Products user={user} token={token} />}
             />
             <Route
-              path="/Products/:id" element={<SingleProduct user={user}
-                addFlavorToCart={addFlavorToCart} />}
+              path="/Products/:id"
+              element={<SingleProduct user={user} />}
             />
             <Route
               path="/Checkout"
