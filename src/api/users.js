@@ -129,11 +129,10 @@ export const fetchUserReviews = async (username) => {
     });
 
     const json = await result.json();
-    console.log(json)
-      
-    if (json.error) {
-      throw json.error;
-    }
+    console.log(json);
+  if(json.error) {
+    throw json.error(error);
+  }
    return json;
 };
 

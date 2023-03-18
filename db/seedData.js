@@ -212,7 +212,7 @@ async function createInitialReviews() {
         "I can not see the vanilla bean! What gross factory did this come from? I need answers",
     },
     {
-      flavor_id: 4,
+      flavor_id: 3,
       author_id: 3,
       title: "Suprising Strawberry",
       content: "Was not expecting this to be as tasty as it was!",
@@ -320,7 +320,7 @@ async function createInitialOrderItems() {
         order_id: 4,
         quantity: 6,
       },
- 
+
     ];
     const items = await Promise.all(itemsToCreate.map(addToCart));
     console.log("Items Created:");
