@@ -141,7 +141,7 @@ const App = () => {
               element={
                 <My_Cart
                   // setCartFlavors={setCartFlavors}
-                  // onClose={() => setCartShown(false)}
+                  onClose={() => setCartShown(false)}
                   user={user}
                   shown={cartShown}
                   token={token}

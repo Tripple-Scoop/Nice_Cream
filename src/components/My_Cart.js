@@ -24,22 +24,22 @@ import { Products } from ".";
 const My_Cart = ({
   shown,
   onClose,
-  cartFlavors,
+
   flavor_id,
-  customer_id,
+  user,
   count,
 }) => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const getActiveCart = async () => {
-      const cartData = await fetchActiveCart(customer_id);
+      const cartData = await fetchActiveCart(user.id);
       setCart(cartData);
       console.log("This IS CART DATA", cartData);
     };
     getActiveCart();
-    console.log("MY CART CUS ID", customer_id);
-  }, [customer_id]);
+    console.log("MY CART CUS ID", user.id);
+  }, [user.id]);
   const flavors = cart;
   return (
     <div className="modal" style={{ display: shown ? "block" : "none" }}>
