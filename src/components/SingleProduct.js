@@ -84,7 +84,7 @@ const SingleProduct = ({ user }) => {
                 {user.admin === true ? (
                   <div onClick={() => navigate(`/EditFlavor/${flavor.id}`)}> Edit </div>
                 ) : (
-                  <div>You are not an admin</div>
+                  ""
                 )}
               </button>
             </div>
