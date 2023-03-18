@@ -1,9 +1,9 @@
 html {
   height: 100%;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.nav{
+.nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,14 +17,14 @@ html {
   align-items: center;
 }
 
-.link{
-padding:20px;
-text-decoration: none;
-color: #DC6A69;
-height:20px;
-display:flex;
-align-items: center;
-border-radius: 20px;
+.link {
+  padding: 20px;
+  text-decoration: none;
+  color: #DC6A69;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
 }
 
 #header_logo {
@@ -40,37 +40,37 @@ border-radius: 20px;
   justify-content: center;
 }
 
-#header-button{
-  color:white;
+#header-button {
+  color: white;
   border-radius: 10px;
   height: 40px;
   margin: 20px;
 }
 
 @media (hover:hover) {
-  .link:hover{
+  .link:hover {
     color: rgb(255, 255, 255);
     background-color: #5CA49C;
     border-radius: 20px;
   }
 }
 
-.profile-section{
+.profile-section {
   margin-top: 30px;
   padding: 20px;
 }
 
-#profile_welcome{
+#profile_welcome {
   font-style: oblique;
 }
 
-#create-account{
+#create-account {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 }
 
-#create-account > input {
+#create-account>input {
   margin-bottom: 20px;
   height: 30px;
   font-size: larger;
@@ -84,14 +84,14 @@ border-radius: 20px;
   align-items: center;
 }
 
-#products-container{
+#products-container {
   padding-top: 2vh;
   justify-content: center;
   background-color: #f3f3f3;
- 
+
 }
 
-.flavor_info{
+.flavor_info {
   padding: 20px;
   border-radius: 20px;
   display: flex;
@@ -105,56 +105,86 @@ border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-.flavor_name{
+.flavor_name {
   display: flex;
   flex-direction: column;
 }
-.flavor_type{
-  color:#5CA49C;
+
+.flavor_type {
+  color: #5CA49C;
 }
-.flavor_description{
-  display:flex;
-  height:150px;
+
+#order-history{
+  background-color: #90CCF4;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-radius: 20px;
+}
+
+.prev-order{
+  background-color: #e7f0f7;
+  border-radius: 20px;
+  padding: 20px;
+  
+}
+
+#profile-container{
+  background-color: #e7f0f7;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+.flavor_description {
+  display: flex;
+  height: 150px;
   flex-wrap: wrap;
   font-style: oblique;
   overflow-y: auto;
 }
-.flavor_image{
+
+.flavor_image {
   height: 40vh;
   border-radius: 20px;
 }
 
-#reviews_container{
-  display:flex;
-
+#reviews_container {
+  display: flex;
+  padding: 20px;
   flex-direction: row;
   border-radius: 20px;
-  background-color: #DC6A69;
+  background-color: #fc908ea0;
 }
 
-.item_image{
+.item_image {
   height: 30vh;
   border-radius: 20px;
 }
 
-.users-info{
+.users-info {
   display: flex;
   flex-direction: row;
-  align-items:center;
+  align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
   font-size: larger;
-  
+
 }
 
-.single-user-info{
+.single-user-info {
   margin: 15px;
-  padding: 20px;
+  padding: 15px;
   background-color: #f3e094;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-#account-info{
-  background-color: #ffdddd;
+#account-info {
+  background-color: #ffffff;
+  font-size: larger;
+  color:black;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }

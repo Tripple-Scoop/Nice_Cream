@@ -43,7 +43,7 @@ const Profile = ({ user }) => {
   }, []);
 
   return (
-    <div>
+    <div id="profile-container">
 
       {user.name !== null ? <h1 id="profile_welcome">Welcome back, {user.name}!</h1> :
         <h1>You must be logged in to access your profile page.</h1>
@@ -57,6 +57,7 @@ const Profile = ({ user }) => {
         <div>Address: {user.address}</div>
         <div>Administrator Permissions: {user.admin === true ? "Yes" : "No"}</div>
       </div>
+
       {(user.admin === true)
         ? <div className="profile-section" id="admin-customer-info"><h2>ACTIVE CUSTOMERS:</h2>
           <div className="users-info">
@@ -70,8 +71,6 @@ const Profile = ({ user }) => {
                 </div>
               )
             })}
-
-
           </div>
         </div>
 
@@ -86,8 +85,9 @@ const Profile = ({ user }) => {
 
               return (
                 <div key={i} className="profile-review">
-                  <div><h2>{review.title}</h2></div>
-                  <div><h2>{review.title}</h2></div>
+                  <div><h2>{review.flavor_info.name}</h2></div>
+                  <div><h3>{review.title}</h3></div>
+                  <div><p>{review.content}</p></div>
                   <div><h2>{review.title}</h2></div>
                 </div>
               )
@@ -97,15 +97,16 @@ const Profile = ({ user }) => {
         </div>
       </div>
 
-      <div className="profile-section" id="order_history">
+      <div className="profile-section" id="order-history">
         <h2>MY ORDER HISTORY:  <Link className="link" to="/Products">Start Shopping Now!</Link></h2>
-        <div id="history_container">
+        <div id="history-container">
 
           {orderHistory?.map((order, i) => {
             return (
               <div key={i} className="prev-order">
-                <div><h3>{Date(order.date)}</h3></div>
+                <div><h3>{order.date}</h3></div>
                 <div><h3>Shipped to: {order.shipping_address}</h3></div>
+                <div>Total: ${order.total}.00</div>
                 <div><h2>Items:</h2> {order.items.map((item, i) => {
                   return (
                     <div className="item-info" key={i}>
