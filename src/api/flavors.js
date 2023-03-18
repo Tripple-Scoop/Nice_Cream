@@ -81,7 +81,7 @@ export const fetchUpdateFlavor = async (name, type, image_url, description, pric
 };
 
 
-export const fetchdeleteFlavor = async (name, type, image_url, description) => {
+export const fetchDeleteFlavor = async () => {
   try {
     const response = await fetch(`${API_URL}flavors/${id}`, {
       method: "DELETE",
