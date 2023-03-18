@@ -5,7 +5,7 @@ export function getHeaders() {
   let headers = {
     "Content-Type": "application/json",
   };
-  const currentToken = localStorage.getItem("auth_token");
+  const currentToken = localStorage.getItem("myToken");
   console.log("CURRENT TOKEN IN GET HEADERS:, ", currentToken);
 
   if (currentToken != null) {
@@ -14,18 +14,33 @@ export function getHeaders() {
   console.log("Current Headers: " + JSON.stringify(headers));
   return headers;
 }
-// Get all orders
-export async function getAllOrders() {
+// Get OrderById //3.13.23
+export async function getOrderById(id) {
   try {
-    const response = await fetch(`${BASE_URL}/orders`, {
+    const response = await fetch(`${API_URL}orders/${id}`, {
       headers: getHeaders(),
     });
-    return await response.json();
+    const order = await response.json();
+    return order;
   } catch (error) {
     console.log(error);
-    return [];
   }
 }
+
+// Get all orders
+
+export async function getAllOrders() {
+  try {
+    const response = await fetch(`${API_URL}orders`, {
+      headers: getHeaders(),
+    });
+    const allOrders = await response.json();
+    return allOrders;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //post orders
 export async function createOrder(
   customer_id,
@@ -44,7 +59,7 @@ export async function createOrder(
     payment_type: payment_type,
   };
   try {
-    const res = await fetch(`${BASE_URL}/orders`, {
+    const res = await fetch(`${API_URL}orders`, {
       method: "POST",
       body: JSON.stringify(sendData),
       headers: getHeaders(),
@@ -60,14 +75,14 @@ export async function createOrder(
 
 //update orders
 //?? What else do i need to update in the order besides if its fulfilled or not ??
-export async function editOrder(orderId, fulfilled) {
+export async function submitOrder(id, fulfilled) {
   console.log(id);
   const sendData = {
-    orderId: orderId,
-    fulfilled: fulfilled,
+    id: id,
+    fulfilled: true,
   };
   try {
-    const res = await fetch(`${BASE_URL}/orders/${id}`, {
+    const res = await fetch(`${API_URL}orders/${id}`, {
       method: "PATCH",
       body: JSON.stringify(sendData),
       headers: getHeaders(),

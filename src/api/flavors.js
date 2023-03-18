@@ -8,16 +8,31 @@ export const fetchAllFlavors = async () => {
       }
     });
 
-    const flavorData = await res.json();
-    return flavorData
+    const flavorsData = await res.json();
+    return flavorsData
 
-    // console.log(flavorData)
+    // console.log(flavorsData)
   } catch (e) {
     console.error(e)
   }
 };
 
+export const fetchFlavorById = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}flavors/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    const flavorIdData = await res.json();
+    console.log("FlavorIdData", flavorIdData)
+    return flavorIdData;
+
+  } catch (e) {
+    console.error(e)
+  }
+};
 
 export const fetchCreateFlavor = async (name, type, image_url, description, price) => {
   try {
@@ -66,7 +81,7 @@ export const fetchUpdateFlavor = async (name, type, image_url, description, pric
 };
 
 
-export const fetchdeleteFlavor = async (name, type, image_url, description) => {
+export const fetchDeleteFlavor = async () => {
   try {
     const response = await fetch(`${API_URL}flavors/${id}`, {
       method: "DELETE",

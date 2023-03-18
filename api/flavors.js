@@ -19,12 +19,23 @@ flavorRouter.get('/', async (req, res) => {
     try {
         const flavors = await getAllFlavors();
         res.send(flavors);
+        console.log(flavors)
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred while getting all flavors');
     }
 });
 
+flavorRouter.get('/:id', async (req, res) => {
+    try {
+        const flavor = await getFlavorById(req.params.id);
+        res.send(flavor);
+        console.log(flavor)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while getting the flavor');
+    }
+});
 
 flavorRouter.post('/:name', requireAdmin, async (req, res, next) => {
     try {
