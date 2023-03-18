@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchFlavorById } from "../api/flavors";
+import { fetchDeleteFlavor, fetchFlavorById } from "../api/flavors";
 import { fetchReviewsByFlavorId } from "../api/reviews";
 
 
@@ -41,7 +41,16 @@ const SingleProduct = ({ user }) => {
     return <div>No reviews yet</div>;
   }
 
-
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this flavor?");
+    if (confirmed) {
+      try {
+        await fetchDeleteFlavor
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div id="products-container">
@@ -79,14 +88,16 @@ const SingleProduct = ({ user }) => {
               >
                 Add to Cart!
               </button>
-              <button
-                className="edit-button">
-                {user.admin === true ? (
-                  <div onClick={() => navigate(`/EditFlavor/${flavor.id}`)}> Edit </div>
-                ) : (
-                  ""
-                )}
-              </button>
+              <div>
+                {user.admin === true ?
+                  <button
+                    className="edit-button"
+                    onClick={() => navigate(`/EditProduct/${singlelavor.id}`)}> Edit </button> : ""
+                }
+                <button className="delete-button" onClick={handleDelete}>
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
