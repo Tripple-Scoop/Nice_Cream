@@ -20,19 +20,13 @@ import {
   SingleProduct,
 } from "./components";
 import { fetchUser } from "./api/users";
+import { getAllCartItems } from "./api/order_items";
 import logo from "./assets/images/Full_Logo_Transparent.png";
-
+import { fetchActiveCart } from "./api/order_items";
 const App = () => {
   //Cart State TAHJ
   const [cartShown, setCartShown] = useState(false);
-  const [cartFlavors, setCartFlavors] = useState([]);
-  const addFlavorToCart = () => {
-    const newFlavor = {
-      ...flavor,
-      count: 1,
-    };
-    setCartFlavors([...cartFlavors, newFlavor]);
-  };
+
   //Login State
   const [token, setToken] = useState("");
   const [user, setUser] = useState("");
@@ -126,13 +120,13 @@ const App = () => {
               element={
                 <Register
                   setToken={setToken}
-                  setUser={setUser}
                   user={user}
                   token={token}
+                  setUser={setUser}
                 />
               }
             />
-            { }
+            {}
             <Route
               path="/Profile"
               element={
@@ -147,22 +141,21 @@ const App = () => {
               path="/My_Cart"
               element={
                 <My_Cart
+                  // setCartFlavors={setCartFlavors}
                   onClose={() => setCartShown(false)}
                   user={user}
                   shown={cartShown}
-                  flavors={cartFlavors}
                   token={token}
                 />
               }
             />
             <Route
               path="/Products"
-              element={<Products user={user} token={token}
-                addFlavorToCart={addFlavorToCart} />}
+              element={<Products user={user} token={token} />}
             />
             <Route
-              path="/Products/:id" element={<SingleProduct user={user}
-                addFlavorToCart={addFlavorToCart} />}
+              path="/Products/:id"
+              element={<SingleProduct user={user} />}
             />
             <Route
               path="/Checkout"

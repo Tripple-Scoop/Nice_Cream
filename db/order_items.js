@@ -2,19 +2,35 @@
 const client = require("./client");
 
 //addToCart(customer_id, flavor_id, quantity)- returns cart item object
+
 async function addToCart({ customer_id, flavor_id, quantity, order_id }) {
   try {
+    const {
+      rows: [inCart],
+    } = await client.query(`
+    SELECT * FROM order_items 
+    WHERE customer_id = ${customer_id} AND flavor_id = ${flavor_id} AND order_id =${order_id};`);
+    if (inCart) {
+      console.log("IN CART", inCart);
+      const updateC = await updateQuantity(
+        inCart.id,
+        inCart.quantity + quantity
+      );
+      console.log("1U", updateC);
+      return await updateQuantity(inCart.id, inCart.quantity + quantity);
+    }
     const {
       rows: [order_item],
     } = await client.query(
       `INSERT INTO order_items(customer_id, flavor_id, quantity, order_id)
-         VALUES ($1, $2, $3, $4)
-         RETURNING *;`,
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`,
       [customer_id, flavor_id, quantity, order_id]
     );
+    console.log("ORDER ITEM", order_item);
     return order_item;
   } catch (error) {
-    console.error(`Error adding item to cart!`);
+    console.error(error, "Error with Duplicate Items");
     throw error;
   }
 }
@@ -26,12 +42,13 @@ async function updateQuantity(id, newQuant) {
       rows: [newQuantity],
     } = await client.query(
       `UPDATE order_items
-       SET quanity = $1
-       WHERE id = $2
-       RETURNING *;
-      `,
+        SET quantity = $1
+        WHERE id = $2
+        RETURNING *;
+        `,
       [newQuant, id]
     );
+    console.log("QUANT RETURN", newQuantity);
     return newQuantity;
   } catch (error) {
     console.error(`Error updating quantity ${id}!`, error);
@@ -47,7 +64,7 @@ async function getItemById(id) {
       `SELECT *
          FROM order_items
          WHERE id = $1;
-        `,
+         `,
       [id]
     );
     return item;
@@ -61,12 +78,13 @@ async function getActiveCartItems(customer_id) {
   try {
     const { rows: activeCart } = await client.query(
       `SELECT *
-         FROM order_items
-         WHERE customer_id = $1
-         AND order_id IS NULL
-        `,
+            FROM order_items
+            JOIN orders ON orders.id  = order_items.order_id
+            WHERE order_items.customer_id  = $1 AND orders.fulfilled = false;
+            `,
       [customer_id]
     );
+    console.log("ACTIVE CART", activeCart);
     return activeCart;
   } catch (error) {
     console.error(`Error retrieving cart with id ${customer_id}!`, error);
@@ -78,9 +96,9 @@ async function getItemsByOrderId(order_id) {
   try {
     const { rows: orders } = await client.query(
       `SELECT *
-         FROM order_items
-         WHERE order_id = $1;
-        `,
+              FROM order_items
+              WHERE order_id = $1;
+              `,
       [order_id]
     );
     return orders;
@@ -89,15 +107,46 @@ async function getItemsByOrderId(order_id) {
   }
 }
 
+//** addOrderItemToCart(customer_id, product_id, quantity, price) - add an order item to the customer's cart
+async function addOrderItemToCart(customer_id, flavor_id, quantity, price) {
+  try {
+    const order = await getCartByCustomer(customer_id);
+    const newItem = await addToCart(order.id, flavor_id, quantity, price);
+    return newItem;
+  } catch (error) {
+    console.error(
+      `Error adding item to cart for customer ${customer_id}!`,
+      error
+    );
+    throw error;
+  }
+}
+
+// duplicateItems
+
+async function duplicateItems(customer_id, flavor_id, order_id) {
+  try {
+    const { rows: dupItem } = await client.query(
+      `SELECT * FROM order_items
+      WHERE customer_id = ${customer_id} AND flavor_id = ${flavor_id} AND order_id = ${order_id}
+      RETURNING *;
+      `
+    );
+    return dupItem;
+  } catch (error) {
+    console.error(`Error adding multiple of the same item`);
+  }
+}
+
 //removeFromCart(id, user_id)
 async function removeFromCart(id, customer_id) {
   try {
     const { rows: updatedCart } = await client.query(
       `DELETE FROM order_items
-         WHERE id = $1
-AND customer_id =$2
-         RETURNING *;
-        `,
+      WHERE id = $1
+      AND customer_id =$2
+      RETURNING *;
+      `,
       [id, customer_id]
     );
     return updatedCart;
@@ -108,9 +157,11 @@ AND customer_id =$2
 
 module.exports = {
   addToCart,
+  duplicateItems,
   updateQuantity,
   getItemById,
   getActiveCartItems,
+  addOrderItemToCart,
   getItemsByOrderId,
   removeFromCart,
 };
