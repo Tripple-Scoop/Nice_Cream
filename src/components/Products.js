@@ -26,6 +26,11 @@ const Products = ({ user }) => {
       <div className="flavorTitle">
         <h1>Our Flavors</h1>
       </div>
+      {user.admin === true ? (
+        <button onClick={() => navigate(`/CreateNewFlavor`)}>Create New Flavor</button>
+      ) : (
+        ""
+      )}
       <form
         id="create-account"
         onSubmit={async (event) => {
@@ -43,7 +48,7 @@ const Products = ({ user }) => {
                 <div>
                   <img
                     className="flavor_image"
-                    onClick={() => navigate(`/Products/${flavor.id}`)}
+                    onClick={() => navigate(`/Product/${flavor.id}`)}
                     src={flavor.image_url}
                   />
                 </div>
@@ -64,11 +69,6 @@ const Products = ({ user }) => {
                   >
                     Add to Cart!
                   </button>
-                  {user.admin === true ? (
-                    <div>You are an admin</div>
-                  ) : (
-                    <div>You are not an admin</div>
-                  )}
                 </div>
               </div>
             );

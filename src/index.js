@@ -18,6 +18,8 @@ import {
   Profile,
   Products,
   SingleProduct,
+  EditProduct,
+  CreateNewFlavor
 } from "./components";
 import { fetchUser } from "./api/users";
 import { getAllCartItems } from "./api/order_items";
@@ -150,12 +152,24 @@ const App = () => {
               }
             />
             <Route
+              path="/CreateNewFlavor"
+              element={<CreateNewFlavor user={user} token={token} />}
+            />
+            <Route
               path="/Products"
               element={<Products user={user} token={token} />}
             />
             <Route
+              path="/Product/:id" element={<SingleProduct user={user}
+                addFlavorToCart={addFlavorToCart} />}
+            />
+            <Route
+              path="/EditProduct/:id" element={<EditProduct user={user} token={token}
+                addFlavorToCart={addFlavorToCart} />}
+
               path="/Products/:id"
               element={<SingleProduct user={user} />}
+
             />
             <Route
               path="/Checkout"
