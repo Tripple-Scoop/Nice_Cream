@@ -71,7 +71,7 @@ export const register = async (name, username, password, address) => {
     throw json.error;
   }
 
-  localStorage.setItem("userToken", json.token);
+  localStorage.setItem("myToken", json.token);
   // console.log(json);
   return json;
 };
@@ -103,7 +103,7 @@ export const fetchUserOrderHistory = async (username) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+      "Authorization": `Bearer ${localStorage.getItem("myToken")}`,
     },
   });
 
@@ -124,7 +124,7 @@ export const fetchUserReviews = async (username) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+        "Authorization": `Bearer ${localStorage.getItem("myToken")}`,
       },
     });
 

@@ -40,7 +40,7 @@ parameters, (username, password)
 should do the following:
 - returns user object (id, username)
 - returns message, the success message
-- sets 'userToken' into local storage
+- sets 'myToken' into local storage
 */
 
 usersRouter.post("/register", async (req, res, next) => {
@@ -103,7 +103,7 @@ parameters, (username, password)
 should do the following:
 -returns user object (id, username)
 -returns message, the success message
--sets 'userToken' into local storage
+-sets 'myToken' into local storage
 */
 
 usersRouter.post("/login", async (req, res, next) => {
