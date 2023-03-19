@@ -128,7 +128,7 @@ const App = () => {
                 />
               }
             />
-            {}
+            { }
             <Route
               path="/Profile"
               element={
@@ -161,14 +161,11 @@ const App = () => {
             />
             <Route
               path="/Product/:id" element={<SingleProduct user={user}
-                addFlavorToCart={addFlavorToCart} />}
+              />}
             />
             <Route
               path="/EditProduct/:id" element={<EditProduct user={user} token={token}
-                addFlavorToCart={addFlavorToCart} />}
-
-              path="/Products/:id"
-              element={<SingleProduct user={user} />}
+              />}
 
             />
             <Route
