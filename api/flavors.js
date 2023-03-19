@@ -89,14 +89,13 @@ flavorRouter.patch("/:id", requireUser, async (req, res, next) => {
 
 flavorRouter.delete("/:id", requireAdmin, async (req, res, next) => {
     const flavorId = req.params.id;
-    const { name, type, image_url, description } = req.body;
     console.log("flavorID", flavorId)
     try {
 
         const registeredFlavor = await getFlavorById(flavorId);
         console.log("registeredFlav", registeredFlavor)
-        if (registeredFlavor.id === flavorId) {
-            await deleteFlavor(id);
+        if (req.user.admin) {
+            await deleteFlavor(flavorId);
             res.send(registeredFlavor);
         } else {
             res.status(403)

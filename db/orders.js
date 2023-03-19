@@ -24,7 +24,7 @@ async function createOrder({
     const {
       rows: [newOrder],
     } = await client.query(
-      `INSERT INTO orders(customer_id, date, billing_address, shipping_address, total, payment_type, fulfuilled)
+      `INSERT INTO orders(customer_id, date, billing_address, shipping_address, total, payment_type, fulfilled)
        VALUES ($1, $2, $3, $4, $5, $6, false)
        RETURNING *;`,
       [
