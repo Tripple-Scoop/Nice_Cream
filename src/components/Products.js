@@ -53,7 +53,7 @@ const Products = ({ user }) => {
                   />
                 </div>
                 <div className="flavor_description">
-                  <p>Description:{flavor.description}</p>
+                  <h5>Description:{flavor.description}</h5>
                 </div>
                 <div className="flavor_price">Price: ${flavor.price}</div>
                 <div id="product_options">
