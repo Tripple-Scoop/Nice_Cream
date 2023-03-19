@@ -78,7 +78,7 @@ const Profile = ({ user }) => {
         : null}
 
       <div className="profile-section" id="user_reviews">
-        <div><h2>MY REVIEWS: <Link className="link" to="/Products">Have an opionion about a product? Take a look and Post a Review!</Link></h2></div>
+        <div><h2>MY REVIEWS: <Link className="profile-link" to="/Products">Have an opionion? Select a product and share it!</Link></h2></div>
         <div id="reviews_container">
           <div>
             {reviews?.reviews?.map((review, i) => {
@@ -98,7 +98,7 @@ const Profile = ({ user }) => {
       </div>
 
       <div className="profile-section" id="order-history">
-        <h2>MY ORDER HISTORY:  <Link className="link" to="/Products">Start Shopping Now!</Link></h2>
+        <h2>MY ORDER HISTORY:  <Link className="profile-link" to="/Products">Start Shopping Now!</Link></h2>
         <div id="history-container">
 
           {orderHistory?.map((order, i) => {
