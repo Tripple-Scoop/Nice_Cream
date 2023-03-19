@@ -86,8 +86,8 @@ const SingleProduct = ({ user }) => {
             </div>
             <div id="product_options">
               <button
-                className="create-button"
-                onClick={() => addFlavorToCart(singleFlavor)}
+                className="addToCart-button"
+                onClick={() => addToCart(singleFlavor)}
               >
                 Add to Cart!
               </button>
@@ -95,11 +95,13 @@ const SingleProduct = ({ user }) => {
                 {user.admin === true ?
                   <button
                     className="edit-button"
-                    onClick={() => navigate(`/EditProduct/${singlelavor.id}`)}> Edit </button> : ""
-                }
-                <button className="delete-button" onClick={handleDelete}>
-                  Delete
-                </button>
+                    onClick={() => navigate(`/EditProduct/${singleFlavor.id}`)}> Edit </button> : ""
+                }<div>
+                  {user.admin === true ?
+                    <button className="delete-button" onClick={handleDelete}>
+                      Delete
+                    </button> : ''
+                  }</div>
               </div>
             </div>
           </div>

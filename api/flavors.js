@@ -56,11 +56,12 @@ flavorRouter.post('/:name', requireAdmin, async (req, res, next) => {
     }
 });
 
-flavorRouter.patch("/:id", requireUser, async (req, res, next) => {
+flavorRouter.patch("/:id", requireAdmin, async (req, res, next) => {
     try {
         const { name, type, image_url, description, price } = req.body;
         const flavorId = req.params.id;
         const existingFlavor = await getFlavorById(flavorId);
+        console.log("flavor id", flavorId)
 
         if (!existingFlavor) {
             throw new Error(`There is no Flavor with this ${flavorId} id`);

@@ -114,6 +114,10 @@ html {
   color: #5CA49C;
 }
 
+.addToCart-button, .edit-button, .delete-button{
+  align-items: center;
+}
+
 #order-history{
   background-color: #90CCF4;
   padding: 20px;

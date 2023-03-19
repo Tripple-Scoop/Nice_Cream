@@ -1,54 +1,107 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUpdateFlavor } from "../api/flavors";
+import { fetchAllFlavors, fetchUpdateFlavor } from "../api/flavors";
 
 
-const EditProduct = ({ user, token }) => {
-    const [editflavor, setEditFlavor] = useState([]);
-    const navigate = useNavigate();
+const EditProduct = () => {
+    const [product, setProduct] = useState([])
 
     useEffect(() => {
-        const fetchedUpdatedFlavor = () => {
-            fetchUpdateFlavor(
-                editflavor.name,
-                editflavor.type,
-                editflavor.image_url,
-                editflavor.description,
-                editflavor.price
-            )
+        const fetchedAllFlavors = () => {
+            fetchAllFlavors()
                 .then((result) => {
-                    setEditFlavor(result)
-                    console.log(result)
+                    setProduct(result);
+                    console.log(result);
                 })
                 .catch((error) => {
-                    console.log(error)
-                })
-        }
-        fetchedUpdatedFlavor()
-    }, [editflavor]);
+                    console.log(error);
+                });
+        };
+        fetchedAllFlavors();
+    }, []);
+
+    const [editProduct, setEditProduct] = useState({
+        name: product.name,
+        type: product.type,
+        image_url: product.image_url,
+        description: product.description,
+        price: product.price
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Call an API function to update the flavor data with the new values
+
+        fetchUpdateFlavor(
+            editProduct.name,
+            editProduct.type,
+            editProduct.image_url,
+            editProduct.description,
+            editProduct.price,
+        )
+            .then((result) => {
+                setEditProduct(result);
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
-    const handleNameChange = (event) => {
-        setEditFlavor({ ...editflavor, name: event.target.value });
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setEditProduct((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="flavor-name">Flavor Name:</label>
+            <label htmlFor="product-name">Product Name:</label>
             <input
-                id="flavor-name"
+                id="product-name"
                 type="text"
-                value={editflavor.name}
-                onChange={handleNameChange}
+                name="name"
+                value={editProduct.name}
+                onChange={handleChange}
             />
-            <button type="submit">Update Flavor</button>
+            <label htmlFor="product-type">Product Type:</label>
+            <input
+                id="product-type"
+                type="text"
+                name="type"
+                value={editProduct.type}
+                onChange={handleChange}
+            />
+
+            <label htmlFor="product-image">Product image_url:</label>
+            <input
+                id="product-image"
+                type="text"
+                name="image_url"
+                value={editProduct.image_url}
+                onChange={handleChange}
+            />
+
+            <label htmlFor="product-description">Product Description:</label>
+            <input
+                id="product-description"
+                type="text"
+                name="description"
+                value={editProduct.description}
+                onChange={handleChange}
+            />
+            <label htmlFor="product-price">Product Price:</label>
+            <input
+                id="product-price"
+                type="text"
+                name="price"
+                value={editProduct.price}
+                onChange={handleChange}
+            />
+            <button type="submit">Update Product</button>
         </form>
     );
 };
-
 
 export default EditProduct;
