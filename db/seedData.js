@@ -54,12 +54,12 @@ async function createTables() {
 
     CREATE TABLE orders (
       id SERIAL PRIMARY KEY,
-      customer_id INTEGER REFERENCES users(id),
-      date VARCHAR(255) NOT NULL,
-      billing_address VARCHAR(255) NOT NULL,
-      shipping_address VARCHAR(255) NOT NULL,
-      total INTEGER NOT NULL,
-      payment_type VARCHAR(255) NOT NULL,
+      customer_id INTEGER REFERENCES users(id)  NOT NULL,
+      date VARCHAR(255),
+      billing_address VARCHAR(255),
+      shipping_address VARCHAR(255),
+      total INTEGER,
+      payment_type VARCHAR(255),
       fulfilled BOOLEAN DEFAULT false
     );
 
@@ -142,43 +142,51 @@ async function createInitialFlavors() {
       {
         name: "Chocolate",
         type: "The Good Stuff",
-        image_url: "https://lmld.org/wp-content/uploads/2012/07/Chocolate-Ice-Cream-3.jpg",
+        image_url:
+          "https://lmld.org/wp-content/uploads/2012/07/Chocolate-Ice-Cream-3.jpg",
         description: "Rich and creamy chocolate flavor.",
         price: 4,
       },
       {
         name: "Vanilla",
         type: "The Good Stuff",
-        image_url: "https://icecreamfromscratch.com/wp-content/uploads/2022/04/Vanilla-Bean-Ice-Cream-1.2-735x1103.jpg",
+        image_url:
+          "https://icecreamfromscratch.com/wp-content/uploads/2022/04/Vanilla-Bean-Ice-Cream-1.2-735x1103.jpg",
         description: "Smooth and classic vanilla flavor.",
         price: 4,
       },
       {
         name: "Strawberry",
         type: "The Good Stuff",
-        image_url: "https://veganhuggs.com/wp-content/uploads/2019/06/vegan-strawberry-ice-cream-5.jpg",
+        image_url:
+          "https://veganhuggs.com/wp-content/uploads/2019/06/vegan-strawberry-ice-cream-5.jpg",
         description: "Sweet and fruity strawberry flavor.",
         price: 4,
       },
       {
         name: "Mint Chocolate Chip",
         type: "The Good Stuff",
-        image_url: "https://icecreamfromscratch.com/wp-content/uploads/2022/03/Mint-Chocolate-Chip-Ice-Cream-1.2-735x1103.jpg",
+        image_url:
+          "https://icecreamfromscratch.com/wp-content/uploads/2022/03/Mint-Chocolate-Chip-Ice-Cream-1.2-735x1103.jpg",
         description: "Cool and refreshing mint flavor with chocolate chips.",
         price: 4,
       },
       {
         name: "Caramel Popcorn",
         type: "The Good Stuff",
-        image_url: "https://www.biggerbolderbaking.com/wp-content/uploads/2016/05/IMG_0175.jpg",
-        description: "This flavor has a cult following! Vanilla ice cream with carmel drizzle and carmel popcorn bits in every bite!",
+        image_url:
+          "https://www.biggerbolderbaking.com/wp-content/uploads/2016/05/IMG_0175.jpg",
+        description:
+          "This flavor has a cult following! Vanilla ice cream with carmel drizzle and carmel popcorn bits in every bite!",
         price: 6,
       },
       {
         name: "Cookies & Cream",
         type: "The Good Stuff",
-        image_url: "https://www.tablefortwoblog.com/wp-content/uploads/2013/09/cookies-and-cream-ice-cream-tablefortwoblog-3.jpg.webp",
-        description: "Crispy, crunchy, and creamy! Delicious cream-filled chocolate sandwich cookies smashed into each spoonful.",
+        image_url:
+          "https://www.tablefortwoblog.com/wp-content/uploads/2013/09/cookies-and-cream-ice-cream-tablefortwoblog-3.jpg.webp",
+        description:
+          "Crispy, crunchy, and creamy! Delicious cream-filled chocolate sandwich cookies smashed into each spoonful.",
         price: 4,
       },
     ];
@@ -320,7 +328,6 @@ async function createInitialOrderItems() {
         order_id: 4,
         quantity: 6,
       },
-
     ];
     const items = await Promise.all(itemsToCreate.map(addToCart));
     console.log("Items Created:");

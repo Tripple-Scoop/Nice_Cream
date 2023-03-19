@@ -7,10 +7,10 @@ async function getAllReviews() {
     const { rows } = await client.query(`
         SELECT * 
         FROM reviews
-        INNER JOIN users
-        ON users.id = reviews.author_id
         ;
       `);
+
+
     return rows;
   } catch (error) {
     throw error;
@@ -21,7 +21,7 @@ async function getAllReviews() {
 
 async function createReview({ author_id, flavor_id, title, content }) {
   try {
-    const { rows: [review] } = await client.query(`
+    const { rows: review } = await client.query(`
         INSERT INTO reviews(author_id, flavor_id, title, content) 
         VALUES($1, $2, $3, $4) 
         RETURNING *;
@@ -84,8 +84,9 @@ async function getReviewsByUser({ userId }) {
   try {
     const { rows } = await client.query(
       `
-        SELECT * FROM reviews
-        WHERE author_id = $1
+        SELECT * 
+        FROM reviews 
+         WHERE author_id = $1
         ;
       `,
       [userId]

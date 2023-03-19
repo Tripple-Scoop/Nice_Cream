@@ -1,4 +1,5 @@
 //TAHJ//
+
 const express = require("express");
 const orderItemsRouter = express.Router();
 const {
@@ -8,46 +9,55 @@ const {
   getActiveCartItems,
   getItemsByOrderId,
   removeFromCart,
+  duplicateItems,
 } = require("../db/order_items"); // import your functions from order_items.js
 const { requireUser } = require("./utils");
 
-
 // GET all cart items
-orderItemsRouter.get("/", async (req, res) => {
+// orderItemsRouter.get("/", async (req, res) => {
+//   try {
+//     const activeCart = await getActiveCartItems(req.user.id);
+//     res.json(activeCart);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// GET ACTIVE CART
+orderItemsRouter.get("/:customer_id", async (req, res) => {
   try {
-    const activeCart = await getActiveCartItems(req.user.id);
+    const activeCart = await getActiveCartItems(req.params.customer_id);
     res.json(activeCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// GET cart items by order id
-orderItemsRouter.get("/:order_id", async (req, res) => {
-  try {
-    const order = await getItemsByOrderId(req.params.order_id);
-    res.json(order);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// POST add item to cart 
+// POST add item to cart
 orderItemsRouter.post("/", async (req, res) => {
-  const { customer_id, flavor_id, quantity } = req.body;
+  const { flavor_id, quantity, order_id, customer_id } = req.body;
   try {
     const cartItem = await addToCart({
-      customer_id,
-      flavor_id,
-      quantity,
-      order_id: null,
+      flavor_id: flavor_id,
+      quantity: quantity,
+      order_id: order_id,
+      customer_id: customer_id,
     });
+    console.log("CART ITEM", cartItem);
     res.json(cartItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
+// GET all cart items
+orderItemsRouter.get("/customer/:id", async (req, res) => {
+  try {
+    const duplicateCartItems = await duplicateItems(req.params.customer_id);
+    res.json(duplicateCartItems);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // PATCH update quantity of cart item
 orderItemsRouter.patch("/:id", async (req, res) => {
   const id = req.params.id;

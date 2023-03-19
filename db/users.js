@@ -6,8 +6,9 @@ const SALT_COUNT = 10;
 //getAllUsers()-return array of all registered users
 async function getAllUsers(){
   try {
-    const { rows: [users] } = await client.query(`
-      SELECT * FROM users;
+    const { rows: users } = await client.query(`
+      SELECT id, name, username, address, admin 
+      FROM users;
       `);
     return users;
   }catch(error){

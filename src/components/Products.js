@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllFlavors } from "../api/flavors";
-
+import { addToCart } from "../api/order_items";
 
 const Products = ({ user }) => {
   const [flavors, setFlavors] = useState([]);
@@ -11,14 +11,14 @@ const Products = ({ user }) => {
     const fetchedAllFlavors = () => {
       fetchAllFlavors()
         .then((result) => {
-          setFlavors(result)
-          console.log(result)
+          setFlavors(result);
+          console.log(result);
         })
         .catch((error) => {
-          console.log(error)
-        })
-    }
-    fetchedAllFlavors()
+          console.log(error);
+        });
+    };
+    fetchedAllFlavors();
   }, []);
 
   return (
@@ -41,7 +41,9 @@ const Products = ({ user }) => {
           {flavors.map((flavor) => {
             return (
               <div className="flavor_info" key={flavor.id}>
-                <div className="flavor_name"><h2>{flavor.name}</h2></div>
+                <div className="flavor_name">
+                  <h2>{flavor.name}</h2>
+                </div>
                 <div className="flavor_type">{flavor.type}</div>
                 <div>
                   <img
@@ -57,7 +59,13 @@ const Products = ({ user }) => {
                 <div id="product_options">
                   <button
                     className="create-button"
-                    onClick={() => addFlavorToCart(flavor)}
+                    onClick={() =>
+                      addToCart({
+                        flavor_id: flavor.id,
+                        quantity: 1,
+                        customer_id: user.id,
+                      })
+                    }
                   >
                     Add to Cart!
                   </button>
@@ -70,6 +78,5 @@ const Products = ({ user }) => {
     </div>
   );
 };
-
 
 export default Products;
