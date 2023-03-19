@@ -1,7 +1,6 @@
 //import API_URL
 import { API_URL } from "./url";
 
-
 export const fetchAllUsers = async () => {
   const result = await fetch(`${API_URL}users/all`, {
     method: "GET",
@@ -9,10 +8,10 @@ export const fetchAllUsers = async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("myToken")}`,
     },
-  })
+  });
 
   const json = await result.json();
-  
+
   if (json.error) {
     throw json.error;
   }
@@ -20,7 +19,7 @@ export const fetchAllUsers = async () => {
   console.log(json);
 
   return json;
-}
+};
 
 export const login = async (username, password) => {
   const result = await fetch(`${API_URL}users/login`, {
@@ -71,7 +70,7 @@ export const register = async (name, username, password, address) => {
     throw json.error;
   }
 
-  localStorage.setItem("userToken", json.token);
+  localStorage.setItem("myToken", json.token);
   // console.log(json);
   return json;
 };
@@ -98,41 +97,36 @@ export const fetchUser = async () => {
 // }
 
 export const fetchUserOrderHistory = async (username) => {
-  
   const result = await fetch(`${API_URL}users/${username}/orders`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
     },
   });
 
   const json = await result.json();
-  console.log(json)
-    
+  console.log(json);
+
   if (json.error) {
     throw json.error;
   }
- return json;
+  return json;
 };
-
-
 
 export const fetchUserReviews = async (username) => {
-  
-    const result = await fetch(`${API_URL}users/${username}/reviews`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    });
+  const result = await fetch(`${API_URL}users/${username}/reviews`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
+    },
+  });
 
-    const json = await result.json();
-    console.log(json);
-  if(json.error) {
+  const json = await result.json();
+  console.log(json);
+  if (json.error) {
     throw json.error(error);
   }
-   return json;
+  return json;
 };
-

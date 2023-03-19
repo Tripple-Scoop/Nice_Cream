@@ -3,7 +3,7 @@ import { API_URL } from "./url";
 export const addToCart = async ({ flavor_id, quantity, customer_id }) => {
   try {
     // Check if user has an unfulfilled order
-    console.log("LOG : USER ID", customer_id);
+    // console.log("LOG : USER ID", customer_id);
     const response = await fetch(`${API_URL}orders/customer/${customer_id}`);
     const orders = await response.json();
     let order_id;
@@ -52,6 +52,7 @@ export const addToCart = async ({ flavor_id, quantity, customer_id }) => {
     console.error(`Error: ${error}`);
   }
 };
+
 // get all cart items
 export const getAllCartItems = async () => {
   try {
@@ -65,24 +66,25 @@ export const getAllCartItems = async () => {
   }
 };
 
-// get cart items by order id
-export const fetchActiveCart = async (customer_id) => {
-  try {
-    const response = await fetch(`${API_URL}order_items/${customer_id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("FETCH ACTIVE CART", customer_id);
+// get cart items by username
+export const fetchActiveCart = async (username) => {
+  const result = await fetch(`${API_URL}order_items/${username}/cart`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
+    },
+  });
 
-    const data = await response.json();
+  const json = await result.json();
+  console.log(json);
 
-    return data;
-  } catch (error) {
-    console.error(error);
+  if (json.error) {
+    throw json.error;
   }
+  return json;
 };
+
 //
 
 // update quantity of cart item

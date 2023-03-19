@@ -17,22 +17,20 @@ const {
   removeAdminPerms,
   getReviewsByUser,
 } = require("../db");
-const { requireUser, requireAdmin } = require("./utils")
+const { requireUser, requireAdmin } = require("./utils");
 const SALT_COUNT = 10;
 const { JWT_SECRET } = process.env;
 
-
 //GET /users
 
-usersRouter.get('/all', requireAdmin, async (req, res, next) => {
-  try{
+usersRouter.get("/all", requireAdmin, async (req, res, next) => {
+  try {
     const allUsers = await getAllUsers();
-    res.send(allUsers)
-  }catch(error){
+    res.send(allUsers);
+  } catch (error) {
     throw error;
   }
-  
-})
+});
 
 /*
 POST api/users/register
@@ -44,58 +42,59 @@ should do the following:
 */
 
 usersRouter.post("/register", async (req, res, next) => {
-  
-    const { name, username, password, address } = req.body;
-    const queriedUser = await getUserByUsername(username);
+  const { name, username, password, address } = req.body;
+  const queriedUser = await getUserByUsername(username);
 
-    // console.log('The username:', username)
-    // console.log('The password:', password)
+  // console.log('The username:', username)
+  // console.log('The password:', password)
 
-    try {
-        const _user = await getUserByUsername(username);
+  try {
+    const _user = await getUserByUsername(username);
 
-        // console.log('_user:', _user)
+    // console.log('_user:', _user)
 
-        if (_user) {
-            // console.log('user already exists!')
-            next({
-                error: 'Error',
-                name: 'UserExistsError',
-                message: `The username ${username} is already taken.`
-            });
-        }
-        else if (password.length < 8) {
-            // console.log('password is to short!')
-            next ({
-                error: 'PasswwordLengthError',
-                message: 'You password must be eight characters or longer',
-                name: 'PasswordLengthError'
-            });
-        }
-
-        const user = await createUser({ name,  username, password, address });
-        // console.log("this is the user", user)
-
-        const token = jwt.sign({
-            id: user.id,
-            username: username,
-            password: password
-        }, process.env.JWT_SECRET, {
-            expiresIn: '1w'
-        });
-
-        // console.log('this is the token:', token)
-
-        res.send({
-            message: "Thank you for signing up!",
-            token: token,
-            user: user
-        });
-    } catch(error){
-        next(error);
+    if (_user) {
+      // console.log('user already exists!')
+      next({
+        error: "Error",
+        name: "UserExistsError",
+        message: `The username ${username} is already taken.`,
+      });
+    } else if (password.length < 8) {
+      // console.log('password is to short!')
+      next({
+        error: "PasswwordLengthError",
+        message: "You password must be eight characters or longer",
+        name: "PasswordLengthError",
+      });
     }
-});
 
+    const user = await createUser({ name, username, password, address });
+    // console.log("this is the user", user)
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: username,
+        password: password,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1w",
+      }
+    );
+
+    // console.log('this is the token:', token)
+
+    res.send({
+      message: "Thank you for signing up!",
+      token: token,
+      user: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 /*
 POST api/users/login
@@ -144,24 +143,20 @@ NO PARAMETERS
 returns user object(id, username)
 */
 
-usersRouter.get('/me', async (req, res, next) => {
-
+usersRouter.get("/me", async (req, res, next) => {
   const user = req.user;
   if (user) {
-    res.send(
-      user
-    )
+    res.send(user);
   } else {
-
-    res.status(401)
+    res.status(401);
 
     res.send({
       error: "error",
       message: "You must be logged in to perform this action",
-      name: "error"
-    })
+      name: "error",
+    });
   }
-})
+});
 
 /*
 GET /api/users/:username/orders
@@ -196,37 +191,36 @@ EXAMPLE:
 ]
 */
 
-usersRouter.get('/:username/orders', requireUser, async (req, res, next) => {
-
+usersRouter.get("/:username/orders", requireUser, async (req, res, next) => {
   try {
-  const { username } = req.params;
-  const user = await getUserByUsername(username);
-  // console.log(`User from users.js: ${user}`);
-  const userOrders = await getOrdersByCustomer(user.id);
-  console.log('user orders: ', userOrders);
-  
-  let result = [];  
+    const { username } = req.params;
+    const user = await getUserByUsername(username);
+    // console.log(`User from users.js: ${user}`);
+    const userOrders = await getOrdersByCustomer(user.id);
+    console.log("user orders: ", userOrders);
+
+    let result = [];
     //map through user orders and attach order_items to the matching order number
-    for(let i = 0; i < userOrders.length; i++){
+    for (let i = 0; i < userOrders.length; i++) {
       const order = userOrders[i];
       const orderItems = await getItemsByOrderId(order.id);
-      for(let i = 0; i < orderItems.length; i++){
+      for (let i = 0; i < orderItems.length; i++) {
         const item = orderItems[i];
         orderItems[i].flavor_info = await getFlavorById(item.flavor_id);
       }
 
       order.items = orderItems;
-      console.log('order logged: ',order);
+      console.log("order logged: ", order);
       result.push(order);
     }
 
-    console.log('final result', result);
+    console.log("final result", result);
     res.send(result);
   } catch (error) {
     console.error(error);
     next(error);
   }
-})
+});
 
 /* GET /api/users/:username/reviews
 current user's username must match customer_id
@@ -254,45 +248,43 @@ EXAMPLE:
 ]
 */
 
-usersRouter.get('/:username/reviews', requireUser, async (req, res, next) => {
+usersRouter.get("/:username/reviews", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
     const user = await getUserByUsername(username);
     // console.log(`User from users.js: ${user}`);
-    const userReviews = await getReviewsByUser({userId: user.id});
-    console.log('user reviews: ', userReviews);
-    
+    const userReviews = await getReviewsByUser({ userId: user.id });
+    console.log("user reviews: ", userReviews);
+
     let result = {
       user_id: user.id,
       name: user.name,
       username: user.username,
-      reviews: userReviews, 
-    };  
-      // //map through user orders and attach order_items to the matching order number
-      for(let i = 0; i < result.reviews.length; i++){
-        const review = userReviews[i];
-        const flavor = await getFlavorById(review.flavor_id);
-        review.flavor_info = flavor;
-        // console.log('review logged: ',review);
-        // result.push(order);
-      }
-      
-      // 
-    // console.log({result});
-      res.send(result);
-    } catch (error) {
-      console.error(error);
-      next(error);
+      reviews: userReviews,
+    };
+    // //map through user orders and attach order_items to the matching order number
+    for (let i = 0; i < result.reviews.length; i++) {
+      const review = userReviews[i];
+      const flavor = await getFlavorById(review.flavor_id);
+      review.flavor_info = flavor;
+      // console.log('review logged: ',review);
+      // result.push(order);
     }
-})
 
-
+    //
+    // console.log({result});
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 
 /*
 PATCH  /:username
  */
 
-usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
+usersRouter.patch("/:userId", requireUser, async (req, res, next) => {
   try {
     const { userId } = req.params;
     const { id, ...fields } = req.body;
@@ -301,22 +293,18 @@ usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
     const canEdit = userId === user.id;
 
     if (!canEdit) {
-      throw ({
+      throw {
         error: "error",
         message: `User is not allowed to update this profile. Please log in as the correct user.`,
-        name: `error`
-      });
+        name: `error`,
+      };
     }
-    const updatedUser = await updateUser({ id: id, ...fields })
+    const updatedUser = await updateUser({ id: id, ...fields });
     // console.log("updatedRoutineActivity:", updatedRoutineActivity)
-    res.send(
-      updatedUser
-    );
-
+    res.send(updatedUser);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
-module.exports = usersRouter
-
+module.exports = usersRouter;

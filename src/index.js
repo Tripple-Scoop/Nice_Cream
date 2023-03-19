@@ -19,12 +19,11 @@ import {
   Products,
   SingleProduct,
   EditProduct,
-  CreateNewFlavor
+  CreateNewFlavor,
 } from "./components";
 import { fetchUser } from "./api/users";
-import { getAllCartItems } from "./api/order_items";
 import logo from "./assets/images/Full_Logo_Transparent.png";
-import { fetchActiveCart } from "./api/order_items";
+
 const App = () => {
   //Cart State TAHJ
   const [cartShown, setCartShown] = useState(false);
@@ -110,7 +109,7 @@ const App = () => {
 
         <div>
           <Routes>
-            <Route path="/Home" element={<Home user={user} token={token} />} />
+            <Route path="/" element={<Home user={user} token={token} />} />
             <Route
               path="/Login"
               element={
@@ -128,7 +127,7 @@ const App = () => {
                 />
               }
             />
-            { }
+            {}
             <Route
               path="/Profile"
               element={
@@ -160,13 +159,12 @@ const App = () => {
               element={<Products user={user} token={token} />}
             />
             <Route
-              path="/Product/:id" element={<SingleProduct user={user}
-              />}
+              path="/Product/:id"
+              element={<SingleProduct user={user} />}
             />
             <Route
-              path="/EditProduct/:id" element={<EditProduct user={user} token={token}
-              />}
-
+              path="/EditProduct/:id"
+              element={<EditProduct user={user} token={token} />}
             />
             <Route
               path="/Checkout"
