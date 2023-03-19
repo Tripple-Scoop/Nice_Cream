@@ -43,9 +43,12 @@ const SingleProduct = ({ user }) => {
 
   const handleDelete = async () => {
     const confirmed = window.confirm("Are you sure you want to delete this flavor?");
+    console.log("delete confirm", confirmed)
     if (confirmed) {
       try {
-        await fetchDeleteFlavor
+        const deletedFlavor = await fetchDeleteFlavor(singleFlavor.id);
+        console.log("deleted flavor", deletedFlavor);
+        navigate("/Products");
       } catch (error) {
         console.log(error);
       }

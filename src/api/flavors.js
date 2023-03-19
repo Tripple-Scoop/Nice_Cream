@@ -40,7 +40,7 @@ export const fetchCreateFlavor = async (name, type, image_url, description, pric
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       },
       body: JSON.stringify({
         name: name,
@@ -81,13 +81,13 @@ export const fetchUpdateFlavor = async (name, type, image_url, description, pric
 };
 
 
-export const fetchDeleteFlavor = async () => {
+export const fetchDeleteFlavor = async (id) => {
   try {
     const response = await fetch(`${API_URL}flavors/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       }
     });
     const deletedFlavor = await response.json();
