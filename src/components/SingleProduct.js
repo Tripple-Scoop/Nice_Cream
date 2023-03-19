@@ -85,17 +85,24 @@ const SingleProduct = ({ user }) => {
               Price: ${singleFlavor.price}
             </div>
             <div id="product_options">
-              <button
-                className="addToCart-button"
-                onClick={() => addToCart(singleFlavor)}
-              >
-                Add to Cart!
-              </button>
+              {!user ? "" :
+                <button
+                  className="create-button"
+                  onClick={() =>
+                    addToCart({
+                      flavor_id: flavor.id,
+                      quantity: 1,
+                      customer_id: user.id,
+                    })
+                  }
+                >
+                  Add to Cart!
+                </button>}
               <div>
                 {user.admin === true ?
                   <button
                     className="edit-button"
-                    onClick={() => navigate(`/EditProduct/${singleFlavor.id}`)}> Edit </button> : ""
+                    onClick={() => navigate(`/EditProduct/${singlelavor.id}`)}> Edit </button> : ""
                 }<div>
                   {user.admin === true ?
                     <button className="delete-button" onClick={handleDelete}>
