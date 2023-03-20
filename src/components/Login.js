@@ -28,7 +28,7 @@ const Login = ({ setToken, setUser }) => {
             setPassword('');
             navigate('/Profile');
           } catch (error) {
-            console.error("Having trouble logging in:", error);
+            throw error;
           }
         }}
       >

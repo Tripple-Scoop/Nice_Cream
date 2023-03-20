@@ -101,7 +101,7 @@ export const fetchUserOrderHistory = async (username) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
+      "Authorization": `Bearer ${localStorage.getItem("myToken")}`,
     },
   });
 
@@ -115,13 +115,14 @@ export const fetchUserOrderHistory = async (username) => {
 };
 
 export const fetchUserReviews = async (username) => {
-  const result = await fetch(`${API_URL}users/${username}/reviews`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("myToken")}`,
-    },
-  });
+  
+    const result = await fetch(`${API_URL}users/${username}/reviews`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("myToken")}`,
+      },
+    });
 
   const json = await result.json();
   console.log(json);

@@ -53,22 +53,23 @@ const Products = ({ user }) => {
                   />
                 </div>
                 <div className="flavor_description">
-                  <p>Description:{flavor.description}</p>
+                  <h5>Description:{flavor.description}</h5>
                 </div>
                 <div className="flavor_price">Price: ${flavor.price}</div>
                 <div id="product_options">
-                  <button
-                    className="create-button"
-                    onClick={() =>
-                      addToCart({
-                        flavor_id: flavor.id,
-                        quantity: 1,
-                        customer_id: user.id,
-                      })
-                    }
-                  >
-                    Add to Cart!
-                  </button>
+                  {!user ? "" :
+                    <button
+                      className="create-button"
+                      onClick={() =>
+                        addToCart({
+                          flavor_id: flavor.id,
+                          quantity: 1,
+                          customer_id: user.id,
+                        })
+                      }
+                    >
+                      Add to Cart!
+                    </button>}
                 </div>
               </div>
             );

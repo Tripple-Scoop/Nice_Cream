@@ -82,13 +82,14 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5%;
 }
 
 #products-container {
   padding-top: 2vh;
   justify-content: center;
   background-color: #f3f3f3;
-
+ 
 }
 
 .flavor_info {
@@ -100,8 +101,8 @@ html {
   background-color: rgb(234, 241, 246);
   flex-wrap: wrap;
   margin: 3vh;
-  height: 78vh;
-  width: 35vh;
+  height: 75vh;
+  width: 40vh;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
@@ -114,30 +115,33 @@ html {
   color: #5CA49C;
 }
 
+.addToCart-button, .edit-button, .delete-button{
+  align-items: center;
+}
+
 #order-history{
-  background-color: #90CCF4;
+  background-color: #dcf1fd;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 20px;
 }
 
 .prev-order{
-  background-color: #e7f0f7;
+  background-color: #ecf7ff;
   border-radius: 20px;
   padding: 20px;
   
 }
 
 #profile-container{
-  background-color: #e7f0f7;
+  background-color: #f5f5f5bf;
   padding: 20px;
   border-radius: 10px;
-
+  margin-bottom:5%;
 }
 
 .flavor_description {
   display: flex;
-  height: 150px;
   flex-wrap: wrap;
   font-style: oblique;
   overflow-y: auto;
@@ -148,12 +152,13 @@ html {
   border-radius: 20px;
 }
 
-#reviews_container {
+#user_reviews {
   display: flex;
   padding: 20px;
   flex-direction: row;
   border-radius: 20px;
-  background-color: #fc908ea0;
+  background-color: #ffe9e9;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 .item_image {
@@ -174,17 +179,41 @@ html {
 .single-user-info {
   margin: 15px;
   padding: 15px;
-  background-color: #f3e094;
+  background-color: #fffebd;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 #account-info {
-  background-color: #ffffff;
+  background-color: rgb(240 234 246);
   font-size: larger;
-  color:black;
+  color: black;
   padding: 20px;
   border: 2px solid black;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+
+.profile-link{
+  height: 3vh;
+  text-decoration: none;
+  color: black;
+  padding: 20px;
+}
+
+@media (hover:hover) {
+  .link:hover {
+    color: rgb(255, 255, 255);
+    background-color: #5CA49C;
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .profile-link:hover{
+    color: rgb(255, 255, 255);
+    background-color: #5CA49C;
+    border-radius: 20px;
+    padding: 20px;
+  }
 }

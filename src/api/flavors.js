@@ -45,7 +45,7 @@ export const fetchCreateFlavor = async (
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("myToken")}`,
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       },
       body: JSON.stringify({
         name: name,
@@ -75,7 +75,7 @@ export const fetchUpdateFlavor = async (
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         name: name,
@@ -98,8 +98,8 @@ export const fetchDeleteFlavor = async (id) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("myToken")}`,
-      },
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
+      }
     });
     const deletedFlavor = await response.json();
     return deletedFlavor;
