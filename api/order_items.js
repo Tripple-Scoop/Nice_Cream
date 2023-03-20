@@ -2,6 +2,9 @@
 
 const express = require("express");
 const orderItemsRouter = express.Router();
+const { getUserByUsername } = require("../db/users");
+const { getOrdersByCustomer } = require("../db/orders");
+const { getFlavorById } = require("../db/flavors");
 const {
   addToCart,
   updateQuantity,
@@ -14,14 +17,14 @@ const {
 const { requireUser } = require("./utils");
 
 // GET all cart items
-// orderItemsRouter.get("/", async (req, res) => {
-//   try {
-//     const activeCart = await getActiveCartItems(req.user.id);
-//     res.json(activeCart);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+orderItemsRouter.get("/", async (req, res) => {
+  try {
+    const activeCart = await getActiveCartItems(req.user.id);
+    res.json(activeCart);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // GET ACTIVE CART
 orderItemsRouter.get("/:customer_id", async (req, res) => {
@@ -65,6 +68,7 @@ orderItemsRouter.patch("/:id", async (req, res) => {
   try {
     const newQuantity = await updateQuantity(id, newQuant);
     res.json(newQuantity);
+    console.log("ROUTE..", newQuantity);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -78,6 +82,38 @@ orderItemsRouter.delete("/:id", async (req, res) => {
     res.json(updatedCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+orderItemsRouter.get("/:username/cart", requireUser, async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const user = await getUserByUsername(username);
+    // console.log(`User from users.js: ${user}`);
+    const userOrders = await getOrdersByCustomer(user.id);
+    // console.log("user orders: ", userOrders);
+
+    let result;
+    //map through user orders and attach order_items to the matching order number
+    for (let i = 0; i < userOrders.length; i++) {
+      const order = userOrders[i];
+      if (!order.fulfilled) {
+        const orderItems = await getItemsByOrderId(order.id);
+        for (let i = 0; i < orderItems.length; i++) {
+          const item = orderItems[i];
+          orderItems[i].flavor_info = await getFlavorById(item.flavor_id);
+        }
+        order.items = orderItems;
+        // console.log("order logged: ", order);
+        result = order;
+      }
+    }
+
+    // console.log("final result", result);
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
 });
 
