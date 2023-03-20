@@ -8,35 +8,55 @@ import { GiNunchaku } from "react-icons/gi";
 
 const My_Cart = ({ shown, onClose, user }) => {
   const [cart, setCart] = useState([]);
-  const { username } = user;
 
-  // console.log("1stUserLog see if getting", username);
   useEffect(() => {
     const getActiveCart = async () => {
-      const cartData = await fetchActiveCart(username);
+      const cartData = await fetchActiveCart(user.username);
       setCart(cartData);
-      // console.log("2nd log", username);
     };
     getActiveCart();
-    // console.log("MY CART NAME", username);
-  }, []);
-  console.log("TAHJ CART", cart);
+  }, [user.username]);
 
- 
-
-  const incrementQuantity = (id) => {
-    const items = cart.items.find((items) => items.id === id);
-
-    updateCartItemQuantity(id, items.quantity + 1);
-
-    console.log("updateClick", id, items.quantity);
+  const incrementQuantity = async (id) => {
+    const item = cart.items.find((item) => item.id === id);
+    const newQuantity = item.quantity + 1;
+    await updateCartItemQuantity(id, newQuantity);
+    setCart((prevCart) => {
+      const updatedItems = prevCart.items.map((item) => {
+        if (item.id === id) {
+          return { ...item, quantity: newQuantity };
+        } else {
+          return item;
+        }
+      });
+      return { ...prevCart, items: updatedItems };
+    });
   };
 
-  const decrementQuantity = (id) => {
+  const decrementQuantity = async (id) => {
     const item = cart.items.find((item) => item.id === id);
     if (item.quantity > 1) {
-      updateCartItem(id, item.quantity - 1);
+      const newQuantity = item.quantity - 1;
+      await updateCartItemQuantity(id, newQuantity);
+      setCart((prevCart) => {
+        const updatedItems = prevCart.items.map((item) => {
+          if (item.id === id) {
+            return { ...item, quantity: newQuantity };
+          } else {
+            return item;
+          }
+        });
+        return { ...prevCart, items: updatedItems };
+      });
     }
+  };
+
+  const removeCartItem = async (id) => {
+    await deleteCartItem(id);
+    setCart((prevCart) => {
+      const updatedItems = prevCart.items.filter((item) => item.id !== id);
+      return { ...prevCart, items: updatedItems };
+    });
   };
   return (
     <div className="modal" style={{ display: shown ? "block" : "none" }}>
@@ -68,6 +88,12 @@ const My_Cart = ({ shown, onClose, user }) => {
                   <button
                     className="btn increment-quantity"
                     onClick={() => incrementQuantity(flavor.id)}
+                  >
+                    <GiNunchaku size={20} />
+                  </button>
+                  <button
+                    className="btn increment-quantity"
+                    onClick={() => decrementQuantity(flavor.id)}
                   >
                     <GiNunchaku size={20} />
                   </button>
