@@ -59,7 +59,7 @@ const App = () => {
             <img src={logo} alt="logo" />
           </div>
           <div className="nav_links">
-            <Link className="link" id="home_link" to="/Home">
+            <Link className="link" id="home_link" to="/">
               {" "}
               Home{" "}
             </Link>
@@ -127,7 +127,7 @@ const App = () => {
                 />
               }
             />
-            {}
+            { }
             <Route
               path="/Profile"
               element={
