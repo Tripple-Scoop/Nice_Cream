@@ -77,6 +77,7 @@ orderItemsRouter.patch("/:id", async (req, res) => {
 // DELETE remove item from cart
 orderItemsRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
+  console.log("this is an id", id)
   try {
     const updatedCart = await removeFromCart(id, req.user.id);
     res.json(updatedCart);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../components/MyCart.css";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { fetchActiveCart, updateCartItemQuantity } from "../api/order_items";
+import { fetchActiveCart, updateCartItemQuantity, removeCartItem } from "../api/order_items";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GiNunchaku } from "react-icons/gi";
 
@@ -51,8 +51,8 @@ const My_Cart = ({ shown, onClose, user }) => {
     }
   };
 
-  const removeCartItem = async (id) => {
-    await deleteCartItem(id);
+  const deleteCartItem = async (id) => {
+    await removeCartItem(id);
     setCart((prevCart) => {
       const updatedItems = prevCart.items.filter((item) => item.id !== id);
       return { ...prevCart, items: updatedItems };
@@ -100,7 +100,7 @@ const My_Cart = ({ shown, onClose, user }) => {
 
                   <button
                     className="btn remove-cart"
-                    onClick={() => removeCartItem(flavor.flavor_info.id)}
+                    onClick={() => deleteCartItem(flavor.flavor_info.id)}
                   >
                     <RiDeleteBin6Line size={20} />
                   </button>
