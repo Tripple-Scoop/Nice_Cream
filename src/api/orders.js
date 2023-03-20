@@ -75,19 +75,21 @@ export async function createOrder(
 
 //update orders
 //?? What else do i need to update in the order besides if its fulfilled or not ??
-export async function submitOrder(id, fulfilled) {
-  console.log(id);
+export async function fulfillOrder(id, fulfilled) {
+  if (!id) {
+    throw new Error("Invalid order ID");
+  }
+
   const sendData = {
-    id: id,
-    fulfilled: true,
+    fulfilled: fulfilled,
   };
   try {
-    const res = await fetch(`${API_URL}orders/${id}`, {
+    const res = await fetch(`${API_URL}orders/${id}/fulfill`, {
       method: "PATCH",
       body: JSON.stringify(sendData),
       headers: getHeaders(),
     });
-
+    console.log("url", `${API_URL}orders/${id}/fulfill`);
     const data = await res.json();
     // console.log("EDIT ORDER RETURNING: ", data);
     return data;
