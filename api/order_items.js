@@ -68,6 +68,7 @@ orderItemsRouter.patch("/:id", async (req, res) => {
   try {
     const newQuantity = await updateQuantity(id, newQuant);
     res.json(newQuantity);
+    console.log("ROUTE..", newQuantity);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -102,9 +103,9 @@ orderItemsRouter.get("/:username/cart", requireUser, async (req, res, next) => {
           const item = orderItems[i];
           orderItems[i].flavor_info = await getFlavorById(item.flavor_id);
         }
-      order.items = orderItems;
-      // console.log("order logged: ", order);
-      result = order;
+        order.items = orderItems;
+        // console.log("order logged: ", order);
+        result = order;
       }
     }
 

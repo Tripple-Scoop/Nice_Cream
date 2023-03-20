@@ -99,6 +99,7 @@ export const updateCartItemQuantity = async (id, newQuantity) => {
     });
 
     const data = await response.json();
+    console.log("Updating....", data);
 
     return data;
   } catch (error) {

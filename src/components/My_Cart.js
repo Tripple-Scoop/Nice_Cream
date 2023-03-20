@@ -22,6 +22,22 @@ const My_Cart = ({ shown, onClose, user }) => {
   }, []);
   console.log("TAHJ CART", cart);
 
+ 
+
+  const incrementQuantity = (id) => {
+    const items = cart.items.find((items) => items.id === id);
+
+    updateCartItemQuantity(id, items.quantity + 1);
+
+    console.log("updateClick", id, items.quantity);
+  };
+
+  const decrementQuantity = (id) => {
+    const item = cart.items.find((item) => item.id === id);
+    if (item.quantity > 1) {
+      updateCartItem(id, item.quantity - 1);
+    }
+  };
   return (
     <div className="modal" style={{ display: shown ? "block" : "none" }}>
       <div className="shoppingCart">
@@ -43,16 +59,19 @@ const My_Cart = ({ shown, onClose, user }) => {
                   src={flavor.flavor_info.image_url}
                   alt={flavor.flavor_info.name}
                 />
-                <div>
-                  <div>Quantity: {quantity}</div>
-                  <button onClick={handleDecrease}>-</button>
-                  <button onClick={handleIncrease}>+</button>
-                </div>
+
                 <div className="flavor-info">
                   <h3>{flavor.flavor_info.name}</h3>
                   <span className="flavor-price">
                     Subtotal: ${flavor.flavor_info.price * flavor.quantity}.00
                   </span>
+                  <button
+                    className="btn increment-quantity"
+                    onClick={() => incrementQuantity(flavor.id)}
+                  >
+                    <GiNunchaku size={20} />
+                  </button>
+
                   <button
                     className="btn remove-cart"
                     onClick={() => removeCartItem(flavor.flavor_info.id)}
@@ -63,9 +82,9 @@ const My_Cart = ({ shown, onClose, user }) => {
               </div>
             );
           })}
-          {/* {flavor.length > 0 && (
+          {cart?.items?.length > 0 && (
             <button className="checkout-btn">Proceed to Checkout</button>
-          )} */}
+          )}
         </div>
       </div>
     </div>
