@@ -13,19 +13,16 @@ export const addToCart = async ({ flavor_id, quantity, customer_id }) => {
       order_id = orders[0].id;
     } else {
       // If user does not have an unfulfilled order, create a new one
-      const orderResponse = await fetch(
-        `${API_URL}orders/customer/${customer_id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            customer_id: customer_id,
-            fulfilled: false,
-          }),
-        }
-      );
+      const orderResponse = await fetch(`${API_URL}orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: customer_id,
+          fulfilled: false,
+        }),
+      });
 
       const orderData = await orderResponse.json();
       order_id = orderData.id;
@@ -108,9 +105,9 @@ export const updateCartItemQuantity = async (id, newQuantity) => {
 };
 
 // remove item from cart
-export const removeCartItem = async (id) => {
+export const rmvItem = async (falvor_id) => {
   try {
-    const response = await fetch(`${API_URL}order_items/${id}`, {
+    const response = await fetch(`${API_URL}order_items/${falvor_id}`, {
       method: "DELETE",
     });
 

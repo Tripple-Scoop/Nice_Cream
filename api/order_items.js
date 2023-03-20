@@ -75,11 +75,11 @@ orderItemsRouter.patch("/:id", async (req, res) => {
 });
 
 // DELETE remove item from cart
-orderItemsRouter.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-  console.log("this is an id", id)
+orderItemsRouter.delete("/:flavor_id", async (req, res) => {
+  const flavor_id = req.params.flavor_id;
+  console.log("this is an id", flavor_id);
   try {
-    const updatedCart = await removeFromCart(id, req.user.id);
+    const updatedCart = await removeFromCart(flavor_id);
     res.json(updatedCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
