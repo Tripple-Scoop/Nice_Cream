@@ -139,15 +139,14 @@ async function duplicateItems(customer_id, flavor_id, order_id) {
 }
 
 //removeFromCart(id, user_id)
-async function removeFromCart(id, customer_id) {
+async function removeFromCart(flavor_id) {
   try {
     const { rows: updatedCart } = await client.query(
       `DELETE FROM order_items
-      WHERE id = $1
-      AND customer_id =$2
+      WHERE flavor_id = $1
       RETURNING *;
       `,
-      [id, customer_id]
+      [flavor_id]
     );
     return updatedCart;
   } catch (error) {
