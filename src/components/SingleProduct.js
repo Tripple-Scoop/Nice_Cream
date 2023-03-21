@@ -114,10 +114,11 @@ const SingleProduct = ({ user }) => {
           </div>
         </div>
         <div>
-          <div id="flavor_body">
+          <div id="flavor_reviews">
+            <h2>Reviews:</h2>
             {reviews.map((review) => {
               return (
-                <div className="review_info" key={review.id}>
+                <div className="single-review" key={review.id}>
                   <div className="review_user"><h2>{review.username}</h2></div>
                   <div className="review_title">{review.title}</div>
                   <div className="review_content">
