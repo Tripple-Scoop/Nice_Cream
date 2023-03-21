@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../components/MyCart.css";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlinePlusSquare, AiOutlineMinusSquare } from "react-icons/ai";
 import {
   fetchActiveCart,
   updateCartItemQuantity,
@@ -10,8 +10,10 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GiNunchaku } from "react-icons/gi";
 
+
 const My_Cart = ({ shown, onClose, user }) => {
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getActiveCart = async () => {
@@ -87,21 +89,22 @@ const My_Cart = ({ shown, onClose, user }) => {
                 />
 
                 <div className="flavor-info">
-                  <h3>{flavor.flavor_info.name}</h3>
+                  <h3>{flavor.flavor_info.name} X {flavor.quantity}</h3>
                   <span className="flavor-price">
                     Subtotal: ${flavor.flavor_info.price * flavor.quantity}.00
                   </span>
+
                   <button
                     className="btn increment-quantity"
                     onClick={() => incrementQuantity(flavor.id)}
                   >
-                    <GiNunchaku size={20} />
+                    <AiOutlinePlusSquare size={20} />
                   </button>
                   <button
                     className="btn increment-quantity"
                     onClick={() => decrementQuantity(flavor.id)}
                   >
-                    <GiNunchaku size={20} />
+                    <AiOutlineMinusSquare size={20} />
                   </button>
 
                   <button
@@ -115,7 +118,7 @@ const My_Cart = ({ shown, onClose, user }) => {
             );
           })}
           {cart?.items?.length > 0 && (
-            <button className="checkout-btn">Proceed to Checkout</button>
+            <button className="checkout-btn" onClick={() => navigate('/Checkout')}>Proceed to Checkout</button>
           )}
         </div>
       </div>

@@ -92,9 +92,10 @@ orderItemsRouter.get("/:username/cart", requireUser, async (req, res, next) => {
     const user = await getUserByUsername(username);
     // console.log(`User from users.js: ${user}`);
     const userOrders = await getOrdersByCustomer(user.id);
+  
     // console.log("user orders: ", userOrders);
 
-    let result;
+    let result = null
     //map through user orders and attach order_items to the matching order number
     for (let i = 0; i < userOrders.length; i++) {
       const order = userOrders[i];

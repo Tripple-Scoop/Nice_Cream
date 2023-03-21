@@ -12,7 +12,10 @@ const Checkout = ({ user, token }) => {
   const navigate = useNavigate();
 
   return (
-    <div> Checkout Page!</div>
+    <div className="checkout-confirmation">
+      <h2>Thanks for shopping with us!</h2>
+      <p>Your order is on its way.</p>
+    </div>
   );
 };
 
