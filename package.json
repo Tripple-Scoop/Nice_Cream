@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed:dev": "nodemon ./db/seed.js",
     "start:dev": "nodemon app.js",
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "author": "",
   "license": "ISC",
