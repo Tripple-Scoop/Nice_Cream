@@ -122,8 +122,6 @@ const Profile = ({ user }) => {
                   )
                 })}</div></div>
 
-
-
               </div>
             )
           })}
