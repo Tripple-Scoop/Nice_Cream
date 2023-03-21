@@ -74,11 +74,12 @@ const App = () => {
             )}
 
             <Link
+              id="cart-button"
               className="btn"
               to="/My_Cart"
               onClick={() => setCartShown(true)}
             >
-              <GiShoppingBag size={24} />
+              <GiShoppingBag size={40} />
             </Link>
 
             {token === "" ? (

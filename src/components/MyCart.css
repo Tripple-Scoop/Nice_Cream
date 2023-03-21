@@ -11,7 +11,7 @@
 }
 
 .shoppingCart {
-    width: 60%;
+    width: 80%;
     height: 90%;
     margin: 2rem auto;
     background-color: #eee;
@@ -25,10 +25,13 @@
     display: flex;
     background-color: #DC6A69;
     padding: 10px 20px;
+    color:#fff;
     justify-content: space-between;
 }
 .btn-close {
-    color: var(--main-color);
+    background-color: transparent;
+    border: transparent;
+    color:#fff
 }
 .empty-text {
     display: block;
@@ -84,3 +87,12 @@
     margin: 10px;
     border: 2px solid black;
 }
+
+.flavor-price{
+    padding-top: 30px;
+}
+
+.checkout-btn:hover{
+    color: rgb(255, 255, 255);
+    background-color: #DC6A69;
+  }
