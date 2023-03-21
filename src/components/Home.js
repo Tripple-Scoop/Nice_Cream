@@ -13,7 +13,7 @@ const Home = ({ user, token }) => {
     <div id="home-container">
 
 
-<ReactPlayer onStart playing={true} loop={true} url={video} controls={true} width="100%" height="100%"/>
+<ReactPlayer playing={true} loop={true} url={video} muted={true} width="80%" height="80%"/>
     </div>
   );
 };
