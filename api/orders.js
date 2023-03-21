@@ -88,16 +88,15 @@ orderRouter.get("/customer/:id", async (req, res) => {
     const orders = await getOrdersByCustomer(customerId);
     if (!orders.length) {
       return res
-        .status(404)
-        .send(`Orders with customer ID ${customerId} not found.`);
+        .json([]);
     }
     res.send(orders);
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .send(
-        `An error occurred while getting orders with customer ID ${req.params.id}`
+      .json(
+        { message: `An error occurred while getting orders with customer ID ${req.params.id}` }
       );
   }
 });

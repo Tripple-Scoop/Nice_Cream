@@ -131,10 +131,10 @@ const App = () => {
             <Route
               path="/Profile"
               element={
-                user.name ? (
+                user?.name ? (
                   <Profile user={user} token={token} />
                 ) : (
-                  <Navigate to="/Home" />
+                  <Navigate to="/" />
                 )
               }
             />
