@@ -23,7 +23,7 @@
 
 .shoppingCart .header {
     display: flex;
-    background-color: rgb(194, 128, 128);
+    background-color: #DC6A69;
     padding: 10px 20px;
     justify-content: space-between;
 }
@@ -40,10 +40,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 95%;
     background-color: #fff;
     padding: 10px 20px;
-    border: 3px solid #eee;
+    border: 3px solid rgb(228, 228, 228);
 }
 
 .cart-items {
@@ -51,7 +51,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 1rem 0;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .flavor-info {
     flex-basis: 50%;
@@ -74,10 +74,13 @@
 }
 
 .checkout-btn {
-    background-color: var(--main-color);
+    background-color: #fbf97e;
     padding: 10px 20px;
     font-size: 1rem;
-    color: #fff;
+    color: rgb(0, 0, 0);
     align-self: center;
     margin: 2rem 0;
+    border-radius: 10px;
+    margin: 10px;
+    border: 2px solid black;
 }
