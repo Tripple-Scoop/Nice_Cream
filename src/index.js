@@ -60,16 +60,15 @@ const App = () => {
           </div>
           <div className="nav_links">
             <Link className="link" id="home_link" to="/">
-              {" "}
-              Home{" "}
+              Home
             </Link>
             <Link className="link" id="products_link" to="/Products">
-              {" "}
-              Products{" "}
+
+              Products
             </Link>
-            {token === null ? null : (
+            {token === "" ? null : (
               <Link className="link" id="profile_link" to="/Profile">
-                {" "}
+
                 My Profile
               </Link>
             )}
@@ -82,7 +81,7 @@ const App = () => {
               <GiShoppingBag size={24} />
             </Link>
 
-            {token === null ? (
+            {token === "" ? (
               <Link to={"/Login"}>
                 <img
                   id="header-button"
