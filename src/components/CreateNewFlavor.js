@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { fetchCreateFlavor } from "../api/flavors";
 
 const CreateNewFlavor = () => {
@@ -9,6 +10,7 @@ const CreateNewFlavor = () => {
         description: "",
         price: "",
     });
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -33,6 +35,8 @@ const CreateNewFlavor = () => {
                 description: "",
                 price: "",
             });
+            navigate("/Products");
+
         } catch (error) {
             console.log(error);
         }

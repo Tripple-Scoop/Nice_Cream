@@ -90,28 +90,28 @@ const My_Cart = ({ shown, onClose, user }) => {
 
                 <div className="flavor-info">
                   <h3>{flavor.flavor_info.name} X {flavor.quantity}</h3>
-                              <div> <button
+                  <div> <button
                     className="btn increment-quantity"
                     onClick={() => decrementQuantity(flavor.id)}
                   >
                     <AiOutlineMinusSquare size={20} />
                   </button>
-                  <button
-                    className="btn increment-quantity"
-                    onClick={() => incrementQuantity(flavor.id)}
-                  >
-                    <AiOutlinePlusSquare size={20} />
-                  </button>
-                  <button
-                    className="btn remove-cart"
-                    onClick={() => removeFromCart(flavor.flavor_id)}
-                  >
-                    <RiDeleteBin6Line size={20} />
-                  </button></div>
+                    <button
+                      className="btn increment-quantity"
+                      onClick={() => incrementQuantity(flavor.id)}
+                    >
+                      <AiOutlinePlusSquare size={20} />
+                    </button>
+                    <button
+                      className="btn remove-cart"
+                      onClick={() => removeFromCart(flavor.flavor_id)}
+                    >
+                      <RiDeleteBin6Line size={20} />
+                    </button></div>
                   <span className="flavor-price">
                     Subtotal: ${flavor.flavor_info.price * flavor.quantity}.00
                   </span>
-      
+
                 </div>
               </div>
             );
