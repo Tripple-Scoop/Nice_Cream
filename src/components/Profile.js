@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchUserReviews, fetchUserOrderHistory, fetchUser, fetchAllUsers } from "../api/users";
 
-
-
 //NATOSHIA
 
 const Profile = ({ user }) => {
@@ -73,12 +71,11 @@ const Profile = ({ user }) => {
             })}
           </div>
         </div>
-
-
         : null}
 
       <div className="profile-section" id="user_reviews">
-        <div><h2>MY REVIEWS: <Link className="profile-link" to="/Products">Have an opionion? Select a product and share it!</Link></h2></div>
+        <div><h2>MY REVIEWS:</h2></div>
+        <h3><Link className="profile-link" to="/Products">Have an opionion? Click here to find a product and share it!</Link></h3>
         <div id="reviews_container">
           <div>
             {reviews?.reviews?.map((review, i) => {
@@ -88,7 +85,6 @@ const Profile = ({ user }) => {
                   <div><h2>{review.flavor_info.name}</h2></div>
                   <div><h3>{review.title}</h3></div>
                   <div><p>{review.content}</p></div>
-                  <div><h2>{review.title}</h2></div>
                 </div>
               )
             })}
@@ -98,7 +94,8 @@ const Profile = ({ user }) => {
       </div>
 
       <div className="profile-section" id="order-history">
-        <h2>MY ORDER HISTORY:  <Link className="profile-link" to="/Products">Start Shopping Now!</Link></h2>
+        <h2>MY ORDER HISTORY:</h2>
+        <h3><Link className="profile-link" to="/Products">Click to Start Shopping Now!</Link></h3>
         <div id="history-container">
 
           {orderHistory?.map((order, i) => {
@@ -107,7 +104,8 @@ const Profile = ({ user }) => {
                 <div><h3>{order.date}</h3></div>
                 <div><h3>Shipped to: {order.shipping_address}</h3></div>
                 <div>Total: ${order.total}.00</div>
-                <div><h2>Items:</h2> {order.items.map((item, i) => {
+                <div><h2>Items:</h2> 
+                <div id="listed-items">{order.items.map((item, i) => {
                   return (
                     <div className="item-info" key={i}>
                       <div><h4>{item.flavor_info.name} </h4></div>
@@ -122,7 +120,7 @@ const Profile = ({ user }) => {
                       <div></div>
                     </div>
                   )
-                })}</div>
+                })}</div></div>
 
 
 
