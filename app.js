@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const { client } = require('./db');
 const PORT = process.env["PORT"] || 5000;
 
-client.connect();
+client.connect({ keepAlive: true });
 // Setup your Middleware and API Router here
 
 app.use(morgan('dev'));
