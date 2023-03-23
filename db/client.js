@@ -1,12 +1,10 @@
 
-const { Pool } = require('pg');
+const { Client } = require('pg') // imports the pg module
 
-const connectionString = process.env.DATABASE_URL || 'https://localhost:5432/nicecream-dev';
-
-const client = new Pool({
-  connectionString,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-});
+require('dotenv').config();
+const { DATABASE_URL } = process.env;
+console.log(DATABASE_URL)
+const client = new Client(DATABASE_URL);
 
 module.exports = client;
 
