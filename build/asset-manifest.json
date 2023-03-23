@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1edd9428.css",
+    "main.js": "/static/js/main.78743293.js",
+    "static/media/niceCream.mp4": "/static/media/niceCream.2dd7b6e22cbd639b29e7.mp4",
+    "static/media/Full_Logo_Transparent.png": "/static/media/Full_Logo_Transparent.93d98f8b2a7d9054e267.png",
+    "index.html": "/index.html",
+    "main.1edd9428.css.map": "/static/css/main.1edd9428.css.map",
+    "main.78743293.js.map": "/static/js/main.78743293.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1edd9428.css",
+    "static/js/main.78743293.js"
+  ]
+}
