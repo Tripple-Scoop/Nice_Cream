@@ -27,6 +27,7 @@ const CreateNewFlavor = () => {
                 flavor.description,
                 flavor.price
             );
+
             console.log(newFlavor);
             setFlavor({
                 name: "",

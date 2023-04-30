@@ -32,6 +32,7 @@ const Profile = ({ user }) => {
 
     fetchAllUsers().then((result) => {
       setUsers(result);
+      
       console.log('all users: ', result);
     })
       .catch((error) => {
